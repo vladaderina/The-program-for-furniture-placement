@@ -1,5 +1,5 @@
 # button.hpp interface.hpp
-!button.cpp button.hpp graphics.h interface.hpp keys_n_colors.h math.h #<#>
+!button.cpp button.hpp clocale graphics.h interface.hpp keys_n_colors.h locale.h math.h stdio.h #<#>
 !button.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !interface.cpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !interface.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
@@ -22,6 +22,9 @@ figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
 fileLoad() -> void #<button.hpp>
 fileSave() -> void #<button.hpp>
+getCenterX() -> int #<interface.hpp>
+getCenterY() -> int #<interface.hpp>
+getNumRoom() -> areaDraw int #<interface.hpp>
 main() -> int #<main.cpp>
 mainDraw() -> void #<main.cpp>
 mainInitialization() -> void #<main.cpp>
@@ -39,6 +42,7 @@ objectFurniture(int x1, int y1, int x2, int y2, int t) #<interface.hpp>
 objectWall _type_ #<interface.hpp>
 objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
 ptrFunction _type_ #<interface.hpp>
+save() -> void #<interface.hpp>
 toolDelete() -> void #<button.hpp>
 toolDoor() -> void #<button.hpp>
 toolFurniture() -> void #<button.hpp>
@@ -46,8 +50,11 @@ toolMove() -> void #<button.hpp>
 toolPlus() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
 toolWindow() -> void #<button.hpp>
-	areaDraw:%figures : vector #<interface.hpp>
+	areaDraw:%numRoom : int #<interface.hpp>
+	areaDraw:%center : center #<interface.hpp>
+	areaDraw:%coord : coord #<interface.hpp>
 	areaDraw:%tool : ptrFunction #<interface.hpp>
+	areaDraw:%figures : vector #<interface.hpp>
 	areaDraw:%x1 : int #<interface.hpp>
 	areaDraw:%y1 : int #<interface.hpp>
 	areaDraw:%x2 : int #<interface.hpp>
@@ -59,9 +66,18 @@ toolWindow() -> void #<button.hpp>
 	areaDraw::draw() -> void #<interface.hpp>
 	areaDraw::press() -> void #<interface.hpp>
 	areaDraw::setTool(ptrFunction t) -> void #<interface.hpp>
+	areaDraw::setCenter(int xc, int yc) -> void #<interface.hpp>
+	areaDraw::setCenterX() -> int #<interface.hpp>
+	areaDraw::setCenterY() -> int #<interface.hpp>
 	areaDraw::setBack(int back) -> void #<interface.hpp>
+	areaDraw::setNumRoom(int num) -> void #<interface.hpp>
+	areaDraw::setCoord(int xt1, int yt1, int xt2, int yt2) -> void #<interface.hpp>
+	areaDraw::getX1() -> int #<interface.hpp>
+	areaDraw::getY1() -> int #<interface.hpp>
+	areaDraw::getX2() -> int #<interface.hpp>
+	areaDraw::getY2() -> int #<interface.hpp>
 	areaDraw::getTool() -> ptrFunction #<interface.hpp>
-	areaDraw::save() -> void #<interface.hpp>
+	areaDraw::tool : ptrFunction get—(){return #<interface.hpp>
 	areaDraw::press() -> virtual void #<interface.hpp>
 	areaDraw::in(int x, int y) -> bool #<interface.hpp>
 	areaDraw::draw() -> virtual void #<interface.hpp>
@@ -69,7 +85,15 @@ toolWindow() -> void #<button.hpp>
 	areaDraw::getLeft() -> int #<interface.hpp>
 	areaDraw::getHeight() -> int #<interface.hpp>
 	areaDraw::getWidth() -> int #<interface.hpp>
+	areaDraw$%center _type_ #<interface.hpp>
+	areaDraw$%coord _type_ #<interface.hpp>
 	areaDraw$:example() -> areaDraw& #<interface.hpp>
+	areaDraw:center::x : int #<interface.hpp>
+	areaDraw:center::y : int #<interface.hpp>
+	areaDraw:coord::x1 : int #<interface.hpp>
+	areaDraw:coord::y1 : int #<interface.hpp>
+	areaDraw:coord::x2 : int #<interface.hpp>
+	areaDraw:coord::y2 : int #<interface.hpp>
 	button:%image : IMAGE* #<button.hpp>
 	button:%x1 : int #<button.hpp>
 	button:%y1 : int #<button.hpp>
@@ -223,7 +247,9 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture::getWidth() -> int #<interface.hpp>
 	objectFurniture$:example() -> objectFurniture& #<interface.hpp>
 	objectWall:%w : int #<interface.hpp>
-	objectWall:%num : int #<interface.hpp>
+	objectWall:%weightRoom : int #<interface.hpp>
+	objectWall:%heightRoom : int #<interface.hpp>
+	objectWall:%paramRoom() -> void #<interface.hpp>
 	objectWall:%type : int #<interface.hpp>
 	objectWall:%x1 : int #<interface.hpp>
 	objectWall:%y1 : int #<interface.hpp>
@@ -238,9 +264,7 @@ toolWindow() -> void #<button.hpp>
 	objectWall::getX2() -> int #<interface.hpp>
 	objectWall::getY2() -> int #<interface.hpp>
 	objectWall::getW() -> int #<interface.hpp>
-	objectWall::getNum() -> int #<interface.hpp>
 	objectWall::setW(int w) -> void #<interface.hpp>
-	objectWall::setNum(int number) -> void #<interface.hpp>
 	objectWall::checkPressed(int x, int y) -> virtual bool #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
 	objectWall::press() -> virtual void #<interface.hpp>
@@ -254,4 +278,3 @@ toolWindow() -> void #<button.hpp>
 	objectWall::getLeft() -> int #<interface.hpp>
 	objectWall::getHeight() -> int #<interface.hpp>
 	objectWall::getWidth() -> int #<interface.hpp>
-	objectWall$:example() -> objectWall& #<interface.hpp>

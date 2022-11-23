@@ -125,16 +125,18 @@ public:
 class objectWall : public figure
 {
    //ьхпхмю яремш
-   int w; 
-   int num;
-   objectWall(int x1, int y1, int x2, int y2, int w) : figure(x1, y1, x2, y2), w(w) { type = 2; num = 0;}
-public:  
-   //назейр
-   static objectWall &example();
+   int w;
+   // йннпдхмюрш жемрпю йнлмюрш
+   int weightRoom, heightRoom;
+   // бшвхякемхе оюпюлерпнб йнлмюрш
+   void paramRoom();
+public:
+   //йнмярпсйрнп
+   objectWall(int x1, int y1, int x2, int y2, int w) : figure(x1, y1, x2, y2), w(w) { type = 2; }
    //дкъ опнбепйх мюфюрхъ мю тхцспс
    bool checkPressed(int x, int y) override;
    //нрпхянбйю назейрю
-   void draw() override; //мЮПХЯНБЮРЭ ТХЦСПС
+   void draw() override; //МЮПХЯНБЮРЭ ТХЦСПС
    //тсмйжхъ пеюйжхх мю мюфюрхе
    void press() override;
    //тсмйжхъ янупюмемхъ назейрю
@@ -161,14 +163,8 @@ public:
    {
       return w;
    }
-   //церреп дкъ йнкхвеярбю ярем
-   int getNum()
-   {
-      return num;
-   }
    //яерреп дкъ ьхпхмш яремш
    void setW(int w);
-   void setNum(int number);
 };
 
 
@@ -178,7 +174,7 @@ class objectFigureOnWall : public figure
 public:
    IMAGE *objectOnWall;
    //онксвюел йннпдхмюрш сцкнб
-   objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE *a) : figure(x1, y1, x2, y2), objectOnWall(a){ type = 3; }
+   objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE *a) : figure(x1, y1, x2, y2), objectOnWall(a) { type = 3; }
    //дкъ опнбепйх мюфюрхъ мю тхцспс
    bool checkPressed(int x, int y) override;
    //нрпхянбйю назейрю
@@ -206,12 +202,27 @@ public:
 class areaDraw: public objectClickable 
 {
 protected:
-   //люяяхб дкъ назейрнб пюяонкнфеммшу мю щйпюме
-   vector <figure*> figures;
+   // вхякн йнлмюр пюяонкнфеммшу мю щйпюме
+   int numRoom;
+   // йннпдхмюрш жемрпю йнлмюрш
+   struct center
+   {
+      int x, y;
+   } center;
+   // йннпдхмюрш сцкнб йнлмюрш
+   struct coord
+   {
+      int x1, y1, x2, y2;
+   } coord;
    //бшапюммши хмярпслемр
    ptrFunction tool; // РЕЙСЫХИ ХМЯРПСЛЕМР
    // онксвюел йннпдхмюрш сцкнб
-   areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr) {}
+   areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr)
+   { 
+      numRoom = 0; 
+   } 
+   // люяяхб дкъ назейрнб пюяонкнфеммшу мю щйпюме
+   vector <figure*> figures;
 public:
    //мнлеп тнмю
    int back;
@@ -232,16 +243,74 @@ public:
    { 
       tool = t; 
    }
+   //яерреп дкъ йннпдхмюр жемрпю
+   void setCenter(int xc, int yc)
+   { 
+      center.x = xc;
+      center.y = xc;
+   }
+   //церреп дкъ йннпдхмюрш X
+   int setCenterX()
+   {
+      return center.x;
+   }
+   //церреп дкъ йннпдхмюрш Y
+   int setCenterY()
+   {
+      return center.y;
+   }
    //яерреп дкъ мнлепю тнмю
    void setBack(int back)
    { 
       this -> back = back; 
+   }
+   //яерреп дкъ йнкхвеярбю йнлмюр
+   void setNumRoom(int num)
+   { 
+      numRoom = num; 
+   }
+   //яерреп дкъ йннпдхмюр сцкнб йнлмюрш
+   void setCoord(int xt1, int yt1, int xt2, int yt2)
+   {
+      coord.x1 = xt1;
+      coord.y1 = yt1;
+      coord.x2 = xt2;
+      coord.y2 = yt2;
+   } 
+   // церреп дкъ йннпдхмюр сцкнб йнлмюрш
+   int getX1()
+   {
+      return coord.x1;
+   } 
+   int getY1()
+   {
+      return coord.y1;
+   }
+   int getX2()
+   {
+      return coord.y1;
+   }
+      int getY2()
+   {
+      return coord.y2;
    }
    //церреп дкъ хмярпслемрю пхянбюмхъ
    ptrFunction getTool()
    { 
       return tool; 
    }
+   //церреп дкъ йннпдхмюр жемрпю йнлмюрш
+   ptrFunction getя()
+   { 
+      return tool; 
+   }
+   //церреп дкъ йнкхвеярбю йнлмюр
+   int getNumRoom()
+   {
+      return numRoom;
+   }
+   int getCenterY() { return center.y; }
+   int getCenterX() { return center.x; }
    //янупюмхрэ б опнейр
    void save();
 };

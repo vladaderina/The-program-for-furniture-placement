@@ -55,7 +55,6 @@ int main()
       //йнпдхмюрш йспянпю
       x = mousex();
       y = mousey();
-      
       //нрякефхбюел мюфюрхе
       if(mousebuttons())
       {

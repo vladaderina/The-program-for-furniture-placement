@@ -2,7 +2,7 @@
 
 IMAGE *background[4];
 
-bool objectDisplay::in(int x, int y)
+bool objectDisplay :: in(int x, int y)
 {
    return x > x1 && y > y1 && x < x2 && y < y2;
 }
@@ -18,7 +18,6 @@ void objectFurniture::save(FILE *f)
    fwrite(&y2, sizeof(int), 1, f);
    fwrite(&t, sizeof(int), 1, f);
 }
-
 //опнбепйю мюфюрхъ
 bool objectFurniture::checkPressed(int x, int y)
 {
@@ -32,7 +31,6 @@ bool objectFurniture::checkPressed(int x, int y)
    else
       return false;
 }
-
 void objectFurniture::setT(int type) 
 {
    t = type;
@@ -69,7 +67,7 @@ void objectWall::save(FILE *f)
    fwrite(&w, sizeof(int), 1, f);
 }
 //опнбепйю мюфюрхъ
-bool objectWall::checkPressed(int x, int y)
+bool objectWall :: checkPressed(int x, int y)
 {
    if (x1 > x2)
       swap(x1,x2);
@@ -83,7 +81,6 @@ bool objectWall::checkPressed(int x, int y)
 //нрпхянбйю
 void objectWall :: draw()
 {
-    cout << 1;
    //йнмрсп
    setcolor(BLACK);
    setlinestyle(SOLID_LINE, w, w);
@@ -93,19 +90,18 @@ void objectWall :: setW(int widthWall)
 {
    w = widthWall;
 }
-void objectWall :: setNum(int number)
+void objectWall :: paramRoom()
 {
-   num = number;
-}
-objectWall& objectWall :: example() 
-{
-   static objectWall sw(0, 0, 0, 0, 3);
-   return sw;
+   weightRoom = x2 - x1;
+   heightRoom = y2 - y1;
 }
 //-----------------------------------------------мю-яреме-----------------------------------------------//
-void objectFigureOnWall :: press(){
+void objectFigureOnWall :: press()
+{
 }
-void objectWall::press(){}
+void objectWall::press()
+{
+}
 //янупюмемхе назейрю
 void objectFigureOnWall :: save(FILE *f)
 {

@@ -7,10 +7,8 @@
 // йкюяя дкъ ймнонй
 class button: public objectClickable
 {
-   
    //йюпрхмйю дкъ ймнойх
    IMAGE *image;
-   
 public:
    
    // онксвюел йннпдхмюрш сцкнб х яяшкйс мю йюпрхмйс

@@ -1,17 +1,18 @@
 #include "button.hpp"
 #include <math.h>
+#include <clocale>
 
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button::draw()
 {
-   
+
    //«¿À»¬ ¿
    setfillstyle(SOLID_FILL, COLOR(63, 63, 63));
    bar(x1, y1, x2, y2);
-   
+
    //» ŒÕ ¿
    putimage(x1 + 1, y1 + 1, image, COPY_PUT);
-   
+
    // ŒÕ“”–
    setcolor(BLACK);
    setlinestyle(SOLID_LINE, THICK_WIDTH, THICK_WIDTH);
@@ -66,21 +67,21 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
    int x6;
    int y5;
    int y6;
-   while(1)
+   while (1)
    {
       int cursorClick = mousebuttons();
-      if(!cursorClick)
+      if (!cursorClick)
       {
          break;
       }
       int cursorX = mousex();
       int cursorY = mousey();
-      if(!areaDraw :: example().in(cursorX, cursorY))
+      if (!areaDraw :: example().in(cursorX, cursorY))
       {
          shape(x1, y1, x2, y2);
-         return 0; 
+         return 0;
       }
-      if(cursorX != x2 || cursorY != y2)
+      if (cursorX != x2 || cursorY != y2)
       {
          shape(x1, y1, x2, y2);
          x2 = cursorX;
@@ -88,7 +89,7 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
          shape(x1, y1, x2, y2);
       }
    }
-   shape(x1, y1, x2 ,y2);
+   shape(x1, y1, x2,y2);
    return 1;
 }
 
@@ -97,54 +98,57 @@ void toolFurniture()
 {
    // ŒŒ–ƒ»Õ¿“€
    int x1, y1, x2, y2; // ŒŒ–ƒ»Õ¿“€
-   
+
    //ÿ»–»Õ¿ » ¬€—Œ“¿
-   int w, h; 
-   
+   int w, h;
+
    //◊»“¿≈Ã ÿ»–»Õ” » ¬€—Œ“” »« ‘¿…À¿
    string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
    FILE *f = fopen(t.c_str(), "r");
    fscanf(f, "%d:%d", &w, &h);
    fclose(f);
-   
+
    // ŒŒ–ƒ»Õ¿“€
    x1 = 200;
    y1 = 100;
-   
+
    int k = getch();
-   while(1) {
+   while (1) {
       //œ≈–≈Ã≈Ÿ≈Õ»≈ ‘»√”–€
       k = getch();
       //¬Õ»«
-      if(k == KEY_DOWN) {
+      if (k == KEY_DOWN) {
          y1 += 10;
       }
       //¬¬≈–’
-      if(k == KEY_UP) {
+      if (k == KEY_UP) {
          y1 -= 10;
       }
       //¬À≈¬Œ
-      if(k == KEY_LEFT) {
+      if (k == KEY_LEFT)
+      {
          x1 -= 10;
       }
       //¬œ–¿¬Œ
-      if(k == KEY_RIGHT) {
+      if (k == KEY_RIGHT)
+      {
          x1 += 10;
       }
       //œŒ¬Œ–Œ“
-      if(k == KEY_SHIFT) {
+      if (k == KEY_SHIFT)
+      {
          swap(w, h);
       }
-      if(x1 < 100) {
+      if (x1 < 100) {
          x1 += 10;
       }
-      if(y1 < 20) {
+      if (y1 < 20) {
          y1 += 10;
       }
-      if(y2 > 550) {
+      if (y2 > 550) {
          y1 -= 10;
       }
-      if(x2 > 750) {
+      if (x2 > 750) {
          x1 -= 10;
       }
       //–¿—◊≈“ » Œ“–»—Œ¬ ¿
@@ -152,35 +156,36 @@ void toolFurniture()
       y2 = y1 + h;
       modeFigure(x1, y1, x2, y2);
       //œŒƒ“¬≈–∆ƒ≈Õ»≈ ”—“¿ÕŒ¬ » Ã≈¡≈À»
-      if(k == KEY_ENTER) {
+      if (k == KEY_ENTER) {
          setfillstyle(SOLID_FILL, objectFurniture::example().getT());
          bar(x1, y1, x2, y2);
          setcolor(BLACK);
          rectangle(x1, y1, x2, y2);
          //Õ≈ Õ¿ À¿ƒ€¬¿“‹ ‘»√”–€ ƒ–”√ Õ¿ ƒ–”√¿
-         for(int i = x1; i < x2; i++) {
-            for(int j = y1; j < y2; j++) {
+         for (int i = x1; i < x2; i++)
+         {
+            for (int j = y1; j < y2; j++)
+            {
                areaDraw::example().deleteFigure(i, j);
             }
          }
          break;
-      }        
+      }
    }
    //Œ¡Œ«Õ¿◊≈Õ»≈ ◊»—ÀŒÃ
    string tittle = to_string(objectFurniture::example().getT());
    setcolor(WHITE);
    setbkcolor(COLOR(63, 63, 63));
-   outtextxy(x1, y1, tittle.c_str()); 
+   outtextxy(x1, y1, tittle.c_str());
    //Œ¡⁄≈ “
-   figure* rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
+   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
    areaDraw::example().addFigure(rect);
    areaDraw::example().outputObjects();
 }
 //—“≈Õ¿
 void toolWall()
 {
-   
-   if (objectWall :: example().getNum() == 0)
+   if (areaDraw :: example().getNumRoom() == 0)
    {
       int x1, y1, x2, y2, w = 1;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
@@ -189,19 +194,28 @@ void toolWall()
          setcolor(BLACK);
          rectangle(x1, y1, x2, y2);
       }
-      figure* ptr = &objectWall :: example();
+      figure *ptr = new objectWall(x1, y1, x2, y2, w);
+      areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
+      areaDraw :: example().setCoord(x1, y1, x2, y2);
       areaDraw :: example().addFigure(ptr);
       areaDraw :: example().outputObjects();
-      objectWall :: example().setNum(1);
+      areaDraw :: example().setNumRoom(1);
    }
    else
-      outtextxy(100, 100, "f/mdakf");
+   {
+      setbkcolor(WHITE);
+      settextstyle(BOLD_FONT, HORIZ_DIR, USER_CHAR_SIZE);
+      setusercharsize(9, 20, 9, 10);
+      setcolor(COLOR(227, 38, 54));
+      string warning = "ÃÓÊÌÓ ÒÓÁ‰‡Ú¸ ÚÓÎ¸ÍÓ Ó‰ÌÛ ÍÓÏÌ‡ÚÛ!";
+      outtextxy(80, 600,  warning.c_str());
+   }
 }
 //Œ ÕŒ
 void toolWindow()
 {
    /*int x1, y1, x2, y2;
-   if(modeStretch(x1, y1, x2, y2, modeFigure))
+   if(modeStrtch(x1, y1, x2, y2, modeFigure))
    {
       setfillstyle(SOLID_FILL, COLOR(178, 255, 255));
       bar(x1, y1, x2, y2);
@@ -219,11 +233,15 @@ void toolDoor()
    int x1, y1, x2 = 50, y2 = 50;
    x1 = mousex();
    y1 = mousey();
-   IMAGE *a = loadBMP("icon/wall.bmp");
-   figure* rect = new objectFigureOnWall(x1, y1, x2, y2, a);
-   putimage(x1, y1, a, COPY_PUT);
+   cout << areaDraw::example().getCenterY() << "\n";
+   if (y1 <= areaDraw::example().getCenterY() && y1 >= areaDraw::example().getY1())
+   {
+      IMAGE *a = loadBMP("icon/wall.bmp");
+      figure *rect = new objectFigureOnWall(x1, y1, x2, y2, a);
+      putimage(x1, areaDraw :: example().getY1(), a, COPY_PUT);
+   }
    //areaDraw::example().addFigure(rect);
-   //areaDraw::example().outputObjects(); 
+   //areaDraw::example().outputObjects();
 }
 
 //—Œ’–¿Õ»“‹ ¬ œ–Œ≈ “
