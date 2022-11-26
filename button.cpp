@@ -192,12 +192,12 @@ void toolWall()
          setcolor(BLACK);
          rectangle(x1, y1, x2, y2);
       }
-      figure *ptr = new objectWall(x1, y1, x2, y2, w);
+      figure *rect = new objectWall(x1, y1, x2, y2, w);
       cout << x1 << "\n" << y1 << "\n" << x2 << "\n" << y2 << "\n";
       areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
       cout << areaDraw :: example().getCenterX() << " " << areaDraw :: example().getCenterY();
       areaDraw :: example().setCoord(x1, y1, x2, y2);
-      areaDraw :: example().addFigure(ptr);
+      areaDraw :: example().addFigure(rect);
       areaDraw :: example().outputObjects();
       areaDraw :: example().setNumRoom(1);
    }
@@ -240,37 +240,37 @@ void toolDoor()
    int yt1 = areaDraw::example().getY1(); 
    int xt2 = areaDraw::example().getX2();
    int yt2 = areaDraw::example().getY2();
-   
+   figure *rect;
    if (double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
        y1 >= yt1 && y1 <= centerY &&
        double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
    {
-      figure *rect = new objectFigureOnWall(x1, yt1, x1 + imagewidth(a), yt1 + imageheight(a), a);
+      rect = new objectFigureOnWall(x1, yt1, x1 + imagewidth(a), yt1 + imageheight(a), a);
       putimage(x1, yt1, a, COPY_PUT);
    }
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
       y1 <= yt2 && y1 >= centerY &&
       double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
    {
-      figure *rect = new objectFigureOnWall(x1, yt2, x1 + imagewidth(a), yt2 + imageheight(a), a);
+      rect = new objectFigureOnWall(x1, yt2, x1 + imagewidth(a), yt2 + imageheight(a), a);
       putimage(x1, yt2, a, COPY_PUT);
    }
    else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
       x1 <= xt2 && x1 >= centerX &&
       double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
    {
-      figure *rect = new objectFigureOnWall(xt2, y1, xt2 + imagewidth(a), y1 + imageheight(a), a);
+      rect = new objectFigureOnWall(xt2, y1, xt2 + imagewidth(a), y1 + imageheight(a), a);
       putimage(xt2, y1, a, COPY_PUT);
    }
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
       x1 >= xt1 && x1 <= centerX &&
       double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
    {
-      figure *rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(a), y1 + imageheight(a), a);
+      rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(a), y1 + imageheight(a), a);
       putimage(xt1, y1, a, COPY_PUT);
    }
-   //areaDraw::example().addFigure(rect);
-   //areaDraw::example().outputObjects();
+   areaDraw::example().addFigure(rect);
+   areaDraw::example().outputObjects();
 }
 
 //ÑÎÕÐÀÍÈÒÜ Â ÏÐÎÅÊÒ

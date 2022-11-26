@@ -50,7 +50,7 @@ objectFurniture &objectFurniture::example()
 }
 //-----------------------------------------------—“≈Õ€-----------------------------------------------//
 //—Œ’–¿Õ≈Õ»≈ Œ¡⁄≈ “¿
-void objectWall::save(FILE *f)
+void objectWall :: save(FILE *f)
 {
    fwrite(&type, sizeof(int), 1, f);
    fwrite(&x1, sizeof(int), 1, f);
@@ -59,7 +59,7 @@ void objectWall::save(FILE *f)
    fwrite(&y2, sizeof(int), 1, f);
    fwrite(&w, sizeof(int), 1, f);
 }
-void objectWall::press()
+void objectWall :: press()
 {
 }
 //Œ“–»—Œ¬ ¿
@@ -83,7 +83,6 @@ void objectWall :: paramRoom()
 void objectFigureOnWall :: press()
 {
 }
-
 //—Œ’–¿Õ≈Õ»≈ Œ¡⁄≈ “¿
 void objectFigureOnWall :: save(FILE *f)
 {
@@ -96,11 +95,11 @@ void objectFigureOnWall :: save(FILE *f)
 //Œ“–»—Œ¬ ¿
 void objectFigureOnWall :: draw()
 {
-   //putimage(x, y, objectOnWall, COPY_PUT)
+    putimage(x1, y1, objectOnWall, COPY_PUT);
 }
 //-----------------------------------------------–¿¡Œ◊¿ﬂ —–≈ƒ¿-----------------------------------------------//
 //–¿¡Œ◊¿ﬂ —–≈ƒ¿
-areaDraw &areaDraw::example()
+areaDraw &areaDraw :: example()
 {
    static areaDraw pa(400, 60, 1280, 720);
    return pa;
@@ -119,7 +118,7 @@ void areaDraw :: press()
       tool();
 }
 //—Œ’–¿Õ»“‹
-void areaDraw::save()
+void areaDraw :: save()
 {
    int width, height;
    IMAGE *output;
@@ -139,7 +138,7 @@ void areaDraw :: addFigure(figure* figure)
    figures.push_back(figure);
 }
 //«¿œ»—€¬¿≈Ã Œ¡⁄≈ “€
-void areaDraw::outputObjects()
+void areaDraw :: outputObjects()
 {
    ofstream fout;
    fout.open("output.txt");
