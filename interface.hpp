@@ -64,8 +64,6 @@ protected:
 public:
    //ÏÎËÓ×ÀÅÌ ÊÎÎĞÄÈÍÀÒÛ ÓÃËÎÂ
    figure(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
-   //ÄËß ÏĞÎÂÅĞÊÈ ÍÀÆÀÒÈß ÍÀ ÔÈÃÓĞÓ
-   virtual bool checkPressed(int x, int y) = 0;
    //ÎÒĞÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    virtual void draw() = 0;
    //ÔÓÍÊÖÈß ĞÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
@@ -87,8 +85,6 @@ class objectFurniture : public figure
 public:
    //ÏÎËÓ×ÀÅÌ ÊÎÎĞÄÈÍÀÒÛ ÓÃËÎÂ
    objectFurniture(int x1, int y1, int x2, int y2, int t) : figure(x1, y1, x2, y2), t(1) { type = 1; }
-   //ÄËß ÏĞÎÂÅĞÊÈ ÍÀÆÀÒÈß ÍÀ ÔÈÃÓĞÓ
-   bool checkPressed(int x, int y) override;
    //ÎÒĞÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    void draw() override;
    //ÔÓÍÊÖÈß ĞÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
@@ -133,8 +129,6 @@ class objectWall : public figure
 public:
    //ÊÎÍÑÒĞÓÊÒÎĞ
    objectWall(int x1, int y1, int x2, int y2, int w) : figure(x1, y1, x2, y2), w(w) { type = 2; }
-   //ÄËß ÏĞÎÂÅĞÊÈ ÍÀÆÀÒÈß ÍÀ ÔÈÃÓĞÓ
-   bool checkPressed(int x, int y) override;
    //ÎÒĞÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    void draw() override; //íàğèñîâàòü ôèãóğó
    //ÔÓÍÊÖÈß ĞÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
@@ -175,8 +169,6 @@ public:
    IMAGE *objectOnWall;
    //ÏÎËÓ×ÀÅÌ ÊÎÎĞÄÈÍÀÒÛ ÓÃËÎÂ
    objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE *a) : figure(x1, y1, x2, y2), objectOnWall(a) { type = 3; }
-   //ÄËß ÏĞÎÂÅĞÊÈ ÍÀÆÀÒÈß ÍÀ ÔÈÃÓĞÓ
-   bool checkPressed(int x, int y) override;
    //ÎÒĞÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    void draw() override;
    //ÔÓÍÊÖÈß ĞÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ

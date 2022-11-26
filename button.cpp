@@ -269,7 +269,7 @@ void toolDoor()
       figure *rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(a), y1 + imageheight(a), a);
       putimage(xt1, y1, a, COPY_PUT);
    }
-   areaDraw::example().addFigure(rect);
+   //areaDraw::example().addFigure(rect);
    //areaDraw::example().outputObjects();
 }
 

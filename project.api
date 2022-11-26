@@ -153,7 +153,6 @@ toolWindow() -> void #<button.hpp>
 	figure:%y1 : int #<interface.hpp>
 	figure:%x2 : int #<interface.hpp>
 	figure:%y2 : int #<interface.hpp>
-	figure::checkPressed(int x, int y) -> virtual bool #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
 	figure::press() -> virtual void #<interface.hpp>
 	figure::save(FILE* f) -> virtual void #<interface.hpp>
@@ -193,7 +192,6 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall:%x2 : int #<interface.hpp>
 	objectFigureOnWall:%y2 : int #<interface.hpp>
 	objectFigureOnWall::objectOnWall : IMAGE* #<interface.hpp>
-	objectFigureOnWall::checkPressed(int x, int y) -> bool #<interface.hpp>
 	objectFigureOnWall::draw() -> void #<interface.hpp>
 	objectFigureOnWall::press() -> void #<interface.hpp>
 	objectFigureOnWall::save(FILE* f) -> void #<interface.hpp>
@@ -201,7 +199,6 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall::getY1() -> int #<interface.hpp>
 	objectFigureOnWall::getX2() -> int #<interface.hpp>
 	objectFigureOnWall::getY2() -> int #<interface.hpp>
-	objectFigureOnWall::checkPressed(int x, int y) -> virtual bool #<interface.hpp>
 	objectFigureOnWall::draw() -> virtual void #<interface.hpp>
 	objectFigureOnWall::press() -> virtual void #<interface.hpp>
 	objectFigureOnWall::save(FILE* f) -> virtual void #<interface.hpp>
@@ -220,7 +217,6 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture:%y1 : int #<interface.hpp>
 	objectFurniture:%x2 : int #<interface.hpp>
 	objectFurniture:%y2 : int #<interface.hpp>
-	objectFurniture::checkPressed(int x, int y) -> bool #<interface.hpp>
 	objectFurniture::draw() -> void #<interface.hpp>
 	objectFurniture::press() -> void #<interface.hpp>
 	objectFurniture::save(FILE* f) -> void #<interface.hpp>
@@ -230,7 +226,6 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture::getY2() -> int #<interface.hpp>
 	objectFurniture::getT() -> int #<interface.hpp>
 	objectFurniture::setT(int t) -> void #<interface.hpp>
-	objectFurniture::checkPressed(int x, int y) -> virtual bool #<interface.hpp>
 	objectFurniture::draw() -> virtual void #<interface.hpp>
 	objectFurniture::press() -> virtual void #<interface.hpp>
 	objectFurniture::save(FILE* f) -> virtual void #<interface.hpp>
@@ -253,7 +248,6 @@ toolWindow() -> void #<button.hpp>
 	objectWall:%y1 : int #<interface.hpp>
 	objectWall:%x2 : int #<interface.hpp>
 	objectWall:%y2 : int #<interface.hpp>
-	objectWall::checkPressed(int x, int y) -> bool #<interface.hpp>
 	objectWall::draw() -> void #<interface.hpp>
 	objectWall::press() -> void #<interface.hpp>
 	objectWall::save(FILE* f) -> void #<interface.hpp>
@@ -263,7 +257,6 @@ toolWindow() -> void #<button.hpp>
 	objectWall::getY2() -> int #<interface.hpp>
 	objectWall::getW() -> int #<interface.hpp>
 	objectWall::setW(int w) -> void #<interface.hpp>
-	objectWall::checkPressed(int x, int y) -> virtual bool #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
 	objectWall::press() -> virtual void #<interface.hpp>
 	objectWall::save(FILE* f) -> virtual void #<interface.hpp>

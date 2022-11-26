@@ -4,9 +4,15 @@ IMAGE *background[4];
 
 bool objectDisplay :: in(int x, int y)
 {
-   return x > x1 && y > y1 && x < x2 && y < y2;
+   if (x1 > x2)
+      swap(x1,x2);
+   if (y1 > y2)
+      swap(y1,y2);
+   if (x > x1 && x < x2 && y > y1 && y < y2)
+      return true;
+   else
+      return false;
 }
-
 //-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
 //ÑÎÕĞÀÍÅÍÈÅ ÎÁÚÅÊÒÀ
 void objectFurniture::save(FILE *f)
@@ -17,19 +23,6 @@ void objectFurniture::save(FILE *f)
    fwrite(&x2, sizeof(int), 1, f);
    fwrite(&y2, sizeof(int), 1, f);
    fwrite(&t, sizeof(int), 1, f);
-}
-//ÏĞÎÂÅĞÊÀ ÍÀÆÀÒÈß
-bool objectFurniture::checkPressed(int x, int y)
-{
-   
-   if (x1 > x2)
-      swap(x1, x2);
-   if (y1 > y2)
-      swap(y1, y2);   
-   if (x > x1 && x < x2 && y > y1 && y < y2)
-      return true;
-   else
-      return false;
 }
 void objectFurniture :: setT(int type) 
 {
@@ -69,18 +62,6 @@ void objectWall::save(FILE *f)
 void objectWall::press()
 {
 }
-//ÏĞÎÂÅĞÊÀ ÍÀÆÀÒÈß
-bool objectWall :: checkPressed(int x, int y)
-{
-   if (x1 > x2)
-      swap(x1,x2);
-   if (y1 > y2)
-      swap(y1,y2);
-   if (x > x1 && x < x2 && y > y1 && y < y2)
-      return true;
-   else
-      return false;
-}
 //ÎÒĞÈÑÎÂÊÀ
 void objectWall :: draw()
 {
@@ -111,17 +92,6 @@ void objectFigureOnWall :: save(FILE *f)
    fwrite(&y1, sizeof(int), 1, f);
    fwrite(&x2, sizeof(int), 1, f);
    fwrite(&y2, sizeof(int), 1, f);
-}
-//ÏĞÎÂÅĞÊÀ ÍÀÆÀÒÈß
-bool objectFigureOnWall :: checkPressed(int x, int y)
-{
-   if (x1 > x2)
-      swap(x1, x2);
-   if (y1 > y2)
-      swap(y1, y2);
-   if (x > x1 && x < x2 && y > y1 && y < y2)
-      return true;
-   else return false;
 }
 //ÎÒĞÈÑÎÂÊÀ
 void objectFigureOnWall :: draw()
@@ -185,7 +155,7 @@ void areaDraw :: deleteFigure(int x, int y)
 {
    for (int i = 0; i < figures.size(); i++)
    {
-      if (figures[i] -> checkPressed(x, y))
+      if (figures[i] -> in(x, y))
       {
          figures.erase(figures.begin() + i); 
          draw();
