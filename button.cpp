@@ -245,7 +245,7 @@ void toolDoor()
        y1 >= yt1 && y1 <= centerY &&
        double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
    {
-      figure *rect = new objectFigureOnWall(x1, yt1,x1 + imagewidth(a), yt1 + imageheight(a), a);
+      figure *rect = new objectFigureOnWall(x1, yt1, x1 + imagewidth(a), yt1 + imageheight(a), a);
       putimage(x1, yt1, a, COPY_PUT);
    }
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
@@ -269,7 +269,7 @@ void toolDoor()
       figure *rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(a), y1 + imageheight(a), a);
       putimage(xt1, y1, a, COPY_PUT);
    }
-   //areaDraw::example().addFigure(rect);
+   areaDraw::example().addFigure(rect);
    //areaDraw::example().outputObjects();
 }
 
