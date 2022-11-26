@@ -31,13 +31,13 @@ bool objectFurniture::checkPressed(int x, int y)
    else
       return false;
 }
-void objectFurniture::setT(int type) 
+void objectFurniture :: setT(int type) 
 {
    t = type;
    draw();
 }
 //Œ“–»—Œ¬ ¿
-void objectFurniture::draw()
+void objectFurniture :: draw()
 {
    //«¿À»¬ ¿
    setcolor(t);
@@ -115,20 +115,12 @@ void objectFigureOnWall :: save(FILE *f)
 bool objectFigureOnWall :: checkPressed(int x, int y)
 {
    if (x1 > x2)
-   {
       swap(x1, x2);
-   }
    if (y1 > y2)
-   {
       swap(y1, y2);
-   }
    if (x > x1 && x < x2 && y > y1 && y < y2)
-   {
       return true;
-   }
-   else{
-      return false;
-   }
+   else return false;
 }
 //Œ“–»—Œ¬ ¿
 void objectFigureOnWall :: draw()
@@ -147,7 +139,7 @@ void areaDraw :: draw()
 {
    putimage(0, 0, background[back], COPY_PUT);
    //‘»√”–€
-   for(int i = 0; i < areaDraw::example().figures.size(); i++)
+   for(int i = 0; i < areaDraw :: example().figures.size(); i++)
       figures[i] -> draw();
 }
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈

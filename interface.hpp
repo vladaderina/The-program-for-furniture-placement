@@ -247,17 +247,7 @@ public:
    void setCenter(int xc, int yc)
    { 
       center.x = xc;
-      center.y = xc;
-   }
-   //церреп дкъ йннпдхмюрш X
-   int setCenterX()
-   {
-      return center.x;
-   }
-   //церреп дкъ йннпдхмюрш Y
-   int setCenterY()
-   {
-      return center.y;
+      center.y = yc;
    }
    //яерреп дкъ мнлепю тнмю
    void setBack(int back)
@@ -288,7 +278,7 @@ public:
    }
    int getX2()
    {
-      return coord.y1;
+      return coord.x2;
    }
       int getY2()
    {

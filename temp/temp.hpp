@@ -174,7 +174,7 @@ class objectFigureOnWall : public figure
 public:
    IMAGE *objectOnWall;
    //онксвюел йннпдхмюрш сцкнб
-   objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE *a) : figure(x1, y1, x2, y2), objectOnWall(a){ type = 3; }
+   objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE *a) : figure(x1, y1, x2, y2), objectOnWall(a) { type = 3; }
    //дкъ опнбепйх мюфюрхъ мю тхцспс
    bool checkPressed(int x, int y) override;
    //нрпхянбйю назейрю
@@ -247,17 +247,7 @@ public:
    void setCenter(int xc, int yc)
    { 
       center.x = xc;
-      center.y = xc;
-   }
-   //церреп дкъ йннпдхмюрш X
-   int setCenterX()
-   {
-      return center.x;
-   }
-   //церреп дкъ йннпдхмюрш Y
-   int setCenterY()
-   {
-      return center.y;
+      center.y = yc;
    }
    //яерреп дкъ мнлепю тнмю
    void setBack(int back)
@@ -288,25 +278,4 @@ public:
    }
    int getX2()
    {
-      return coord.y1;
-   }
-      int getY2()
-   {
-      return coord.y2;
-   }
-   //церреп дкъ хмярпслемрю пхянбюмхъ
-   ptrFunction getTool()
-   { 
-      return tool; 
-   }
-   //церреп дкъ йннпдхмюр жемрпю йнлмюрш
-   ptrFunction getя()
-   { 
-      return tool; 
-   }
-   //церреп дкъ йнкхвеярбю йнлмюр
-   int getNumRoom()
-   {
-      return numRoom;
-   }
-   int getCenterY() { return _abracadabra_cast(center);
+      return _abracadabra_cast(coord);

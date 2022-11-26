@@ -67,8 +67,6 @@ toolWindow() -> void #<button.hpp>
 	areaDraw::press() -> void #<interface.hpp>
 	areaDraw::setTool(ptrFunction t) -> void #<interface.hpp>
 	areaDraw::setCenter(int xc, int yc) -> void #<interface.hpp>
-	areaDraw::setCenterX() -> int #<interface.hpp>
-	areaDraw::setCenterY() -> int #<interface.hpp>
 	areaDraw::setBack(int back) -> void #<interface.hpp>
 	areaDraw::setNumRoom(int num) -> void #<interface.hpp>
 	areaDraw::setCoord(int xt1, int yt1, int xt2, int yt2) -> void #<interface.hpp>
