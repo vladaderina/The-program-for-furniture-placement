@@ -23,9 +23,9 @@ bool objectFurniture::checkPressed(int x, int y)
 {
    
    if (x1 > x2)
-      swap(x1,x2);
+      swap(x1, x2);
    if (y1 > y2)
-      swap(y1,y2);   
+      swap(y1, y2);   
    if (x > x1 && x < x2 && y > y1 && y < y2)
       return true;
    else
@@ -66,6 +66,9 @@ void objectWall::save(FILE *f)
    fwrite(&y2, sizeof(int), 1, f);
    fwrite(&w, sizeof(int), 1, f);
 }
+void objectWall::press()
+{
+}
 //ÏÐÎÂÅÐÊÀ ÍÀÆÀÒÈß
 bool objectWall :: checkPressed(int x, int y)
 {
@@ -99,9 +102,7 @@ void objectWall :: paramRoom()
 void objectFigureOnWall :: press()
 {
 }
-void objectWall::press()
-{
-}
+
 //ÑÎÕÐÀÍÅÍÈÅ ÎÁÚÅÊÒÀ
 void objectFigureOnWall :: save(FILE *f)
 {
