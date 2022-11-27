@@ -3,15 +3,12 @@
 #include <clocale>
 
 //Œ“–»—Œ¬ ¿  ÕŒœ »
-void button::draw()
+void button :: draw()
 {
 
    //«¿À»¬ ¿
    setfillstyle(SOLID_FILL, COLOR(63, 63, 63));
    bar(x1, y1, x2, y2);
-
-   //» ŒÕ ¿
-   putimage(x1 + 1, y1 + 1, image, COPY_PUT);
 
    // ŒÕ“”–
    setcolor(BLACK);
@@ -26,10 +23,30 @@ void buttonFurniture :: press()
    objectFurniture::example().setT(type);
 }
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
-void buttonFile::press()
+void buttonFile :: press()
 {
    //ƒ≈…—“¬»≈
    action();
+}
+//–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » — œ¿–¿Ã≈“–¿Ã»
+void buttonParam :: press()
+{
+   int num = Pages :: example().getPage();
+   if (num == 0)
+   {
+      areaParams :: example().weightWall += w;
+      areaParams :: example().heightWall += h;
+   }
+   else if (num == 1)
+   {
+      areaParams :: example().weightDoor += w;
+      areaParams :: example().heightDoor += h;
+   }
+   else
+   {
+      areaParams :: example().weightWindow += w;
+      areaParams :: example().heightWindow += h;
+   }
 }
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
 void buttonTools :: press()
@@ -185,10 +202,10 @@ void toolWall()
 {
    if (areaDraw :: example().getNumRoom() == 0)
    {
-      int x1, y1, x2, y2, w = 1;
+      int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
       {
-         setlinestyle(SOLID_LINE, THICK_WIDTH, THICK_WIDTH);
+         setlinestyle(SOLID_LINE, w, w);
          setcolor(BLACK);
          rectangle(x1, y1, x2, y2);
       }
@@ -222,6 +239,7 @@ void toolDoor()
    x1 = mousex();
    y1 = mousey();
    IMAGE *a = loadBMP("icon/wall.bmp");
+   IMAGE *b = imageturn(a, 0.5, WHITE);
    int centerY = areaDraw::example().getCenterY();
    int centerX = areaDraw::example().getCenterX();
    int xt1 = areaDraw::example().getX1();

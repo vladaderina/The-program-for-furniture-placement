@@ -5,12 +5,36 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#define NUMBACKGROUND 5
 
 using namespace std;
 
 //сйюгюрекэ мю тсмйжхч
 typedef void (*ptrFunction)();
-extern IMAGE *background[4];
+extern IMAGE *background[NUMBACKGROUND];
+
+// йкюяя дкъ ярпюмхж
+class Pages 
+{
+   //мнлеп ярпюмхжш
+   int page;
+   Pages() : page(0) {}
+public:
+   static Pages &example();
+   //нрпхянбйю тнмю
+   void draw();
+   //яерреп дкъ мнлепю ярпюмхжш
+   void setPage(int page)
+   {
+      this -> page = page; 
+   }
+   //церреп дкъ мнлепю ярпюмхжш
+   int getPage()
+   {
+      return page; 
+   }
+};
+
 // йкюяя дкъ назейрнб, йнрнпше нрнапюфючряъ мю щйпюме
 class objectDisplay 
 {
@@ -77,7 +101,6 @@ public:
    //церреп дкъ рхою тхцспш
    virtual int getType();
 };
-
 // йкюяя дкъ назейрнб-леаекх
 class objectFurniture : public figure
 {
@@ -86,7 +109,7 @@ class objectFurniture : public figure
 public:
    //онксвюел йннпдхмюрш сцкнб
    objectFurniture(int x1, int y1, int x2, int y2, int t) : figure(x1, y1, x2, y2), t(1) { type = 1; }
-   //нрпхянбйю назейрю
+   //нрпхянбйю назейрю 
    void draw() override;
    //тсмйжхъ пеюйжхх мю мюфюрхе
    void press() override;
@@ -172,7 +195,6 @@ public:
    void setW(int w);
 };
 
-
 // йкюяя дкъ назейрнб, йнрнпше мюундъряъ мю яреме
 class objectFigureOnWall : public figure
 {
@@ -205,10 +227,29 @@ public:
       return y2; 
    }
 };
-
+// йкюяя дкъ упюмемхъ сярпюмнбкеммшу оюпюлерпнб
+class areaParams : public objectClickable
+{
+   // онксвюел йннпдхмюрш сцкнб
+   areaParams (int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2),
+   weightDoor(1), heightDoor(1), weightWindow(1), heightWindow(1), weightWall (1), heightWall(1)
+   {} 
+public: 
+   int weightDoor,
+        heightDoor,
+        weightWindow,
+        heightWindow,
+        weightWall,
+        heightWall;
+   static areaParams &example();
+   void draw(){};
+   void press(){};
+};
 // йкюяя дкъ пюанвеи япедш
 class areaDraw: public objectClickable 
 {
+   // онксвюел йннпдхмюрш сцкнб
+   areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr), numRoom(0){} 
 protected:
    // вхякн йнлмюр пюяонкнфеммшу мю щйпюме
    int numRoom;
@@ -224,16 +265,9 @@ protected:
    } coord;
    //бшапюммши хмярпслемр
    ptrFunction tool; // РЕЙСЫХИ ХМЯРПСЛЕМР
-   // онксвюел йннпдхмюрш сцкнб
-   areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr)
-   { 
-      numRoom = 0; 
-   } 
    // люяяхб дкъ назейрнб пюяонкнфеммшу мю щйпюме
    vector <figure*> figures;
 public:
-   //мнлеп тнмю
-   int back;
    //пюанвюъ япедю
    static areaDraw &example();
    //гюохяшбюел назейрш
@@ -256,11 +290,6 @@ public:
    { 
       center.x = xc;
       center.y = yc;
-   }
-   //яерреп дкъ мнлепю тнмю
-   void setBack(int back)
-   { 
-      this -> back = back; 
    }
    //яерреп дкъ йнкхвеярбю йнлмюр
    void setNumRoom(int num)
@@ -288,7 +317,7 @@ public:
    {
       return coord.x2;
    }
-      int getY2()
+   int getY2()
    {
       return coord.y2;
    }

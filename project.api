@@ -4,18 +4,25 @@
 !interface.cpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !interface.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !main.cpp button.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
+NUMBACKGROUND #<button.hpp>
 NUMBUTTONS #<button.hpp>
+Pages _type_ #<interface.hpp>
+Pages() #<interface.hpp>
 areaDraw _type_ #<interface.hpp>
 areaDraw(int x1, int y1, int x2, int y2) #<interface.hpp>
+areaParams _type_ #<interface.hpp>
+areaParams(int x1, int y1, int x2, int y2) #<interface.hpp>
 background : IMAGE*[] #<interface.hpp>
 button _type_ #<button.hpp>
-button(int x, int y, string icon) #<button.hpp>
+button(int x, int y) #<button.hpp>
 buttonFile _type_ #<button.hpp>
-buttonFile(int x, int y, string icon, ptrFunction a) #<button.hpp>
+buttonFile(int x, int y, ptrFunction a) #<button.hpp>
 buttonFurniture _type_ #<button.hpp>
-buttonFurniture(int x, int y, string icon, int type, ptrFunction t) #<button.hpp>
+buttonFurniture(int x, int y, int type, ptrFunction t) #<button.hpp>
+buttonParam _type_ #<button.hpp>
+buttonParam(int x, int y, int w, int h) #<button.hpp>
 buttonTools _type_ #<button.hpp>
-buttonTools(int x, int y, string icon, ptrFunction t) #<button.hpp>
+buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
 figure _type_ #<interface.hpp>
 figure(int x1, int y1, int x2, int y2) #<interface.hpp>
@@ -46,10 +53,15 @@ save() -> void #<interface.hpp>
 toolDelete() -> void #<button.hpp>
 toolDoor() -> void #<button.hpp>
 toolFurniture() -> void #<button.hpp>
+toolHeightDown() -> void #<button.hpp>
 toolMove() -> void #<button.hpp>
-toolPlus() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
 toolWindow() -> void #<button.hpp>
+	Pages:%page : int #<interface.hpp>
+	Pages::draw() -> void #<interface.hpp>
+	Pages::setPage(int page) -> void #<interface.hpp>
+	Pages::getPage() -> int #<interface.hpp>
+	Pages$:example() -> Pages& #<interface.hpp>
 	areaDraw:%numRoom : int #<interface.hpp>
 	areaDraw:%center : center #<interface.hpp>
 	areaDraw:%coord : coord #<interface.hpp>
@@ -59,7 +71,6 @@ toolWindow() -> void #<button.hpp>
 	areaDraw:%y1 : int #<interface.hpp>
 	areaDraw:%x2 : int #<interface.hpp>
 	areaDraw:%y2 : int #<interface.hpp>
-	areaDraw::back : int #<interface.hpp>
 	areaDraw::outputObjects() -> void #<interface.hpp>
 	areaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	areaDraw::addFigure(figure* figure) -> void #<interface.hpp>
@@ -67,7 +78,6 @@ toolWindow() -> void #<button.hpp>
 	areaDraw::press() -> void #<interface.hpp>
 	areaDraw::setTool(ptrFunction t) -> void #<interface.hpp>
 	areaDraw::setCenter(int xc, int yc) -> void #<interface.hpp>
-	areaDraw::setBack(int back) -> void #<interface.hpp>
 	areaDraw::setNumRoom(int num) -> void #<interface.hpp>
 	areaDraw::setCoord(int xt1, int yt1, int xt2, int yt2) -> void #<interface.hpp>
 	areaDraw::getX1() -> int #<interface.hpp>
@@ -92,7 +102,26 @@ toolWindow() -> void #<button.hpp>
 	areaDraw:coord::y1 : int #<interface.hpp>
 	areaDraw:coord::x2 : int #<interface.hpp>
 	areaDraw:coord::y2 : int #<interface.hpp>
-	button:%image : IMAGE* #<button.hpp>
+	areaParams:%x1 : int #<interface.hpp>
+	areaParams:%y1 : int #<interface.hpp>
+	areaParams:%x2 : int #<interface.hpp>
+	areaParams:%y2 : int #<interface.hpp>
+	areaParams::weightDoor : int #<interface.hpp>
+	areaParams::heightDoor : int #<interface.hpp>
+	areaParams::weightWindow : int #<interface.hpp>
+	areaParams::heightWindow : int #<interface.hpp>
+	areaParams::weightWall : int #<interface.hpp>
+	areaParams::heightWall : int #<interface.hpp>
+	areaParams::draw() -> void #<interface.hpp>
+	areaParams::press() -> void #<interface.hpp>
+	areaParams::press() -> virtual void #<interface.hpp>
+	areaParams::in(int x, int y) -> bool #<interface.hpp>
+	areaParams::draw() -> virtual void #<interface.hpp>
+	areaParams::getTop() -> int #<interface.hpp>
+	areaParams::getLeft() -> int #<interface.hpp>
+	areaParams::getHeight() -> int #<interface.hpp>
+	areaParams::getWidth() -> int #<interface.hpp>
+	areaParams$:example() -> areaParams& #<interface.hpp>
 	button:%x1 : int #<button.hpp>
 	button:%y1 : int #<button.hpp>
 	button:%x2 : int #<button.hpp>
@@ -134,6 +163,21 @@ toolWindow() -> void #<button.hpp>
 	buttonFurniture::getLeft() -> int #<button.hpp>
 	buttonFurniture::getHeight() -> int #<button.hpp>
 	buttonFurniture::getWidth() -> int #<button.hpp>
+	buttonParam:%w : int #<button.hpp>
+	buttonParam:%h : int #<button.hpp>
+	buttonParam:%x1 : int #<button.hpp>
+	buttonParam:%y1 : int #<button.hpp>
+	buttonParam:%x2 : int #<button.hpp>
+	buttonParam:%y2 : int #<button.hpp>
+	buttonParam::press() -> void #<button.hpp>
+	buttonParam::draw() -> void #<button.hpp>
+	buttonParam::press() -> virtual void #<button.hpp>
+	buttonParam::in(int x, int y) -> bool #<button.hpp>
+	buttonParam::draw() -> virtual void #<button.hpp>
+	buttonParam::getTop() -> int #<button.hpp>
+	buttonParam::getLeft() -> int #<button.hpp>
+	buttonParam::getHeight() -> int #<button.hpp>
+	buttonParam::getWidth() -> int #<button.hpp>
 	buttonTools:%tool : ptrFunction #<button.hpp>
 	buttonTools:%x1 : int #<button.hpp>
 	buttonTools:%y1 : int #<button.hpp>

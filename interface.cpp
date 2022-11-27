@@ -1,6 +1,6 @@
 #include "interface.hpp"
 
-IMAGE *background[4];
+IMAGE *background[NUMBACKGROUND];
 
 bool objectDisplay :: in(int x, int y)
 {
@@ -13,6 +13,17 @@ bool objectDisplay :: in(int x, int y)
    else
       return false;
 }
+//-----------------------------------------------—“–¿Õ»÷€-----------------------------------------------//
+Pages &Pages :: example()
+{
+   static Pages pg;
+   return pg;
+}
+void Pages :: draw()
+{
+    putimage(0, 0, background[Pages :: example().getPage()], COPY_PUT);
+}
+
 //-----------------------------------------------Ã≈¡≈À‹-----------------------------------------------//
 //—Œ’–¿Õ≈Õ»≈ Œ¡⁄≈ “¿
 void objectFurniture::save(FILE *f)
@@ -97,6 +108,12 @@ void objectFigureOnWall :: draw()
 {
     putimage(x1, y1, objectOnWall, COPY_PUT);
 }
+//-----------------------------------------------œ¿–¿Ã≈“–€-----------------------------------------------//
+areaParams &areaParams :: example()
+{
+   static areaParams pa(70, 60, 400, 720);
+   return pa;
+}
 //-----------------------------------------------–¿¡Œ◊¿ﬂ —–≈ƒ¿-----------------------------------------------//
 //–¿¡Œ◊¿ﬂ —–≈ƒ¿
 areaDraw &areaDraw :: example()
@@ -107,7 +124,7 @@ areaDraw &areaDraw :: example()
 //Œ“–»—Œ¬ ¿
 void areaDraw :: draw()
 {
-   putimage(0, 0, background[back], COPY_PUT);
+   Pages :: example().draw();
    //‘»√”–€
    for(int i = 0; i < areaDraw :: example().figures.size(); i++)
       figures[i] -> draw();
