@@ -160,6 +160,7 @@ toolWindow() -> void #<button.hpp>
 	figure::getY1() -> virtual int #<interface.hpp>
 	figure::getX2() -> virtual int #<interface.hpp>
 	figure::getY2() -> virtual int #<interface.hpp>
+	figure::getType() -> virtual int #<interface.hpp>
 	figure::in(int x, int y) -> bool #<interface.hpp>
 	figure::getTop() -> int #<interface.hpp>
 	figure::getLeft() -> int #<interface.hpp>
@@ -195,6 +196,7 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall::draw() -> void #<interface.hpp>
 	objectFigureOnWall::press() -> void #<interface.hpp>
 	objectFigureOnWall::save(FILE* f) -> void #<interface.hpp>
+	objectFigureOnWall::getType() -> int #<interface.hpp>
 	objectFigureOnWall::getX1() -> int #<interface.hpp>
 	objectFigureOnWall::getY1() -> int #<interface.hpp>
 	objectFigureOnWall::getX2() -> int #<interface.hpp>
@@ -206,6 +208,7 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall::getY1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getX2() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getY2() -> virtual int #<interface.hpp>
+	objectFigureOnWall::getType() -> virtual int #<interface.hpp>
 	objectFigureOnWall::in(int x, int y) -> bool #<interface.hpp>
 	objectFigureOnWall::getTop() -> int #<interface.hpp>
 	objectFigureOnWall::getLeft() -> int #<interface.hpp>
@@ -225,6 +228,7 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture::getX2() -> int #<interface.hpp>
 	objectFurniture::getY2() -> int #<interface.hpp>
 	objectFurniture::getT() -> int #<interface.hpp>
+	objectFurniture::getType() -> int #<interface.hpp>
 	objectFurniture::setT(int t) -> void #<interface.hpp>
 	objectFurniture::draw() -> virtual void #<interface.hpp>
 	objectFurniture::press() -> virtual void #<interface.hpp>
@@ -233,6 +237,7 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture::getY1() -> virtual int #<interface.hpp>
 	objectFurniture::getX2() -> virtual int #<interface.hpp>
 	objectFurniture::getY2() -> virtual int #<interface.hpp>
+	objectFurniture::getType() -> virtual int #<interface.hpp>
 	objectFurniture::in(int x, int y) -> bool #<interface.hpp>
 	objectFurniture::getTop() -> int #<interface.hpp>
 	objectFurniture::getLeft() -> int #<interface.hpp>
@@ -256,6 +261,7 @@ toolWindow() -> void #<button.hpp>
 	objectWall::getX2() -> int #<interface.hpp>
 	objectWall::getY2() -> int #<interface.hpp>
 	objectWall::getW() -> int #<interface.hpp>
+	objectWall::getType() -> int #<interface.hpp>
 	objectWall::setW(int w) -> void #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
 	objectWall::press() -> virtual void #<interface.hpp>
@@ -264,6 +270,7 @@ toolWindow() -> void #<button.hpp>
 	objectWall::getY1() -> virtual int #<interface.hpp>
 	objectWall::getX2() -> virtual int #<interface.hpp>
 	objectWall::getY2() -> virtual int #<interface.hpp>
+	objectWall::getType() -> virtual int #<interface.hpp>
 	objectWall::in(int x, int y) -> bool #<interface.hpp>
 	objectWall::getTop() -> int #<interface.hpp>
 	objectWall::getLeft() -> int #<interface.hpp>

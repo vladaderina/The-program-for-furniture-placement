@@ -56,7 +56,7 @@ int main()
       x = mousex();
       y = mousey();
       //Œ“—À≈∆»¬¿≈Ã Õ¿∆¿“»≈
-      if(mousebuttons())
+      if(mousebuttons() == 1)
       {
          if(areaDraw::example().in(x, y))
          {
@@ -77,6 +77,7 @@ int main()
             }
          }
       }
+      delay(60);
    }
    closegraph();
 }

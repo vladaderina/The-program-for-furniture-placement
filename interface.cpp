@@ -152,10 +152,13 @@ void areaDraw :: outputObjects()
 //сдюкхрэ назейр
 void areaDraw :: deleteFigure(int x, int y)
 {
-   for (int i = 0; i < figures.size(); i++)
+   for (int i = figures.size() - 1; i >= 0; i--)
    {
       if (figures[i] -> in(x, y))
       {
+         cout << 1;
+         if (figures[i] -> getType() == 2)
+            numRoom = 0;
          figures.erase(figures.begin() + i); 
          draw();
          outputObjects();

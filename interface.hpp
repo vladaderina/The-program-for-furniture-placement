@@ -18,7 +18,6 @@ protected:
    //йннпдхмюрш бепьхм опълнсцнкэмхйю
    int x1, y1, x2, y2;
 public:
-   
    //онксвюел йннпдхмюрш бепьхм опълнсцнкэмхйю
    objectDisplay(int x1, int y1, int x2, int y2) : x1(x1), y1(y1), x2(x2), y2(y2) {}
    //бмсрпеммхе йннпдхмюрш
@@ -75,6 +74,8 @@ public:
    virtual int getY1();
    virtual int getX2();
    virtual int getY2();
+   //церреп дкъ рхою тхцспш
+   virtual int getType();
 };
 
 // йкюяя дкъ назейрнб-леаекх
@@ -111,6 +112,11 @@ public:
    int getT()
    {
       return t;
+   }
+   //церреп дкъ рхою тхцспш
+   int getType()
+   {
+      return type;
    }
    //яерреп дкъ рхою леаекх
    void setT(int t);
@@ -157,6 +163,11 @@ public:
    {
       return w;
    }
+   //церреп дкъ рхою тхцспш
+   int getType()
+   {
+      return type;
+   }
    //яерреп дкъ ьхпхмш яремш
    void setW(int w);
 };
@@ -175,6 +186,11 @@ public:
    void press() override;
    //тсмйжхъ янупюмемхъ назейрю
    void save(FILE *f);
+   //церреп дкъ рхою тхцспш
+   int getType()
+   {
+      return type;
+   }
    //церрепш дкъ йннпдхмюр сцкнб
    int getX1(){ 
       return x1; 
