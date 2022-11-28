@@ -239,7 +239,9 @@ void toolDoor()
    x1 = mousex();
    y1 = mousey();
    IMAGE *a = loadBMP("icon/wall.bmp");
-   IMAGE *b = imageturn(a, 0.5, WHITE);
+   IMAGE *b = imageturn(a, 90, WHITE);
+   IMAGE *c = imageturn(a, 180, WHITE);
+   IMAGE *d = imageturn(a, 270, WHITE);
    int centerY = areaDraw::example().getCenterY();
    int centerX = areaDraw::example().getCenterX();
    int xt1 = areaDraw::example().getX1();
@@ -255,17 +257,17 @@ void toolDoor()
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
                y1 <= yt2 && y1 >= centerY &&
                double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
-      rect = new objectFigureOnWall(x1, yt2 - imageheight(a), x1 + imagewidth(a), yt2, a);
+      rect = new objectFigureOnWall(x1, yt2 - imageheight(c), x1 + imagewidth(c), yt2, c);
 
    else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
                x1 <= xt2 && x1 >= centerX &&
                double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
-      rect = new objectFigureOnWall(xt2 - imagewidth(a), y1, xt2, y1 + imageheight(a), a);
+      rect = new objectFigureOnWall(xt2 - imagewidth(d), y1, xt2, y1 + imageheight(d), d);
     
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
                x1 >= xt1 && x1 <= centerX &&
                double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
-      rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(a), y1 + imageheight(a), a);
+      rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(b), y1 + imageheight(b), b);
    
    rect -> draw();
    areaDraw :: example().addFigure(rect);
