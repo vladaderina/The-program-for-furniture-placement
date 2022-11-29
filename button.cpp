@@ -2,6 +2,29 @@
 #include <math.h>
 #include <clocale>
 
+IMAGE *createmask(IMAGE *p)
+{
+   int w = imagewidth(p);
+   int h = imageheight(p);
+   IMAGE *m = createimage(w, h);
+   int c = imagegetpixel(p, 0, 0);
+   for(int x = 0; x < w; ++x)
+   {
+      for(int y = 0; y < h; ++y)
+      { 
+         int d = imagegetpixel(p, x, y);
+         
+         if(c == d)
+         { 
+            imageputpixel(m, x, y, WHITE);
+            imageputpixel(p, x, y, BLACK);
+         }
+         else imageputpixel(m, x, y, BLACK);
+      }
+   }
+   return m;
+}
+
 //ОТРИСОВКА КНОПКИ
 void button :: draw()
 {
@@ -34,19 +57,44 @@ void buttonParam :: press()
    int num = Pages :: example().getPage();
    if (num == 0)
    {
-      areaParams :: example().weightWall += w;
-      areaParams :: example().heightWall += h;
+      if ((areaParams :: example().weightWall > 15 && areaParams :: example().weightWall < 65) ||
+         (areaParams :: example().heightWall > 250 && areaParams :: example().heightWall < 500) ||
+         (w > 0 && areaParams :: example().weightWall == 15) || 
+         (h > 0 && areaParams :: example().heightWall == 250) ||
+         (w < 0 && areaParams :: example().weightWall == 65) ||
+         (h < 0 && areaParams :: example().heightWall == 500))
+      {
+         areaParams :: example().weightWall += w;
+         areaParams :: example().heightWall += h * 10;
+      }
    }
    else if (num == 1)
    {
-      areaParams :: example().weightDoor += w;
-      areaParams :: example().heightDoor += h;
+      if ((areaParams :: example().weightDoor > 70 && areaParams :: example().weightDoor < 90) ||
+         (areaParams :: example().heightDoor > 200 && areaParams :: example().heightDoor < 240) ||
+         (w > 0 && areaParams :: example().weightDoor == 70) || 
+         (h > 0 && areaParams :: example().heightDoor == 200) ||
+         (w < 0 && areaParams :: example().weightDoor == 90) ||
+         (h < 0 && areaParams :: example().heightDoor == 240))
+      {
+         areaParams :: example().weightDoor += w * 10;
+         areaParams :: example().heightDoor += h * 5;
+      }
    }
    else
    {
-      areaParams :: example().weightWindow += w;
-      areaParams :: example().heightWindow += h;
+      if ((areaParams :: example().weightWindow > 100 && areaParams :: example().weightWindow < 250) ||
+         (areaParams :: example().heightWindow > 110 && areaParams :: example().heightWindow < 210) ||
+         (w > 0 && areaParams :: example().weightWindow == 100) || 
+         (h > 0 && areaParams :: example().heightWindow == 110) ||
+         (w < 0 && areaParams :: example().weightWindow == 250) ||
+         (h < 0 && areaParams :: example().heightWindow == 210))
+      {
+         areaParams :: example().weightWindow += w * 75;
+         areaParams :: example().heightWindow += h * 5;
+      }
    }
+   areaParams :: example().draw();
 }
 //РЕАКЦИЯ НА НАЖАТИЕ КНОПКИ ИНСТРУМЕНТАРИЯ
 void buttonTools :: press()
@@ -65,6 +113,9 @@ void toolDelete()
 //ПАРАМЕТРЫ ФИГУРЫ
 void modeFigure(int x1, int y1, int x2, int y2)
 {
+   int w = areaParams :: example().weightWall;
+   setlinestyle(SOLID_LINE, w / 3, w / 3);
+   setcolor(RGB(153,153,153));
    setwritemode(XOR_PUT);
    setcolor(WHITE);
    rectangle(x1, y1, x2, y2);
@@ -205,8 +256,8 @@ void toolWall()
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
       {
-         setlinestyle(SOLID_LINE, w, w);
-         setcolor(BLACK);
+         setlinestyle(SOLID_LINE, w / 3, w / 3);
+         setcolor(RGB(153,153,153));
          rectangle(x1, y1, x2, y2);
       }
       figure *rect = new objectWall(x1, y1, x2, y2, w);
@@ -223,7 +274,7 @@ void toolWall()
       setusercharsize(9, 20, 9, 10);
       setcolor(COLOR(227, 38, 54));
       string warning = "Можно создать только одну комнату!";
-      outtextxy(80, 600,  warning.c_str());
+      outtextxy(160, 600,  warning.c_str());
    }
 }
 //ОКНО
@@ -231,44 +282,97 @@ void toolWindow()
 {
 
 }
+void positionOnWall(int &x1, int &y1, IMAGE &a)
+{
+   IMAGE *b = imageturn(a, 90, WHITE);
+   IMAGE *c = imageturn(a, 180, WHITE);
+   IMAGE *d = imageturn(a, 270, WHITE);
+   int centerY = areaDraw :: example().getCenterY();
+   int centerX = areaDraw :: example().getCenterX();
+   int xt1 = areaDraw :: example().getX1();
+   int yt1 = areaDraw :: example().getY1(); 
+   int xt2 = areaDraw :: example().getX2();
+   int yt2 = areaDraw :: example().getY2();
 
+   if (double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
+       y1 >= yt1 && y1 <= centerY &&
+       double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
+      y1 = yt1;
+   }
+   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
+               y1 <= yt2 && y1 >= centerY &&
+               double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
+         a = c;
+         y1 = yt2 - imageheight(a);
+   }
+   else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
+               x1 <= xt2 && x1 >= centerX &&
+               double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   {
+      a = d;
+      x1 = xt2 - imagewidth(d);
+   }
+   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
+               x1 >= xt1 && x1 <= centerX &&
+               double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   { 
+         a = b;
+         x1 = xt1;
+   }
+   rect -> draw();
+   areaDraw :: example().addFigure(rect);
+   areaDraw :: example().outputObjects();
+}
 //ДВЕРЬ
 void toolDoor()
 {
    int x1, y1;
    x1 = mousex();
    y1 = mousey();
+   //IMAGE *m;
    IMAGE *a = loadBMP("icon/wall.bmp");
    IMAGE *b = imageturn(a, 90, WHITE);
    IMAGE *c = imageturn(a, 180, WHITE);
    IMAGE *d = imageturn(a, 270, WHITE);
-   int centerY = areaDraw::example().getCenterY();
-   int centerX = areaDraw::example().getCenterX();
-   int xt1 = areaDraw::example().getX1();
-   int yt1 = areaDraw::example().getY1(); 
-   int xt2 = areaDraw::example().getX2();
-   int yt2 = areaDraw::example().getY2();
+   int centerY = areaDraw :: example().getCenterY();
+   int centerX = areaDraw :: example().getCenterX();
+   int xt1 = areaDraw :: example().getX1();
+   int yt1 = areaDraw :: example().getY1(); 
+   int xt2 = areaDraw :: example().getX2();
+   int yt2 = areaDraw :: example().getY2();
+   // ПЕРЕДАЕМ : изображение, указатель на нажатие кнопки мыши (или там вычисляем)
+   // 
    figure *rect;
    if (double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
        y1 >= yt1 && y1 <= centerY &&
        double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
       rect = new objectFigureOnWall(x1, yt1, x1 + imagewidth(a), yt1 + imageheight(a), a);
-   
+      rect -> m = createmask(a);
+   }
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) && 
                y1 <= yt2 && y1 >= centerY &&
                double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
       rect = new objectFigureOnWall(x1, yt2 - imageheight(c), x1 + imagewidth(c), yt2, c);
-
+      rect -> m = createmask(c);
+   }
    else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
                x1 <= xt2 && x1 >= centerX &&
                double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   {
       rect = new objectFigureOnWall(xt2 - imagewidth(d), y1, xt2, y1 + imageheight(d), d);
-    
+      rect -> m = createmask(d);
+   }
    else if (double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) && 
                x1 >= xt1 && x1 <= centerX &&
                double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   {
       rect = new objectFigureOnWall(xt1, y1, xt1 + imagewidth(b), y1 + imageheight(b), b);
-   
+      rect -> m = createmask(b);
+   }
    rect -> draw();
    areaDraw :: example().addFigure(rect);
    areaDraw :: example().outputObjects();

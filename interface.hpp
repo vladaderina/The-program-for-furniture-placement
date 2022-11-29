@@ -85,6 +85,8 @@ protected:
       //3 - назейрш мю яреме
    int type;
 public:
+   //люяйю
+   IMAGE *m;
    //онксвюел йннпдхмюрш сцкнб
    figure(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
    //нрпхянбйю назейрю
@@ -232,7 +234,7 @@ class areaParams : public objectClickable
 {
    // онксвюел йннпдхмюрш сцкнб
    areaParams (int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2),
-   weightDoor(1), heightDoor(1), weightWindow(1), heightWindow(1), weightWall (1), heightWall(1)
+   weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (15), heightWall(250)
    {} 
 public: 
    int weightDoor,
@@ -242,7 +244,7 @@ public:
         weightWall,
         heightWall;
    static areaParams &example();
-   void draw(){};
+   void draw();
    void press(){};
 };
 // йкюяя дкъ пюанвеи япедш

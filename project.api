@@ -24,6 +24,7 @@ buttonParam(int x, int y, int w, int h) #<button.hpp>
 buttonTools _type_ #<button.hpp>
 buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
+createmask(IMAGE* p) -> IMAGE* #<button.cpp>
 figure _type_ #<interface.hpp>
 figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
@@ -48,6 +49,7 @@ objectFurniture _type_ #<interface.hpp>
 objectFurniture(int x1, int y1, int x2, int y2, int t) #<interface.hpp>
 objectWall _type_ #<interface.hpp>
 objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
+positionOnWall(int& x1, int& y1, IMAGE& a) -> void #<button.cpp>
 ptrFunction _type_ #<interface.hpp>
 save() -> void #<interface.hpp>
 toolDelete() -> void #<button.hpp>
@@ -197,6 +199,7 @@ toolWindow() -> void #<button.hpp>
 	figure:%y1 : int #<interface.hpp>
 	figure:%x2 : int #<interface.hpp>
 	figure:%y2 : int #<interface.hpp>
+	figure::m : IMAGE* #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
 	figure::press() -> virtual void #<interface.hpp>
 	figure::save(FILE* f) -> virtual void #<interface.hpp>
@@ -245,6 +248,7 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall::getY1() -> int #<interface.hpp>
 	objectFigureOnWall::getX2() -> int #<interface.hpp>
 	objectFigureOnWall::getY2() -> int #<interface.hpp>
+	objectFigureOnWall::m : IMAGE* #<interface.hpp>
 	objectFigureOnWall::draw() -> virtual void #<interface.hpp>
 	objectFigureOnWall::press() -> virtual void #<interface.hpp>
 	objectFigureOnWall::save(FILE* f) -> virtual void #<interface.hpp>
@@ -274,6 +278,7 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture::getT() -> int #<interface.hpp>
 	objectFurniture::getType() -> int #<interface.hpp>
 	objectFurniture::setT(int t) -> void #<interface.hpp>
+	objectFurniture::m : IMAGE* #<interface.hpp>
 	objectFurniture::draw() -> virtual void #<interface.hpp>
 	objectFurniture::press() -> virtual void #<interface.hpp>
 	objectFurniture::save(FILE* f) -> virtual void #<interface.hpp>
@@ -307,6 +312,7 @@ toolWindow() -> void #<button.hpp>
 	objectWall::getW() -> int #<interface.hpp>
 	objectWall::getType() -> int #<interface.hpp>
 	objectWall::setW(int w) -> void #<interface.hpp>
+	objectWall::m : IMAGE* #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
 	objectWall::press() -> virtual void #<interface.hpp>
 	objectWall::save(FILE* f) -> virtual void #<interface.hpp>

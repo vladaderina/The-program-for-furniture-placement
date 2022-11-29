@@ -76,9 +76,8 @@ void objectWall :: press()
 //Œ“–»—Œ¬ ¿
 void objectWall :: draw()
 {
-   // ŒÕ“”–
-   setcolor(BLACK);
-   setlinestyle(SOLID_LINE, w, w);
+   setlinestyle(SOLID_LINE, w / 3, w / 3);
+   setcolor(RGB(153,153,153));
    rectangle(x1, y1, x2, y2);
 }
 void objectWall :: setW(int widthWall)
@@ -106,13 +105,42 @@ void objectFigureOnWall :: save(FILE *f)
 //Œ“–»—Œ¬ ¿
 void objectFigureOnWall :: draw()
 {
-    putimage(x1, y1, objectOnWall, COPY_PUT);
+   putimage(x1, y1, m, AND_PUT);
+   putimage(x1, y1, objectOnWall, OR_PUT);
 }
 //-----------------------------------------------œ¿–¿Ã≈“–€-----------------------------------------------//
 areaParams &areaParams :: example()
 {
    static areaParams pa(70, 60, 400, 720);
    return pa;
+}
+void areaParams :: draw()
+{
+   char str_w[10], str_h[10];
+   int num = Pages :: example().getPage();
+   if (num == 0)
+   {
+      sprintf(str_h, "%d", weightWall);
+      sprintf(str_w, "%d", heightWall);
+   }
+   else if (num == 1)
+   {
+      sprintf(str_h, "%d", weightDoor);
+      sprintf(str_w, "%d", heightDoor);
+   }
+   else
+   {
+      sprintf(str_h, "%d", weightWindow);
+      sprintf(str_w, "%d", heightWindow);
+   }
+
+   settextjustify(CENTER_TEXT, CENTER_TEXT);
+   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
+   setusercharsize(9, 20, 9, 10);
+
+   setcolor(COLOR(0, 0, 0));
+   outtextxy(230, 241,  str_h);
+   outtextxy(230, 324,  str_w);
 }
 //-----------------------------------------------–¿¡Œ◊¿ﬂ —–≈ƒ¿-----------------------------------------------//
 //–¿¡Œ◊¿ﬂ —–≈ƒ¿
@@ -175,7 +203,13 @@ void areaDraw :: deleteFigure(int x, int y)
       {
          cout << 1;
          if (figures[i] -> getType() == 2)
+         {
             numRoom = 0;
+            figures.erase(figures.begin(), figures.end());
+            draw();
+            outputObjects();
+            break;
+         }
          figures.erase(figures.begin() + i); 
          draw();
          outputObjects();

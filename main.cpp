@@ -50,6 +50,7 @@ int main()
    initwindow(1280, 720);
    //ÈÍÈÖÈÀËÈÇÀÖÈß È ÎÒĞÈÑÎÂÊÀ İËÅÌÅÍÒÎÂ
    mainInitialization();
+   setbkcolor(RGB(243,243,243));
    Pages :: example().draw();
    mainDraw();
    int x, y;
@@ -58,6 +59,7 @@ int main()
       //ÊÎĞÄÈÍÀÒÛ ÊÓĞÑÎĞÀ
       x = mousex();
       y = mousey();
+      areaParams :: example().draw();
       //ÎÒÑËÅÆÈÂÀÅÌ ÍÀÆÀÒÈÅ
       if(mousebuttons() == 1)
       {
@@ -74,6 +76,7 @@ int main()
                   Pages :: example().setPage(i);
                   Pages :: example().draw();
                   areaDraw :: example().draw();
+                  areaParams :: example().draw();
                   buttons[i] -> press();
                   break;
                }
