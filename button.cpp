@@ -275,13 +275,7 @@ void toolWall()
    else
    {
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
-      putimage(300, 300, image, COPY_PUT);
-      /*setbkcolor(WHITE);
-      settextstyle(BOLD_FONT, HORIZ_DIR, USER_CHAR_SIZE);
-      setusercharsize(9, 20, 9, 10);
-      setcolor(COLOR(227, 38, 54));
-      string warning = "Можно создать только одну комнату!";
-      outtextxy(160, 600,  warning.c_str());*/
+      putimage(65, 556, image, COPY_PUT);
    }
 }
 //ОКНО
@@ -336,16 +330,24 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 //ДВЕРЬ
 void toolDoor()
 {
-   int x1, y1, numWall;
-   x1 = mousex();
-   y1 = mousey();
-   IMAGE *a = loadBMP("icon/wall.bmp");
-   IMAGE *m = positionOnWall(x1, y1, numWall, a);
-   figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-   rect -> m = createmask(m);
-   rect -> draw();
-   areaDraw :: example().addFigure(rect);
-   areaDraw :: example().outputObjects();
+   if (areaDraw :: example().getNumRoom() != 0)
+   {
+      int x1, y1, numWall;
+      x1 = mousex();
+      y1 = mousey();
+      IMAGE *a = loadBMP("icon/wall.bmp");
+      IMAGE *m = positionOnWall(x1, y1, numWall, a);
+      figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+      rect -> m = createmask(m);
+      rect -> draw();
+      areaDraw :: example().addFigure(rect);
+      areaDraw :: example().outputObjects();
+   }
+   else
+   {
+      IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      putimage(61, 556, image, COPY_PUT);
+   }
 }
 
 //СОХРАНИТЬ В ПРОЕКТ
