@@ -201,9 +201,11 @@ public:
 class objectFigureOnWall : public figure
 {
 public:
+   //мнлеп ндмни хг 4 ярем, мю йнрнпни пюяонкнфем назейр
+   int numWall;
    IMAGE *objectOnWall;
    //онксвюел йннпдхмюрш сцкнб
-   objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE *a) : figure(x1, y1, x2, y2), objectOnWall(a) { type = 3; }
+   objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, IMAGE *a) : figure(x1, y1, x2, y2), numWall(numWall), objectOnWall(a) { type = 3; }
    //нрпхянбйю назейрю
    void draw() override;
    //тсмйжхъ пеюйжхх мю мюфюрхе
@@ -234,7 +236,7 @@ class areaParams : public objectClickable
 {
    // онксвюел йннпдхмюрш сцкнб
    areaParams (int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2),
-   weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (15), heightWall(250)
+   weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (35), heightWall(250)
    {} 
 public: 
    int weightDoor,

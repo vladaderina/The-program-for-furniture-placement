@@ -105,6 +105,15 @@ void objectFigureOnWall :: save(FILE *f)
 //Œ“–»—Œ¬ ¿
 void objectFigureOnWall :: draw()
 {
+   setcolor(RGB(243, 243, 243));
+   if (numWall == 1)
+      line(x1, y1, x1 + imagewidth(m), y1);
+   else if (numWall == 2)
+      line(x1 + imagewidth(m), y1, x1 + imagewidth(m), y1+ imageheight(m));
+   else if (numWall == 3)
+      line(x1, y1 + imageheight(m), x1 + imagewidth(m), y1 + imageheight(m));
+   else if (numWall == 4)
+      line(x1, y1, x1, y1+ imageheight(m));
    putimage(x1, y1, m, AND_PUT);
    putimage(x1, y1, objectOnWall, OR_PUT);
 }
@@ -139,8 +148,8 @@ void areaParams :: draw()
    setusercharsize(9, 20, 9, 10);
 
    setcolor(COLOR(0, 0, 0));
-   outtextxy(230, 241,  str_h);
-   outtextxy(230, 324,  str_w);
+   outtextxy(230, 241, str_h);
+   outtextxy(230, 324, str_w);
 }
 //-----------------------------------------------–¿¡Œ◊¿ﬂ —–≈ƒ¿-----------------------------------------------//
 //–¿¡Œ◊¿ﬂ —–≈ƒ¿
@@ -213,6 +222,7 @@ void areaDraw :: deleteFigure(int x, int y)
          figures.erase(figures.begin() + i); 
          draw();
          outputObjects();
+         delay(600);
          break;
       }
    }

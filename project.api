@@ -44,12 +44,12 @@ objectDisplay _type_ #<interface.hpp>
 objectDisplay() -> virtual~ #<interface.hpp>
 objectDisplay(int x1, int y1, int x2, int y2) #<interface.hpp>
 objectFigureOnWall _type_ #<interface.hpp>
-objectFigureOnWall(int x1, int y1, int x2, int y2, IMAGE* a) #<interface.hpp>
+objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, IMAGE* a) #<interface.hpp>
 objectFurniture _type_ #<interface.hpp>
 objectFurniture(int x1, int y1, int x2, int y2, int t) #<interface.hpp>
 objectWall _type_ #<interface.hpp>
 objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
-positionOnWall(int& x1, int& y1, IMAGE& a) -> void #<button.cpp>
+positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<button.cpp>
 ptrFunction _type_ #<interface.hpp>
 save() -> void #<interface.hpp>
 toolDelete() -> void #<button.hpp>
@@ -239,6 +239,7 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall:%y1 : int #<interface.hpp>
 	objectFigureOnWall:%x2 : int #<interface.hpp>
 	objectFigureOnWall:%y2 : int #<interface.hpp>
+	objectFigureOnWall::numWall : int #<interface.hpp>
 	objectFigureOnWall::objectOnWall : IMAGE* #<interface.hpp>
 	objectFigureOnWall::draw() -> void #<interface.hpp>
 	objectFigureOnWall::press() -> void #<interface.hpp>

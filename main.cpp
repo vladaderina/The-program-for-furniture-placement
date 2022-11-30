@@ -54,12 +54,12 @@ int main()
    Pages :: example().draw();
    mainDraw();
    int x, y;
+   areaParams :: example().draw();
    while(1) 
    {
       // Œ–ƒ»Õ¿“€  ”–—Œ–¿
       x = mousex();
       y = mousey();
-      areaParams :: example().draw();
       //Œ“—À≈∆»¬¿≈Ã Õ¿∆¿“»≈
       if(mousebuttons() == 1)
       {
@@ -69,14 +69,14 @@ int main()
          }
          else
          {
-            for(int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; ++i)
             {
                if(buttons[i] -> in(x, y)) 
                {
                   Pages :: example().setPage(i);
                   Pages :: example().draw();
                   areaDraw :: example().draw();
-                  areaParams :: example().draw();
+                  if (i != 3) areaParams :: example().draw();
                   buttons[i] -> press();
                   break;
                }
@@ -102,7 +102,7 @@ int main()
             }
          }
       }
-      delay(60);
+      delay(200);
    }
    closegraph();
 }
