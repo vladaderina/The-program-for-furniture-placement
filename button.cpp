@@ -274,12 +274,14 @@ void toolWall()
    }
    else
    {
-      setbkcolor(WHITE);
+      IMAGE *image =  loadBMP("icon/back/text1.jpg");
+      putimage(300, 300, image, COPY_PUT);
+      /*setbkcolor(WHITE);
       settextstyle(BOLD_FONT, HORIZ_DIR, USER_CHAR_SIZE);
       setusercharsize(9, 20, 9, 10);
       setcolor(COLOR(227, 38, 54));
       string warning = "Можно создать только одну комнату!";
-      outtextxy(160, 600,  warning.c_str());
+      outtextxy(160, 600,  warning.c_str());*/
    }
 }
 //ОКНО
