@@ -2,7 +2,7 @@
 #define button_H
 #include <graphics.h>
 #include "interface.hpp"
-#define NUMBUTTONS 25
+#define NUMBUTTONS 19
 #define NUMBACKGROUND 5
 
 // йкюяя дкъ ймнонй
@@ -10,7 +10,7 @@ class button: public objectClickable
 {
 public:
    // онксвюел йннпдхмюрш сцкнб х яяшкйс мю йюпрхмйс
-   button(int x, int y) : objectClickable(x, y, x + 62, y + 62) {}
+   button(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
    //мюпхянбюрэ назейр
    void draw();
 };
@@ -23,7 +23,7 @@ class buttonFurniture: public button
    ptrFunction tool; 
 public:
    //онксвюел йннпдхмюрш сцкнб, йюпрхмйс дкъ ймнойх х сйюгюрекэ мю хмярпслемр
-   buttonFurniture(int x, int y, int type, ptrFunction t) : button(x, y), type(type), tool(t) {}
+   buttonFurniture(int x, int y, int type, ptrFunction t) : button(x, y, x + 290, y + 35), type(type), tool(t) {}
    //пеюйжхъ мю мюфюрхе
    void press();
 };
@@ -34,7 +34,7 @@ class buttonParam: public button
 public:
    //онксвюел йннпдхмюрш сцкнб, йюпрхмйс дкъ ймнойх х сйюгюрекэ мю хмярпслемр
    buttonParam(int x, int y, int w, int h) : 
-                        button(x, y), w(w), h(h) {}
+                        button(x, y, x + 75, y + 35), w(w), h(h) {}
    //пеюйжхъ мю мюфюрхе
    void press();
 };
@@ -45,7 +45,7 @@ class buttonTools : public button
    ptrFunction tool; 
 public:
    //онксвюел йннпдхмюрш сцкнб, йюпрхмйс дкъ ймнойх х сйюгюрекэ мю хмярпслемр
-   buttonTools(int x, int y, int type, ptrFunction t) : button(x, y), tool(t) {}
+   buttonTools(int x, int y, int type, ptrFunction t) : button(x, y, x + 73, y + 73), tool(t) {}
    //пеюйжхъ мю мюфюрхе
    void press();
 };
@@ -56,7 +56,7 @@ class buttonFile: public button
    ptrFunction action; 
 public:
    // онксвюел йннпдхмюрш сцкнб, йюпрхмйс х сйюгюрекэ мю деиярбхе я тюикнл
-   buttonFile(int x, int y, ptrFunction a) : button(x, y), action(a) {}
+   buttonFile(int x, int y, ptrFunction a) : button(x, y, x + 73, y + 73), action(a) {}
    //пеюйжхъ мю мюфюрхе
    void press();
 };

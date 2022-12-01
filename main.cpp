@@ -21,15 +21,15 @@ void mainInitialization()
    buttons[4] = new buttonFile(0, 630, fileEnd);
    buttons[5] = new buttonFile(799, 102, fileSave);
    //ÊÍÎÏÊÈ ÌÅÁÅËÈ
-   for(int i = 6; i < 21; i++)
+   for(int i = 6; i < 15; i++)
    {
-      buttons[i] = new buttonFurniture(160 + 120*((i - 6)%5), 600+82*((i - 6)/5), (i - 6), toolFurniture);
+      buttons[i] = new buttonFurniture(90, 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3), (i - 6), toolFurniture);
    }
    //ÊÍÎÏÊÈ ÏÀĞÀÌÅÒĞÎÂ
-   buttons[21] = new buttonParam(85, 215, 1, 0);
-   buttons[22] = new buttonParam(85, 295, 0, 1);
-   buttons[23] = new buttonParam(290, 215, -1, 0);
-   buttons[24] = new buttonParam(290, 290, 0, -1);
+   buttons[15] = new buttonParam(85, 215, 1, 0);
+   buttons[16] = new buttonParam(85, 295, 0, 1);
+   buttons[17] = new buttonParam(290, 215, -1, 0);
+   buttons[18] = new buttonParam(290, 290, 0, -1);
    //ÓÑÒÀÍÀÂËÈÂÀÅÌ ÑÒÀÍÄÀĞÒÍÛÉ ÈÍÑÒĞÓÌÅÍÒ (ÊÎÒÎĞÛÉ ÂÛÁĞÀÍ ÏĞÈ ÎÒÊĞÛÒÈÈ ÏĞÎÃĞÀÌÌÛ, ÅÑËÈ ÍÅ ÂÛÁĞÀÍ, ÒÎ ÏĞÎÃĞÀÌÌÀ ÊĞÀØÈÒÑß ÏĞÈ ÍÀÆÀÒÈÅ ËÊÌ) 
    areaDraw::example().setTool(toolWall);
 }
@@ -39,10 +39,10 @@ void mainDraw()
    //ÎÒĞÈÑÎÂÊÀ ÊÍÎÏÎÊ
    for(int i = 0; i < NUMBUTTONS; ++i)
    {  
-      buttons[i]->draw();
+      buttons[i] -> draw();
    }
    //ÎÒĞÈÑÎÂÊÀ ÑÒÀÒÈ×ÍÛÕ ÎÁÚÅÊÒÎÂ
-   areaDraw::example().draw();
+   areaDraw :: example().draw();
 }
 //ÎÑÍÎÂÍÀß ÔÓÍÊÖÈß
 int main()
@@ -69,7 +69,7 @@ int main()
          }
          else
          {
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; i++)
             {
                if(buttons[i] -> in(x, y)) 
                {
@@ -84,20 +84,21 @@ int main()
             int num = Pages :: example().getPage();
             if (num == 0 || num == 1 || num == 2)
             {
-               for(int i = 1; i <= 4; ++i)
+               for(int i = 1; i <= 4; i++)
                {
-                  if(buttons[20 + i] -> in(x, y))
+                  if(buttons[14 + i] -> in(x, y))
                   {
-                     buttons[20 + i] -> press();
+                     buttons[14 + i] -> press();
                   }
                }
             }
             else if (num == 3 || num == 4)
             {
-               for(int i = 0; i < 15; ++i)
+               for(int i = 0; i < 9; i++)
                {
-                  if(buttons[6 + i] -> in(x, y))
-                     buttons[6 + i] -> press();
+                  //if (buttons[6 + i] -> in(x, y))
+                     bar(buttons[6 + i] -> x1, buttons[6 + i] -> y1, buttons[6 + i] -> x2, buttons[6 + i] -> y2);
+                     //buttons[6 + i] -> press();
                }
             }
          }
