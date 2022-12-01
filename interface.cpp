@@ -169,7 +169,37 @@ void areaDraw :: draw()
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈
 void areaDraw :: press()
 {
+   int x = mousex();
+   int y = mousey();
+   if (mousebuttons() == 1)
+   {
       tool();
+   }
+   else if (mousebuttons() == 2)
+   {
+      for (int i = figures.size() - 1; i >= 0; i--)
+      {
+         if (figures[i] -> in(x, y))
+         {
+            cout << 1;
+            if (figures[i] -> getType() == 2)
+            {
+               numRoom = 0;
+               figures.erase(figures.begin(), figures.end());
+               draw();
+               if (numRoom != 3) areaParams :: example().draw();
+               outputObjects();
+               break;
+            }
+            figures.erase(figures.begin() + i); 
+            draw();
+            if (numRoom != 3) areaParams :: example().draw();
+            outputObjects();
+            delay(60);
+            break;
+         }
+      }
+   }
 }
 //—Œ’–¿Õ»“‹
 void areaDraw :: save()
@@ -216,11 +246,13 @@ void areaDraw :: deleteFigure(int x, int y)
             numRoom = 0;
             figures.erase(figures.begin(), figures.end());
             draw();
+            if (numRoom != 3) areaParams :: example().draw();
             outputObjects();
             break;
          }
          figures.erase(figures.begin() + i); 
          draw();
+         if (numRoom != 3) areaParams :: example().draw();
          outputObjects();
          delay(600);
          break;

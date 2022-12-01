@@ -109,20 +109,47 @@ void toolDelete()
    //ÓÄÀËÅÍÈÅ ÔÈÃÓÐÛ, ÊÎÒÎÐÎÉ ÏÐÈÍÀÄËÅÆÈÒ ÒÎ×ÊÀ Â ÊÎÒÎÐÎÉ ÍÀÕÎÄÈÒÑß ÊÓÐÑÎÐ
    areaDraw :: example().deleteFigure(x, y);
 }
+
+/*void arrows(int x1, int y1, int x2, int y2)
+{
+   char str_w[10], str_h[10];
+   int wight = (x2 - x1) / 2;
+   int height = (y2 - y1) / 2;
+   sprintf(str_w, "%d", wight);
+   sprintf(str_h, "%d", height);
+   // ÎÒÎÁÐÀÆÅÍÈÅ ØÈÐÈÍÛ È ÄËÈÍÛ ÊÎÌÍÀÒÛ
+   int d = 30;
+   outtextxy(x1 + wight, y1 - d - 10, str_w);
+   outtextxy(x1 - d - 20, y1 + height, str_h);
+   
+   line(x1, y1 - d, x2, y1 - d);
+   
+   line(x2 - d + 10, y1 - d - 5, x2, y1 - d);
+   line(x2, y1 - d, x2 - d + 10, y1 - d + 5);
+   line(x1 + d - 10, y1 - d - 5, x1, y1 - d);
+
+   line(x1, y1 - d, x1 + d - 10, y1 - d + 5);
+   
+   line(x1 - d, y1, x1 - d, y2);
+   
+   line(x1 - d, y1, x1 - d - 5, y1 + d - 10);
+   line(x1 - d, y1, x1 - d + 5, y1 + d - 10);
+   line(x1 - d, y2, x1 - d - 5, y2 - d + 10);
+   line(x1 - d, y2, x1 - d + 5, y2 - d + 10);
+}*/
+
 //ÏÀÐÀÌÅÒÐÛ ÔÈÃÓÐÛ
 void modeFigure(int x1, int y1, int x2, int y2)
 {
-   char str[10];
-   int wight = (x2 - x1)/ 2;
-   sprintf(str, "%d", wight);
    int w = areaParams :: example().weightWall;
-   setwritemode(XOR_PUT);
-   setcolor(RGB(80, 80, 80));
-   setlinestyle(SOLID_LINE, 3, 3);
-   Pages :: example().draw();
-   outtextxy(x1 + (x2 - x1) / 2, y1 - 30, str);
-   line(x1, y1 - 20, x2, y1 - 20);
+   setcolor(RGB(70, 70, 70));
+   setlinestyle(SOLID_LINE, 2, 2);
+   //Pages :: example().draw();
+   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
+   setusercharsize(7, 20, 7, 10);
+   //arrows(x1, y1, x2, y2);
    setlinestyle(SOLID_LINE, w / 3, w / 3);
+   setwritemode(XOR_PUT);
    rectangle(x1, y1, x2, y2);
    setwritemode(COPY_PUT);
 }
@@ -260,17 +287,15 @@ void toolWall()
    {
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
-      {
-         setlinestyle(SOLID_LINE, w / 3, w / 3);
-         setcolor(RGB(153,153,153));
-         rectangle(x1, y1, x2, y2);
+      {    
+         figure *rect = new objectWall(x1, y1, x2, y2, w);
+         rect -> draw();
+         areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
+         areaDraw :: example().setCoord(x1, y1, x2, y2);
+         areaDraw :: example().addFigure(rect);
+         areaDraw :: example().outputObjects();
+         areaDraw :: example().setNumRoom(1);
       }
-      figure *rect = new objectWall(x1, y1, x2, y2, w);
-      areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
-      areaDraw :: example().setCoord(x1, y1, x2, y2);
-      areaDraw :: example().addFigure(rect);
-      areaDraw :: example().outputObjects();
-      areaDraw :: example().setNumRoom(1);
    }
    else
    {

@@ -112,11 +112,177 @@ void toolDelete()
 //œ¿–¿Ã≈“–€ ‘»√”–€
 void modeFigure(int x1, int y1, int x2, int y2)
 {
-   char str[10];
-   int wight = x2 - x1;
-   sprintf(str, "%d", wight);
+   char str_w[10], str_h[10];
+   int wight = (x2 - x1) / 2;
+   int height = (y2 - y1) / 2;
+   sprintf(str_w, "%d", wight);
+   sprintf(str_h, "%d", height);
    int w = areaParams :: example().weightWall;
-   setwritemode(XOR_PUT);
-   setcolor(RGB(80, 80, 80));
-   setlinestyle(SOLID_LINE, 3, 3);
-   bar(x1, y1 - 30, _abracadabra_cast(x2);
+   setcolor(RGB(180, 180, 180));
+   setlinestyle(SOLID_LINE, 2, 2);
+   Pages :: example().draw();
+   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
+   setusercharsize(7, 20, 7, 10);
+   
+   // Œ“Œ¡–¿∆≈Õ»≈ ÿ»–»Õ€ » ƒÀ»Õ€  ŒÃÕ¿“€
+   int d = 30;
+   outtextxy(x1 + wight, y1 - d - 10, str_w);
+   outtextxy(x1 - d - 20, y1 + height, str_h);
+   
+   line(x1, y1 - d, x2, y1 - d);
+   
+   line(x2 - d + 10, y1 - d - 5, x2, y1 - d);
+   line(x2, y1 - d, x2 - d + 10, y1 - d + 5);
+   line(x1 + d - 10, y1 - d - 5, x1, y1 - d);
+
+   line(x1, y1 - d, x1 + d - 10, y1 - d + 5);
+   
+   line(x1 - d, y1, x1 - d, y2);
+   
+   line(x1 - d, y1, x1 - d - 5, y1 + d - 10);
+   line(x1 - d, y1, x1 - d + 5, y1 + d - 10);
+   line(x1 - d, y2, x1 - d - 5, y2 - d + 10);
+   line(x1 - d, y2, x1 - d + 5, y2 - d + 10);
+   
+   setlinestyle(SOLID_LINE, w / 3, w / 3);
+   rectangle(x1, y1, x2, y2);
+}
+//–¿—“ﬂ√»¬¿Õ»≈ ‘»√”–€ œ–» –»—Œ¬¿Õ»»
+bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y1, int x2, int y2))
+{
+   x1 = mousex();
+   y1 = mousey();
+   x2 = x1;
+   y2 = y1;
+   shape(x1, y1, x2, y2);
+   int x5;
+   int x6;
+   int y5;
+   int y6;
+   while (1)
+   {
+      IMAGE *image = loadBMP("icon/back/1area.jpg");
+      putimage(0, 0, image, COPY_PUT);
+      int cursorClick = mousebuttons();
+      if (!cursorClick)
+      {
+         break;
+      }
+      int cursorX = mousex();
+      int cursorY = mousey();
+      if (!areaDraw :: example().in(cursorX, cursorY))
+      {
+         shape(x1, y1, x2, y2);
+         return 0;
+      }
+      if (cursorX != x2 || cursorY != y2)
+      {
+         shape(x1, y1, x2, y2);
+         x2 = cursorX;
+         y2 = cursorY;
+         shape(x1, y1, x2, y2);
+      }
+   }
+   shape(x1, y1, x2,y2);
+   return 1;
+}
+
+//Ã≈¡≈À‹
+void toolFurniture()
+{
+   // ŒŒ–ƒ»Õ¿“€
+   int x1, y1, x2, y2; // ŒŒ–ƒ»Õ¿“€
+
+   //ÿ»–»Õ¿ » ¬€—Œ“¿
+   int w, h;
+
+   //◊»“¿≈Ã ÿ»–»Õ” » ¬€—Œ“” »« ‘¿…À¿
+   string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
+   FILE *f = fopen(t.c_str(), "r");
+   fscanf(f, "%d:%d", &w, &h);
+   fclose(f);
+
+   // ŒŒ–ƒ»Õ¿“€
+   x1 = 200;
+   y1 = 100;
+
+   int k = getch();
+   while (1) {
+      //œ≈–≈Ã≈Ÿ≈Õ»≈ ‘»√”–€
+      k = getch();
+      //¬Õ»«
+      if (k == KEY_DOWN) {
+         y1 += 10;
+      }
+      //¬¬≈–’
+      if (k == KEY_UP) {
+         y1 -= 10;
+      }
+      //¬À≈¬Œ
+      if (k == KEY_LEFT)
+      {
+         x1 -= 10;
+      }
+      //¬œ–¿¬Œ
+      if (k == KEY_RIGHT)
+      {
+         x1 += 10;
+      }
+      //œŒ¬Œ–Œ“
+      if (k == KEY_SHIFT)
+      {
+         swap(w, h);
+      }
+      if (x1 < 100) {
+         x1 += 10;
+      }
+      if (y1 < 20) {
+         y1 += 10;
+      }
+      if (y2 > 550) {
+         y1 -= 10;
+      }
+      if (x2 > 750) {
+         x1 -= 10;
+      }
+      //–¿—◊≈“ » Œ“–»—Œ¬ ¿
+      x2 = x1 + w;
+      y2 = y1 + h;
+      modeFigure(x1, y1, x2, y2);
+      //œŒƒ“¬≈–∆ƒ≈Õ»≈ ”—“¿ÕŒ¬ » Ã≈¡≈À»
+      if (k == KEY_ENTER) {
+         setfillstyle(SOLID_FILL, objectFurniture::example().getT());
+         bar(x1, y1, x2, y2);
+         setcolor(BLACK);
+         rectangle(x1, y1, x2, y2);
+         //Õ≈ Õ¿ À¿ƒ€¬¿“‹ ‘»√”–€ ƒ–”√ Õ¿ ƒ–”√¿
+         for (int i = x1; i < x2; i++)
+         {
+            for (int j = y1; j < y2; j++)
+            {
+               areaDraw::example().deleteFigure(i, j);
+            }
+         }
+         break;
+      }
+   }
+   //Œ¡Œ«Õ¿◊≈Õ»≈ ◊»—ÀŒÃ
+   string tittle = to_string(objectFurniture::example().getT());
+   setcolor(WHITE);
+   setbkcolor(COLOR(63, 63, 63));
+   outtextxy(x1, y1, tittle.c_str());
+   //Œ¡⁄≈ “
+   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
+   areaDraw::example().addFigure(rect);
+   areaDraw::example().outputObjects();
+}
+//—“≈Õ¿
+void toolWall()
+{
+   if (areaDraw :: example().getNumRoom() == 0)
+   {
+      int x1, y1, x2, y2, w = areaParams :: example().weightWall;
+      if (modeStretch(x1, y1, x2, y2, modeFigure))
+      {    
+         figure *rect = new objectWall(x1, y1, x2, y2, w);
+         objectWall :: _abracadabra_cast(example());

@@ -50,7 +50,7 @@ int main()
    initwindow(1280, 720);
    //»Õ»÷»¿À»«¿÷»ﬂ » Œ“–»—Œ¬ ¿ ›À≈Ã≈Õ“Œ¬
    mainInitialization();
-   setbkcolor(RGB(243,243,243));
+   setbkcolor(RGB(243, 243, 243));
    Pages :: example().draw();
    mainDraw();
    int x, y;
@@ -61,7 +61,7 @@ int main()
       x = mousex();
       y = mousey();
       //Œ“—À≈∆»¬¿≈Ã Õ¿∆¿“»≈
-      if(mousebuttons() == 1)
+      if(mousebuttons())
       {
          if (areaDraw :: example().in(x, y))
          {
