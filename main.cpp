@@ -12,14 +12,14 @@ void mainInitialization()
       string back = "icon/back/" + to_string(i) + ".jpg";
       background[i - 1] = loadBMP(back.c_str());
    }
-   //ймнойх хмярпслемрюпхъ (якебю)
+   //ймнойх хмярпслемрюпхъ
    buttons[0] = new buttonTools(0, 73, 1, toolWall);
    buttons[1] = new buttonTools(0, 73 + 75, 1, toolDoor);
    buttons[2] = new buttonTools(0, 73 + 75 * 2, 1, toolWindow);
    buttons[3] = new buttonTools(0, 75 * 4, 1, toolDelete);
-   //ймнойх пюанрш я тюикнл (яопюбю)
+   //ймнойх пюанрш я тюикнл
    buttons[4] = new buttonFile(0, 630, fileEnd);
-   buttons[5] = new buttonFile(799, 102, fileSave);
+   buttons[5] = new buttonFile(0, 510, fileSave);
    //ймнойх леаекх
    for(int i = 6; i < 15; i++)
    {
@@ -30,20 +30,10 @@ void mainInitialization()
    buttons[16] = new buttonParam(85, 295, 0, 1);
    buttons[17] = new buttonParam(290, 215, -1, 0);
    buttons[18] = new buttonParam(290, 290, 0, -1);
-   //сярюмюбкхбюел ярюмдюпрмши хмярпслемр (йнрнпши бшапюм опх нрйпшрхх опнцпюллш, еякх ме бшапюм, рн опнцпюллю йпюьхряъ опх мюфюрхе кйл) 
+   //сярюмюбкхбюел ярюмдюпрмши хмярпслемр
    areaDraw::example().setTool(toolWall);
 }
-//нрпхянбйю
-void mainDraw()
-{
-   //нрпхянбйю ймнонй
-   for(int i = 0; i < NUMBUTTONS; ++i)
-   {  
-      buttons[i] -> draw();
-   }
-   //нрпхянбйю ярюрхвмшу назейрнб
-   areaDraw :: example().draw();
-}
+
 //нямнбмюъ тсмйжхъ
 int main()
 {
@@ -52,10 +42,9 @@ int main()
    mainInitialization();
    setbkcolor(RGB(243, 243, 243));
    Pages :: example().draw();
-   mainDraw();
    int x, y;
    areaParams :: example().draw();
-   while(1) 
+   while(1)
    {
       //йнпдхмюрш йспянпю
       x = mousex();
@@ -69,9 +58,9 @@ int main()
          }
          else
          {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i <= 3; i++)
             {
-               if(buttons[i] -> in(x, y)) 
+               if (buttons[i] -> in(x, y)) 
                {
                   Pages :: example().setPage(i);
                   Pages :: example().draw();
@@ -84,11 +73,11 @@ int main()
             int num = Pages :: example().getPage();
             if (num == 0 || num == 1 || num == 2)
             {
-               for(int i = 1; i <= 4; i++)
+               for(int i = 15; i <= 18; i++)
                {
-                  if(buttons[14 + i] -> in(x, y))
+                  if(buttons[i] -> in(x, y))
                   {
-                     buttons[14 + i] -> press();
+                     buttons[i] -> press();
                   }
                }
             }
@@ -100,10 +89,17 @@ int main()
                      bar(buttons[6 + i] -> x1, buttons[6 + i] -> y1, buttons[6 + i] -> x2, buttons[6 + i] -> y2);
                      //buttons[6 + i] -> press();
                }
+            }      
+            for (int i = 4; i <= 5; i++)
+            {
+               if (buttons[i] -> in(x, y)) 
+               {
+                  buttons[i] -> press();
+                  if (i == 4) return 0;
+               }
             }
          }
       }
       delay(200);
    }
-   closegraph();
 }

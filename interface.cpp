@@ -77,7 +77,7 @@ void objectWall :: press()
 void objectWall :: draw()
 {
    setlinestyle(SOLID_LINE, w / 3, w / 3);
-   setcolor(RGB(153,153,153));
+   setcolor(RGB(153, 153, 153));
    rectangle(x1, y1, x2, y2);
 }
 void objectWall :: setW(int widthWall)
@@ -188,13 +188,11 @@ void areaDraw :: press()
                figures.erase(figures.begin(), figures.end());
                draw();
                if (numRoom != 3) areaParams :: example().draw();
-               outputObjects();
                break;
             }
             figures.erase(figures.begin() + i); 
             draw();
             if (numRoom != 3) areaParams :: example().draw();
-            outputObjects();
             delay(60);
             break;
          }
@@ -211,7 +209,7 @@ void areaDraw :: save()
    height = getmaxy() + 1;
    output = createimage(width, height);
 
-   getimage(0, 0, width - 1, height - 1, output);
+   getimage(400, 60, width - 1, height - 1, output);
    saveBMP("output.bmp", output);
    freeimage(output);
 }
@@ -221,18 +219,7 @@ void areaDraw :: addFigure(figure* figure)
 {
    figures.push_back(figure);
 }
-//«¿œ»—€¬¿≈Ã Œ¡⁄≈ “€
-void areaDraw :: outputObjects()
-{
-   ofstream fout;
-   fout.open("output.txt");
-   fout << "figures: \n";
-   
-   for(int i = 0; i < figures.size(); i++) 
-   {
-      fout << "x1: " << figures[i]->getX1() << " y1: " << figures[i] -> getY1() << " x2: " << figures[i] -> getX2() << " y2: " << figures[i]->getY2() <</*figures[i]->getT() <<*/ "\n";
-   }
-}
+
 //”ƒ¿À»“‹ Œ¡⁄≈ “
 void areaDraw :: deleteFigure(int x, int y)
 {
@@ -247,13 +234,11 @@ void areaDraw :: deleteFigure(int x, int y)
             figures.erase(figures.begin(), figures.end());
             draw();
             if (numRoom != 3) areaParams :: example().draw();
-            outputObjects();
             break;
          }
          figures.erase(figures.begin() + i); 
          draw();
          if (numRoom != 3) areaParams :: example().draw();
-         outputObjects();
          delay(600);
          break;
       }

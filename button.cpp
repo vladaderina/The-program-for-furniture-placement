@@ -270,15 +270,9 @@ void toolFurniture()
          break;
       }
    }
-   //Œ¡Œ«Õ¿◊≈Õ»≈ ◊»—ÀŒÃ
-   string tittle = to_string(objectFurniture::example().getT());
-   setcolor(WHITE);
-   setbkcolor(COLOR(63, 63, 63));
-   outtextxy(x1, y1, tittle.c_str());
    //Œ¡⁄≈ “
    figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
    areaDraw::example().addFigure(rect);
-   areaDraw::example().outputObjects();
 }
 //—“≈Õ¿
 void toolWall()
@@ -293,14 +287,13 @@ void toolWall()
          areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
          areaDraw :: example().setCoord(x1, y1, x2, y2);
          areaDraw :: example().addFigure(rect);
-         areaDraw :: example().outputObjects();
          areaDraw :: example().setNumRoom(1);
       }
    }
    else
    {
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
-      putimage(65, 556, image, COPY_PUT);
+      putimage(64, 556, image, COPY_PUT);
    }
 }
 //Œ ÕŒ
@@ -366,7 +359,6 @@ void toolDoor()
       rect -> m = createmask(m);
       rect -> draw();
       areaDraw :: example().addFigure(rect);
-      areaDraw :: example().outputObjects();
    }
    else
    {
@@ -383,5 +375,5 @@ void fileSave()
 //«¿ –€“‹ œ–Œ√–¿ÃÃ”
 void fileEnd()
 {
-   closegraph(CURRENT_WINDOW);
+   closegraph();
 }

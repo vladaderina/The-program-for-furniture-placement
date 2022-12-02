@@ -34,7 +34,6 @@ getCenterX() -> int #<interface.hpp>
 getCenterY() -> int #<interface.hpp>
 getNumRoom() -> areaDraw int #<interface.hpp>
 main() -> int #<main.cpp>
-mainDraw() -> void #<main.cpp>
 mainInitialization() -> void #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
 modeStretch(int& x1, int& y1, int& x2, int& y2, void(* shape)(int x1, int y1, int x2, int y2)) -> bool #<button.cpp>
