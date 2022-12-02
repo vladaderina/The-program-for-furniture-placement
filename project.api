@@ -197,7 +197,6 @@ toolWindow() -> void #<button.hpp>
 	figure::m : IMAGE* #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
 	figure::press() -> virtual void #<interface.hpp>
-	figure::save(FILE* f) -> virtual void #<interface.hpp>
 	figure::getX1() -> virtual int #<interface.hpp>
 	figure::getY1() -> virtual int #<interface.hpp>
 	figure::getX2() -> virtual int #<interface.hpp>
@@ -238,7 +237,6 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall::objectOnWall : IMAGE* #<interface.hpp>
 	objectFigureOnWall::draw() -> void #<interface.hpp>
 	objectFigureOnWall::press() -> void #<interface.hpp>
-	objectFigureOnWall::save(FILE* f) -> void #<interface.hpp>
 	objectFigureOnWall::getType() -> int #<interface.hpp>
 	objectFigureOnWall::getX1() -> int #<interface.hpp>
 	objectFigureOnWall::getY1() -> int #<interface.hpp>
@@ -247,7 +245,6 @@ toolWindow() -> void #<button.hpp>
 	objectFigureOnWall::m : IMAGE* #<interface.hpp>
 	objectFigureOnWall::draw() -> virtual void #<interface.hpp>
 	objectFigureOnWall::press() -> virtual void #<interface.hpp>
-	objectFigureOnWall::save(FILE* f) -> virtual void #<interface.hpp>
 	objectFigureOnWall::getX1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getY1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getX2() -> virtual int #<interface.hpp>
@@ -266,7 +263,6 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture:%type : int #<interface.hpp>
 	objectFurniture::draw() -> void #<interface.hpp>
 	objectFurniture::press() -> void #<interface.hpp>
-	objectFurniture::save(FILE* f) -> void #<interface.hpp>
 	objectFurniture::getX1() -> int #<interface.hpp>
 	objectFurniture::getY1() -> int #<interface.hpp>
 	objectFurniture::getX2() -> int #<interface.hpp>
@@ -277,7 +273,6 @@ toolWindow() -> void #<button.hpp>
 	objectFurniture::m : IMAGE* #<interface.hpp>
 	objectFurniture::draw() -> virtual void #<interface.hpp>
 	objectFurniture::press() -> virtual void #<interface.hpp>
-	objectFurniture::save(FILE* f) -> virtual void #<interface.hpp>
 	objectFurniture::getX1() -> virtual int #<interface.hpp>
 	objectFurniture::getY1() -> virtual int #<interface.hpp>
 	objectFurniture::getX2() -> virtual int #<interface.hpp>
@@ -300,7 +295,6 @@ toolWindow() -> void #<button.hpp>
 	objectWall:%type : int #<interface.hpp>
 	objectWall::draw() -> void #<interface.hpp>
 	objectWall::press() -> void #<interface.hpp>
-	objectWall::save(FILE* f) -> void #<interface.hpp>
 	objectWall::getX1() -> int #<interface.hpp>
 	objectWall::getY1() -> int #<interface.hpp>
 	objectWall::getX2() -> int #<interface.hpp>
@@ -311,7 +305,6 @@ toolWindow() -> void #<button.hpp>
 	objectWall::m : IMAGE* #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
 	objectWall::press() -> virtual void #<interface.hpp>
-	objectWall::save(FILE* f) -> virtual void #<interface.hpp>
 	objectWall::getX1() -> virtual int #<interface.hpp>
 	objectWall::getY1() -> virtual int #<interface.hpp>
 	objectWall::getX2() -> virtual int #<interface.hpp>

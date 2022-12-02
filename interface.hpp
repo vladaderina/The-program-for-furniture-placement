@@ -94,8 +94,6 @@ public:
    virtual void draw() = 0;
    //тсмйжхъ пеюйжхх мю мюфюрхе
    virtual void press() = 0;
-   //тсмйжхъ янупюмемхъ назейрю
-   virtual void save(FILE *f) = 0;
    //церрепш дкъ йннпдхмюр сцкнб
    virtual int getX1(); 
    virtual int getY1();
@@ -116,8 +114,6 @@ public:
    void draw() override;
    //тсмйжхъ пеюйжхх мю мюфюрхе
    void press() override;
-   //тсмйжхъ янупюмемхъ назейрю
-   void save(FILE *f) override;
    //церрепш дкъ йннпдхмюр сцкнб
    int getX1()
    { 
@@ -165,8 +161,6 @@ public:
    void draw() override; //МЮПХЯНБЮРЭ ТХЦСПС
    //тсмйжхъ пеюйжхх мю мюфюрхе
    void press() override;
-   //тсмйжхъ янупюмемхъ назейрю
-   void save(FILE *f);
    //церрепш дкъ йннпдхмюр сцкнб
    int getX1()
    { 
@@ -211,8 +205,6 @@ public:
    void draw() override;
    //тсмйжхъ пеюйжхх мю мюфюрхе
    void press() override;
-   //тсмйжхъ янупюмемхъ назейрю
-   void save(FILE *f);
    //церреп дкъ рхою тхцспш
    int getType()
    {

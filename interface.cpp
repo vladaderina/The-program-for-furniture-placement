@@ -25,16 +25,6 @@ void Pages :: draw()
 }
 
 //-----------------------------------------------Ã≈¡≈À‹-----------------------------------------------//
-//—Œ’–¿Õ≈Õ»≈ Œ¡⁄≈ “¿
-void objectFurniture::save(FILE *f)
-{
-   fwrite(&type, sizeof(int), 1, f);
-   fwrite(&x1, sizeof(int), 1, f);
-   fwrite(&y1, sizeof(int), 1, f);
-   fwrite(&x2, sizeof(int), 1, f);
-   fwrite(&y2, sizeof(int), 1, f);
-   fwrite(&t, sizeof(int), 1, f);
-}
 void objectFurniture :: setT(int type) 
 {
    t = type;
@@ -60,16 +50,6 @@ objectFurniture &objectFurniture::example()
    return st;
 }
 //-----------------------------------------------—“≈Õ€-----------------------------------------------//
-//—Œ’–¿Õ≈Õ»≈ Œ¡⁄≈ “¿
-void objectWall :: save(FILE *f)
-{
-   fwrite(&type, sizeof(int), 1, f);
-   fwrite(&x1, sizeof(int), 1, f);
-   fwrite(&y1, sizeof(int), 1, f);
-   fwrite(&x2, sizeof(int), 1, f);
-   fwrite(&y2, sizeof(int), 1, f);
-   fwrite(&w, sizeof(int), 1, f);
-}
 void objectWall :: press()
 {
 }
@@ -92,15 +72,6 @@ void objectWall :: paramRoom()
 //-----------------------------------------------Õ¿-—“≈Õ≈-----------------------------------------------//
 void objectFigureOnWall :: press()
 {
-}
-//—Œ’–¿Õ≈Õ»≈ Œ¡⁄≈ “¿
-void objectFigureOnWall :: save(FILE *f)
-{
-   fwrite(&type, sizeof(int), 1, f);
-   fwrite(&x1, sizeof(int), 1, f);
-   fwrite(&y1, sizeof(int), 1, f);
-   fwrite(&x2, sizeof(int), 1, f);
-   fwrite(&y2, sizeof(int), 1, f);
 }
 //Œ“–»—Œ¬ ¿
 void objectFigureOnWall :: draw()
@@ -126,11 +97,16 @@ areaParams &areaParams :: example()
 void areaParams :: draw()
 {
    char str_w[10], str_h[10];
+   char str_w_room[10], str_h_room[10];
    int num = Pages :: example().getPage();
    if (num == 0)
    {
       sprintf(str_h, "%d", weightWall);
       sprintf(str_w, "%d", heightWall);
+      sprintf(str_h_room, "%d", areaDraw::example().getX2() - areaDraw::example().getX1());
+      sprintf(str_w_room, "%d", areaDraw::example().getY2() - areaDraw::example().getY1());
+      outtextxy(230, 407, str_w_room);
+      outtextxy(230, 489, str_h_room);
    }
    else if (num == 1)
    {

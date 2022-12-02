@@ -110,87 +110,6 @@ void toolDelete()
    areaDraw :: example().deleteFigure(x, y);
 }
 
-/*void arrows(int x1, int y1, int x2, int y2)
-{
-   char str_w[10], str_h[10];
-   int wight = (x2 - x1) / 2;
-   int height = (y2 - y1) / 2;
-   sprintf(str_w, "%d", wight);
-   sprintf(str_h, "%d", height);
-   // ÎÒÎÁÐÀÆÅÍÈÅ ØÈÐÈÍÛ È ÄËÈÍÛ ÊÎÌÍÀÒÛ
-   int d = 30;
-   outtextxy(x1 + wight, y1 - d - 10, str_w);
-   outtextxy(x1 - d - 20, y1 + height, str_h);
-   
-   line(x1, y1 - d, x2, y1 - d);
-   
-   line(x2 - d + 10, y1 - d - 5, x2, y1 - d);
-   line(x2, y1 - d, x2 - d + 10, y1 - d + 5);
-   line(x1 + d - 10, y1 - d - 5, x1, y1 - d);
-
-   line(x1, y1 - d, x1 + d - 10, y1 - d + 5);
-   
-   line(x1 - d, y1, x1 - d, y2);
-   
-   line(x1 - d, y1, x1 - d - 5, y1 + d - 10);
-   line(x1 - d, y1, x1 - d + 5, y1 + d - 10);
-   line(x1 - d, y2, x1 - d - 5, y2 - d + 10);
-   line(x1 - d, y2, x1 - d + 5, y2 - d + 10);
-}*/
-
-//ÏÀÐÀÌÅÒÐÛ ÔÈÃÓÐÛ
-void modeFigure(int x1, int y1, int x2, int y2)
-{
-   int w = areaParams :: example().weightWall;
-   setcolor(RGB(70, 70, 70));
-   setlinestyle(SOLID_LINE, 2, 2);
-   //Pages :: example().draw();
-   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
-   setusercharsize(7, 20, 7, 10);
-   //arrows(x1, y1, x2, y2);
-   setlinestyle(SOLID_LINE, w / 3, w / 3);
-   setwritemode(XOR_PUT);
-   rectangle(x1, y1, x2, y2);
-   setwritemode(COPY_PUT);
-}
-//ÐÀÑÒßÃÈÂÀÍÈÅ ÔÈÃÓÐÛ ÏÐÈ ÐÈÑÎÂÀÍÈÈ
-bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y1, int x2, int y2))
-{
-   x1 = mousex();
-   y1 = mousey();
-   x2 = x1;
-   y2 = y1;
-   shape(x1, y1, x2, y2);
-   int x5;
-   int x6;
-   int y5;
-   int y6;
-   while (1)
-   {
-      int cursorClick = mousebuttons();
-      if (!cursorClick)
-      {
-         break;
-      }
-      int cursorX = mousex();
-      int cursorY = mousey();
-      if (!areaDraw :: example().in(cursorX, cursorY))
-      {
-         shape(x1, y1, x2, y2);
-         return 0;
-      }
-      if (cursorX != x2 || cursorY != y2)
-      {
-         shape(x1, y1, x2, y2);
-         x2 = cursorX;
-         y2 = cursorY;
-         shape(x1, y1, x2, y2);
-      }
-   }
-   shape(x1, y1, x2,y2);
-   return 1;
-}
-
 //ÌÅÁÅËÜ
 void toolFurniture()
 {
@@ -252,7 +171,6 @@ void toolFurniture()
       //ÐÀÑ×ÅÒ È ÎÒÐÈÑÎÂÊÀ
       x2 = x1 + w;
       y2 = y1 + h;
-      modeFigure(x1, y1, x2, y2);
       //ÏÎÄÒÂÅÐÆÄÅÍÈÅ ÓÑÒÀÍÎÂÊÈ ÌÅÁÅËÈ
       if (k == KEY_ENTER) {
          setfillstyle(SOLID_FILL, objectFurniture::example().getT());
@@ -274,6 +192,61 @@ void toolFurniture()
    figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
    areaDraw::example().addFigure(rect);
 }
+//ÏÀÐÀÌÅÒÐÛ ÔÈÃÓÐÛ
+void modeFigure(int x1, int y1, int x2, int y2)
+{
+   int w = areaParams :: example().weightWall;
+   setcolor(RGB(70, 70, 70));
+   setlinestyle(SOLID_LINE, w / 3, w / 3);
+   setwritemode(XOR_PUT);
+   rectangle(x1, y1, x2, y2);
+   setwritemode(COPY_PUT);
+}
+//ÐÀÑÒßÃÈÂÀÍÈÅ ÔÈÃÓÐÛ ÏÐÈ ÐÈÑÎÂÀÍÈÈ
+bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y1, int x2, int y2))
+{
+   x1 = mousex();
+   y1 = mousey();
+   x2 = x1;
+   y2 = y1;
+   shape(x1, y1, x2, y2);
+   char str_w[10], str_h[10];
+   while (1)
+   {
+      int cursorClick = mousebuttons();
+      if (!cursorClick)
+      {
+         break;
+      }
+      int cursorX = mousex();
+      int cursorY = mousey();
+      if (!areaDraw :: example().in(cursorX, cursorY))
+      {
+         shape(x1, y1, x2, y2);
+         return 0;
+      }
+      if (((cursorX != x2 || cursorY != y2) &&
+         (cursorX - x1 > 100 && cursorY - y1 >= 100)) ||
+         (((cursorX >= x2) && (cursorX - x1 <= 100)) ||
+         ((cursorY >= y2) && (cursorY - y1 <= 100))))
+      {
+         int wight = (x2 - x1) / 2;
+         int height = (y2 - y1) / 2;
+         sprintf(str_w, "%d", wight);
+         sprintf(str_h, "%d", height);
+         setcolor(RGB(153, 153, 153));
+         outtextxy(230, 407, str_w);
+         outtextxy(230, 489, str_h);
+         shape(x1, y1, x2, y2);
+         x2 = cursorX;
+         y2 = cursorY;
+         shape(x1, y1, x2, y2);
+      }
+   }
+   shape(x1, y1, x2, y2);
+   return 1;
+}
+
 //ÑÒÅÍÀ
 void toolWall()
 {
@@ -296,11 +269,13 @@ void toolWall()
       putimage(64, 556, image, COPY_PUT);
    }
 }
+
 //ÎÊÍÎ
 void toolWindow()
 {
 
 }
+
 //ÐÀÑÏÎËÎÆÅÍÈÅ ÎÁÚÅÊÒÀ ÍÀ ÑÒÅÍÅ
 IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 {
