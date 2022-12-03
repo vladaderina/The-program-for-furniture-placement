@@ -50,6 +50,7 @@ objectWall _type_ #<interface.hpp>
 objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
 positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<button.cpp>
 ptrFunction _type_ #<interface.hpp>
+resize(IMAGE* p, int w, int h) -> IMAGE* #<button.cpp>
 save() -> void #<interface.hpp>
 toolDelete() -> void #<button.hpp>
 toolDoor() -> void #<button.hpp>

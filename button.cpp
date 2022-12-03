@@ -1,7 +1,7 @@
 #include "button.hpp"
 #include <math.h>
 #include <clocale>
-
+// —Œ«ƒ¿Õ»≈ Ã¿— »
 IMAGE *createmask(IMAGE *p)
 {
    int w = imagewidth(p);
@@ -24,7 +24,17 @@ IMAGE *createmask(IMAGE *p)
    }
    return m;
 }
-
+// »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
+IMAGE * resize(IMAGE *p, int w, int h)
+{
+   int wp=imagewidth(p);
+   int hp=imageheight(p);
+   IMAGE *r=createimage(w, h);
+   for (int x = 0; x < w; ++x)
+      for (int y = 0; y < h; ++y)
+         imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
+   return r;
+}
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button :: draw()
 {
@@ -230,8 +240,8 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
          (((cursorX >= x2) && (cursorX - x1 <= 100)) ||
          ((cursorY >= y2) && (cursorY - y1 <= 100))))
       {
-         int wight = (x2 - x1) / 2;
-         int height = (y2 - y1) / 2;
+         int wight = 2 * (x2 - x1) / 3;
+         int height = 2 * (y2 - y1) / 3;
          sprintf(str_w, "%d", wight);
          sprintf(str_h, "%d", height);
          setcolor(RGB(153, 153, 153));
@@ -268,12 +278,6 @@ void toolWall()
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
       putimage(64, 556, image, COPY_PUT);
    }
-}
-
-//Œ ÕŒ
-void toolWindow()
-{
-
 }
 
 //–¿—œŒÀŒ∆≈Õ»≈ Œ¡⁄≈ “¿ Õ¿ —“≈Õ≈
@@ -320,6 +324,33 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
       return b;
    }
 }
+
+//Œ ÕŒ
+void toolWindow()
+{
+      if (areaDraw :: example().getNumRoom() != 0)
+   {
+      int x1, y1, numWall;
+      x1 = mousex();
+      y1 = mousey();
+      IMAGE *a;
+      if (areaParams :: example().weightWindow == 100) a = loadBMP("icon/window1.bmp");
+      else if (areaParams :: example().weightWindow == 175) a = loadBMP("icon/window2.bmp");
+      else a = loadBMP("icon/window3.bmp");
+      imageputpixel(a, 0, 0, WHITE);
+      IMAGE *m = positionOnWall(x1, y1, numWall, a);
+      figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+      rect -> m = createmask(m);
+      rect -> draw();
+      areaDraw :: example().addFigure(rect);
+   }
+   else
+   {
+      IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      putimage(61, 556, image, COPY_PUT);
+   }
+}
+
 //ƒ¬≈–‹
 void toolDoor()
 {
@@ -328,7 +359,11 @@ void toolDoor()
       int x1, y1, numWall;
       x1 = mousex();
       y1 = mousey();
-      IMAGE *a = loadBMP("icon/wall.bmp");
+      IMAGE *a;
+      if (areaParams :: example().weightDoor == 70) a = loadBMP("icon/door1.bmp");
+      else if (areaParams :: example().weightDoor == 80) a = loadBMP("icon/door2.bmp");
+      else a = loadBMP("icon/door3.bmp");
+      imageputpixel(a, 0, 0, WHITE);
       IMAGE *m = positionOnWall(x1, y1, numWall, a);
       figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
       rect -> m = createmask(m);
