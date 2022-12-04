@@ -99,20 +99,14 @@ void areaParams :: draw()
    char str_w[10], str_h[10];
    char str_w_room[10], str_h_room[10];
    int num = Pages :: example().getPage();
-   setcolor(RGB(0, 0, 0));
-   settextjustify(CENTER_TEXT, CENTER_TEXT);
-   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
-   setusercharsize(9, 20, 9, 10);
    if (num == 0)
    {
       sprintf(str_h, "%d", weightWall);
       sprintf(str_w, "%d", heightWall);
-      sprintf(str_h_room, "%d", 2 * (areaDraw::example().getY2() - areaDraw::example().getY1()) / 3);
-      sprintf(str_w_room, "%d", 2 * (areaDraw::example().getX2() - areaDraw::example().getX1()) / 3);
-      setcolor(RGB(153, 153, 153));
-      outtextxy(230, 407, str_w_room );
+      sprintf(str_h_room, "%d", areaDraw::example().getX2() - areaDraw::example().getX1());
+      sprintf(str_w_room, "%d", areaDraw::example().getY2() - areaDraw::example().getY1());
+      outtextxy(230, 407, str_w_room);
       outtextxy(230, 489, str_h_room);
-      setcolor(RGB(0, 0, 0));
    }
    else if (num == 1)
    {
@@ -124,6 +118,10 @@ void areaParams :: draw()
       sprintf(str_h, "%d", weightWindow);
       sprintf(str_w, "%d", heightWindow);
    }
+
+   settextjustify(CENTER_TEXT, CENTER_TEXT);
+   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
+   setusercharsize(9, 20, 9, 10);
 
    setcolor(COLOR(0, 0, 0));
    outtextxy(230, 241, str_h);
@@ -153,6 +151,29 @@ void areaDraw :: press()
    {
       tool();
    }
+   else if (mousebuttons() == 2)
+   {
+      for (int i = figures.size() - 1; i >= 0; i--)
+      {
+         if (figures[i] -> in(x, y))
+         {
+            cout << 1;
+            if (figures[i] -> getType() == 2)
+            {
+               numRoom = 0;
+               figures.erase(figures.begin(), figures.end());
+               draw();
+               if (numRoom != 3) areaParams :: example().draw();
+               break;
+            }
+            figures.erase(figures.begin() + i); 
+            draw();
+            if (numRoom != 3) areaParams :: example().draw();
+            delay(60);
+            break;
+         }
+      }
+   }
 }
 //ÑÎÕÐÀÍÈÒÜ
 void areaDraw :: save()
@@ -178,7 +199,6 @@ void areaDraw :: addFigure(figure* figure)
 //ÓÄÀËÈÒÜ ÎÁÚÅÊÒ
 void areaDraw :: deleteFigure(int x, int y)
 {
-   int num = Pages :: example().getPage();
    for (int i = figures.size() - 1; i >= 0; i--)
    {
       if (figures[i] -> in(x, y))
@@ -189,13 +209,12 @@ void areaDraw :: deleteFigure(int x, int y)
             numRoom = 0;
             figures.erase(figures.begin(), figures.end());
             draw();
-            if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
-            areaDraw :: example().setCoord(0, 0, 0, 0);
+            if (numRoom != 3) areaParams :: example().draw();
             break;
          }
          figures.erase(figures.begin() + i); 
          draw();
-         if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
+         if (numRoom != 3) areaParams :: example().draw();
          delay(600);
          break;
       }

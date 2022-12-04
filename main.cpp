@@ -85,9 +85,9 @@ int main()
             {
                for(int i = 0; i < 9; i++)
                {
-                  if (buttons[6 + i] -> in(x, y))
+                  //if (buttons[6 + i] -> in(x, y))
                      bar(buttons[6 + i] -> x1, buttons[6 + i] -> y1, buttons[6 + i] -> x2, buttons[6 + i] -> y2);
-                     buttons[6 + i] -> press();
+                     //buttons[6 + i] -> press();
                }
             }      
             for (int i = 4; i <= 5; i++)
