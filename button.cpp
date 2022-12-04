@@ -25,6 +25,18 @@ IMAGE *createmask(IMAGE *p)
    return m;
 }
 
+// »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
+IMAGE * resize(IMAGE *p, int w, int h)
+{
+   int wp=imagewidth(p);
+   int hp=imageheight(p);
+   IMAGE *r=createimage(w, h);
+   for (int x = 0; x < w; ++x)
+      for (int y = 0; y < h; ++y)
+         imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
+   return r;
+}
+
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button :: draw()
 {
