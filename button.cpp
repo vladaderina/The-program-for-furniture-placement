@@ -1,6 +1,7 @@
 #include "button.hpp"
 #include <math.h>
 #include <clocale>
+
 // —Œ«ƒ¿Õ»≈ Ã¿— »
 IMAGE *createmask(IMAGE *p)
 {
@@ -24,6 +25,13 @@ IMAGE *createmask(IMAGE *p)
    }
    return m;
 }
+
+void drawimage(int x, int y, IMAGE *m, IMAGE *p)
+{
+   putimage(x, y, m, AND_PUT);
+   putimage(x, y, p, OR_PUT);
+}
+
 // »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
 IMAGE * resize(IMAGE *p, int w, int h)
 {
@@ -104,6 +112,7 @@ void buttonParam :: press()
       }
    }
    areaParams :: example().draw();
+   swapbuffers();
 }
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
 void buttonTools :: press()
@@ -205,12 +214,22 @@ void toolFurniture()
 //œ¿–¿Ã≈“–€ ‘»√”–€
 void modeFigure(int x1, int y1, int x2, int y2)
 {
+   char str_w[10], str_h[10];
    int w = areaParams :: example().weightWall;
-   setcolor(RGB(70, 70, 70));
    setlinestyle(SOLID_LINE, w / 3, w / 3);
-   setwritemode(XOR_PUT);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   areaParams :: example().draw();
+   int wight = 2 * (x2 - x1) / 3;
+   int height = 2 * (y2 - y1) / 3;
+   sprintf(str_w, "%d", wight);
+   sprintf(str_h, "%d", height);
+   setcolor(RGB(153, 153, 153));
+   outtextxy(230, 407, str_w);
+   outtextxy(230, 489, str_h);
+   setcolor(RGB(200, 200, 200));
    rectangle(x1, y1, x2, y2);
-   setwritemode(COPY_PUT);
+   swapbuffers();
 }
 //–¿—“ﬂ√»¬¿Õ»≈ ‘»√”–€ œ–» –»—Œ¬¿Õ»»
 bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y1, int x2, int y2))
@@ -220,7 +239,6 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
    x2 = x1;
    y2 = y1;
    shape(x1, y1, x2, y2);
-   char str_w[10], str_h[10];
    while (1)
    {
       int cursorClick = mousebuttons();
@@ -235,18 +253,8 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
          shape(x1, y1, x2, y2);
          return 0;
       }
-      if (((cursorX != x2 || cursorY != y2) &&
-         (cursorX - x1 > 100 && cursorY - y1 >= 100)) ||
-         (((cursorX >= x2) && (cursorX - x1 <= 100)) ||
-         ((cursorY >= y2) && (cursorY - y1 <= 100))))
+      if ((cursorX - x1 > 0) && (cursorY - y1 > 0))
       {
-         int wight = 2 * (x2 - x1) / 3;
-         int height = 2 * (y2 - y1) / 3;
-         sprintf(str_w, "%d", wight);
-         sprintf(str_h, "%d", height);
-         setcolor(RGB(153, 153, 153));
-         outtextxy(230, 407, str_w);
-         outtextxy(230, 489, str_h);
          shape(x1, y1, x2, y2);
          x2 = cursorX;
          y2 = cursorY;
@@ -278,6 +286,7 @@ void toolWall()
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
       putimage(64, 556, image, COPY_PUT);
    }
+   swapbuffers();
 }
 
 //–¿—œŒÀŒ∆≈Õ»≈ Œ¡⁄≈ “¿ Õ¿ —“≈Õ≈
@@ -286,6 +295,7 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
    IMAGE *b = imageturn(a, 90, WHITE);
    IMAGE *c = imageturn(a, 180, WHITE);
    IMAGE *d = imageturn(a, 270, WHITE);
+   IMAGE *x = createimage(1, 1);
    int centerY = areaDraw :: example().getCenterY();
    int centerX = areaDraw :: example().getCenterX();
    int xt1 = areaDraw :: example().getX1();
@@ -301,14 +311,6 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
       numWall = 1;
       return a;
    }
-   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
-            y1 <= yt2 && y1 >= centerY &&
-            double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
-   {
-      y1 = yt2 - imageheight(c);
-      numWall = 3;
-      return c;
-   }
    else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) &&
             x1 <= xt2 && x1 >= centerX &&
             double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
@@ -317,18 +319,29 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
       numWall = 2;
       return d;
    }
-   else
+   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
+            y1 <= yt2 && y1 >= centerY &&
+            double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
+      y1 = yt2 - imageheight(c);
+      numWall = 3;
+      return c;
+   }
+   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) &&
+            x1 >= xt1 && x1 <= centerX &&
+            double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
    {
       x1 = xt1;
       numWall = 4;
       return b;
    }
+   return x;
 }
 
 //Œ ÕŒ
 void toolWindow()
 {
-      if (areaDraw :: example().getNumRoom() != 0)
+   if (areaDraw :: example().getNumRoom() != 0)
    {
       int x1, y1, numWall;
       x1 = mousex();
@@ -338,17 +351,21 @@ void toolWindow()
       else if (areaParams :: example().weightWindow == 175) a = loadBMP("icon/window2.bmp");
       else a = loadBMP("icon/window3.bmp");
       imageputpixel(a, 0, 0, WHITE);
-      IMAGE *m = positionOnWall(x1, y1, numWall, a);
-      figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-      rect -> m = createmask(m);
-      rect -> draw();
-      areaDraw :: example().addFigure(rect);
+      IMAGE *m = positionOnWall(x1, y1, numWall, a);         
+      if (imageheight(m) != 1)
+      {
+         figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+         rect -> m = createmask(m);
+         rect -> draw();
+         areaDraw :: example().addFigure(rect);
+      }
    }
    else
    {
       IMAGE *image =  loadBMP("icon/back/text2.jpg");
       putimage(61, 556, image, COPY_PUT);
    }
+   swapbuffers();
 }
 
 //ƒ¬≈–‹
@@ -360,15 +377,26 @@ void toolDoor()
       x1 = mousex();
       y1 = mousey();
       IMAGE *a;
+      
+      IMAGE*pic, *pictur, *ma;
+      pic = loadBMP("furniture/sofas/3.bmp");
+      pictur = resize(pic, 200, 200);
+      imageputpixel(pictur, 0, 0, WHITE);
+      ma = createmask(pictur);
+      drawimage(650, 300, ma, pictur);
+      
       if (areaParams :: example().weightDoor == 70) a = loadBMP("icon/door1.bmp");
       else if (areaParams :: example().weightDoor == 80) a = loadBMP("icon/door2.bmp");
       else a = loadBMP("icon/door3.bmp");
       imageputpixel(a, 0, 0, WHITE);
       IMAGE *m = positionOnWall(x1, y1, numWall, a);
-      figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-      rect -> m = createmask(m);
-      rect -> draw();
-      areaDraw :: example().addFigure(rect);
+      if (imageheight(m) != 1)
+      {
+         figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+         rect -> m = createmask(m);
+         rect -> draw();
+         areaDraw :: example().addFigure(rect);
+      }
    }
    else
    {
@@ -376,7 +404,6 @@ void toolDoor()
       putimage(61, 556, image, COPY_PUT);
    }
 }
-
 //—Œ’–¿Õ»“‹ ¬ œ–Œ≈ “
 void fileSave()
 {

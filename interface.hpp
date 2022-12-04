@@ -211,16 +211,20 @@ public:
       return type;
    }
    //церрепш дкъ йннпдхмюр сцкнб
-   int getX1(){ 
+   int getX1()
+   { 
       return x1; 
    }
-   int getY1(){ 
+   int getY1()
+   { 
       return y1; 
    }
-   int getX2(){
+   int getX2()
+   {
       return x2; 
    }
-   int getY2(){
+   int getY2()
+   {
       return y2; 
    }
 };
@@ -269,6 +273,8 @@ public:
    static areaDraw &example();
    //гюохяшбюел назейрш
    void outputObjects();
+   //опнбепйю мюкнфемхъ назейрю мю дпсцхе
+   bool overlay(int a, int b, int c, int d);
    //сдюкемхе тхцспш  б рнвйе йнрнпни мюундхряъ йспянп
    void deleteFigure(int x, int y);
    //янупюмемхе тхцспш
@@ -324,10 +330,10 @@ public:
       return tool; 
    }
    //церреп дкъ йннпдхмюр жемрпю йнлмюрш
-   ptrFunction getя()
-   { 
-      return tool; 
-   }
+   //ptrFunction getя()
+   //{ 
+   //   return tool; 
+   //}
    //церреп дкъ йнкхвеярбю йнлмюр
    int getNumRoom()
    {

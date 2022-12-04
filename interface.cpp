@@ -154,6 +154,23 @@ void areaDraw :: press()
       tool();
    }
 }
+//ÏÐÎÂÅÐÊÀ ÍÀËÎÆÅÍÈß ÎÁÚÅÊÒÀ ÍÀ ÄÐÓÃÈÅ
+bool areaDraw :: overlay(int a, int b, int c, int d)
+{
+   for (int i = figures.size() - 1; i >= 1; i--)
+   {
+      int x1 = figures[i] -> getX1();
+      int y1 = figures[i] -> getY1();
+      int x2 = figures[i] -> getX2();
+      int y2 = figures[i] -> getY2();
+      if (((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
+         (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) || 
+         (y1 <= d && y2 >= d) ||
+         (y1 >= b && y2 <= d)))
+         return true;
+   }
+   return false;
+}
 //ÑÎÕÐÀÍÈÒÜ
 void areaDraw :: save()
 {
@@ -178,12 +195,12 @@ void areaDraw :: addFigure(figure* figure)
 //ÓÄÀËÈÒÜ ÎÁÚÅÊÒ
 void areaDraw :: deleteFigure(int x, int y)
 {
+   delay(150);
    int num = Pages :: example().getPage();
    for (int i = figures.size() - 1; i >= 0; i--)
    {
       if (figures[i] -> in(x, y))
       {
-         cout << 1;
          if (figures[i] -> getType() == 2)
          {
             numRoom = 0;
@@ -191,12 +208,14 @@ void areaDraw :: deleteFigure(int x, int y)
             draw();
             if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
             areaDraw :: example().setCoord(0, 0, 0, 0);
+            swapbuffers();
             break;
          }
          figures.erase(figures.begin() + i); 
          draw();
          if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
-         delay(600);
+         //delay(600);
+         swapbuffers();
          break;
       }
    }

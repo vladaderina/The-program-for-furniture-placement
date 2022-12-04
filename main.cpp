@@ -21,9 +21,9 @@ void mainInitialization()
    buttons[4] = new buttonFile(0, 630, fileEnd);
    buttons[5] = new buttonFile(0, 510, fileSave);
    // ÕŒœ » Ã≈¡≈À»
-   for(int i = 6; i < 15; i++)
+   for(int i = 6; i <= 14; i++)
    {
-      buttons[i] = new buttonFurniture(90, 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3), (i - 6), toolFurniture);
+      buttons[i] = new buttonFurniture(90, 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3), (i - 6), toolDelete);
    }
    // ÕŒœ » œ¿–¿Ã≈“–Œ¬
    buttons[15] = new buttonParam(85, 215, 1, 0);
@@ -37,13 +37,15 @@ void mainInitialization()
 //Œ—ÕŒ¬Õ¿ﬂ ‘”Õ ÷»ﬂ
 int main()
 {
-   initwindow(1280, 720);
+   initwindow(1280, 720, "RoomPlanner", 0, 0, true);
    //»Õ»÷»¿À»«¿÷»ﬂ » Œ“–»—Œ¬ ¿ ›À≈Ã≈Õ“Œ¬
    mainInitialization();
+   
    setbkcolor(RGB(243, 243, 243));
    Pages :: example().draw();
    int x, y;
    areaParams :: example().draw();
+   swapbuffers();
    while(1)
    {
       // Œ–ƒ»Õ¿“€  ”–—Œ–¿
@@ -65,7 +67,11 @@ int main()
                   Pages :: example().setPage(i);
                   Pages :: example().draw();
                   areaDraw :: example().draw();
-                  if (i != 3) areaParams :: example().draw();
+                  if (i != 3) 
+                  {
+                     areaParams :: example().draw();
+                  }
+                  swapbuffers();
                   buttons[i] -> press();
                   break;
                }
@@ -77,17 +83,18 @@ int main()
                {
                   if(buttons[i] -> in(x, y))
                   {
+                     delay(50);
                      buttons[i] -> press();
                   }
                }
             }
             else if (num == 3 || num == 4)
             {
-               for(int i = 0; i < 9; i++)
+               for(int i = 6; i <= 14; i++)
                {
-                  if (buttons[6 + i] -> in(x, y))
-                     bar(buttons[6 + i] -> x1, buttons[6 + i] -> y1, buttons[6 + i] -> x2, buttons[6 + i] -> y2);
-                     buttons[6 + i] -> press();
+                  if (buttons[i] -> in(x, y))
+                     bar(buttons[i] -> x1, buttons[i] -> y1, buttons[i] -> x2, buttons[i] -> y2);
+                     buttons[i] -> press();
                }
             }      
             for (int i = 4; i <= 5; i++)
@@ -100,6 +107,34 @@ int main()
             }
          }
       }
-      delay(200);
+      ptrFunction a = toolDoor;
+      if (areaDraw :: example().getTool() == a)
+      {
+         if (areaDraw :: example().in(x, y))
+         {
+            IMAGE *a;
+            if (areaParams :: example().weightDoor == 70) a = loadBMP("icon/door1.bmp");
+            else if (areaParams :: example().weightDoor == 80) a = loadBMP("icon/door2.bmp");
+            else a = loadBMP("icon/door3.bmp");
+            int numWall;
+            IMAGE *m1 = positionOnWall(x, y, numWall, a), *m2;
+            imageputpixel(a, 0, 0, WHITE);
+            int x1 = x;
+            int y1 = y;
+            m2 = createmask(m1);
+            Pages :: example().draw();
+            areaDraw :: example().draw();
+            if (Pages :: example().getPage() != 3)
+            {
+               areaParams :: example().draw();
+            }
+            setlinestyle(SOLID_LINE, 2, 2);
+            if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m2), y1 + imageheight(m2))) setcolor(RED);
+            else setcolor(GREEN);
+            rectangle(x1, y1, x1 + imagewidth(m2), y1 + imageheight(m2));
+            drawimage(x1, y1, m2, m1);
+            swapbuffers();
+         }
+      }
    }
 }

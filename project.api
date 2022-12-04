@@ -24,15 +24,13 @@ buttonParam(int x, int y, int w, int h) #<button.hpp>
 buttonTools _type_ #<button.hpp>
 buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
-createmask(IMAGE* p) -> IMAGE* #<button.cpp>
+createmask(IMAGE* p) -> IMAGE* #<button.hpp>
+drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<button.hpp>
 figure _type_ #<interface.hpp>
 figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
 fileLoad() -> void #<button.hpp>
 fileSave() -> void #<button.hpp>
-getCenterX() -> int #<interface.hpp>
-getCenterY() -> int #<interface.hpp>
-getNumRoom() -> areaDraw int #<interface.hpp>
 main() -> int #<main.cpp>
 mainInitialization() -> void #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
@@ -48,10 +46,9 @@ objectFurniture _type_ #<interface.hpp>
 objectFurniture(int x1, int y1, int x2, int y2, int t) #<interface.hpp>
 objectWall _type_ #<interface.hpp>
 objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
-positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<button.cpp>
+positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<button.hpp>
 ptrFunction _type_ #<interface.hpp>
 resize(IMAGE* p, int w, int h) -> IMAGE* #<button.cpp>
-save() -> void #<interface.hpp>
 toolDelete() -> void #<button.hpp>
 toolDoor() -> void #<button.hpp>
 toolFurniture() -> void #<button.hpp>
@@ -70,6 +67,7 @@ toolWindow() -> void #<button.hpp>
 	areaDraw:%tool : ptrFunction #<interface.hpp>
 	areaDraw:%figures : vector #<interface.hpp>
 	areaDraw::outputObjects() -> void #<interface.hpp>
+	areaDraw::overlay(int a, int b, int c, int d) -> bool #<interface.hpp>
 	areaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	areaDraw::addFigure(figure* figure) -> void #<interface.hpp>
 	areaDraw::draw() -> void #<interface.hpp>
@@ -83,7 +81,10 @@ toolWindow() -> void #<button.hpp>
 	areaDraw::getX2() -> int #<interface.hpp>
 	areaDraw::getY2() -> int #<interface.hpp>
 	areaDraw::getTool() -> ptrFunction #<interface.hpp>
-	areaDraw::tool : ptrFunction get—(){return #<interface.hpp>
+	areaDraw::getNumRoom() -> int #<interface.hpp>
+	areaDraw::getCenterY() -> int #<interface.hpp>
+	areaDraw::getCenterX() -> int #<interface.hpp>
+	areaDraw::save() -> void #<interface.hpp>
 	areaDraw::press() -> virtual void #<interface.hpp>
 	areaDraw::x1 : int #<interface.hpp>
 	areaDraw::y1 : int #<interface.hpp>
