@@ -2,47 +2,6 @@
 #include <math.h>
 #include <clocale>
 
-// —Œ«ƒ¿Õ»≈ Ã¿— »
-IMAGE *createmask(IMAGE *p)
-{
-   int w = imagewidth(p);
-   int h = imageheight(p);
-   IMAGE *m = createimage(w, h);
-   int c = imagegetpixel(p, 0, 0);
-   for (int x = 0; x < w; ++x)
-   {
-      for (int y = 0; y < h; ++y)
-      {
-         int d = imagegetpixel(p, x, y);
-
-         if (c == d)
-         {
-            imageputpixel(m, x, y, WHITE);
-            imageputpixel(p, x, y, BLACK);
-         }
-         else imageputpixel(m, x, y, BLACK);
-      }
-   }
-   return m;
-}
-
-void drawimage(int x, int y, IMAGE *m, IMAGE *p)
-{
-   putimage(x, y, m, AND_PUT);
-   putimage(x, y, p, OR_PUT);
-}
-
-// »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
-IMAGE * resize(IMAGE *p, int w, int h)
-{
-   int wp=imagewidth(p);
-   int hp=imageheight(p);
-   IMAGE *r=createimage(w, h);
-   for (int x = 0; x < w; ++x)
-      for (int y = 0; y < h; ++y)
-         imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
-   return r;
-}
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button :: draw()
 {
@@ -71,52 +30,20 @@ void buttonFile :: press()
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » — œ¿–¿Ã≈“–¿Ã»
 void buttonParam :: press()
 {
-   int num = Pages :: example().getPage();
-   if (num == 0)
-   {
-      if ((areaParams :: example().weightWall > 35 && areaParams :: example().weightWall < 65) ||
-            (areaParams :: example().heightWall > 250 && areaParams :: example().heightWall < 500) ||
-            (w > 0 && areaParams :: example().weightWall == 35) ||
-            (h > 0 && areaParams :: example().heightWall == 250) ||
-            (w < 0 && areaParams :: example().weightWall == 65) ||
-            (h < 0 && areaParams :: example().heightWall == 500))
-      {
-         areaParams :: example().weightWall += w * 5;
-         areaParams :: example().heightWall += h * 10;
-      }
-   }
-   else if (num == 1)
-   {
-      if ((areaParams :: example().weightDoor > 70 && areaParams :: example().weightDoor < 90) ||
-            (areaParams :: example().heightDoor > 200 && areaParams :: example().heightDoor < 240) ||
-            (w > 0 && areaParams :: example().weightDoor == 70) ||
-            (h > 0 && areaParams :: example().heightDoor == 200) ||
-            (w < 0 && areaParams :: example().weightDoor == 90) ||
-            (h < 0 && areaParams :: example().heightDoor == 240))
-      {
-         areaParams :: example().weightDoor += w * 10;
-         areaParams :: example().heightDoor += h * 5;
-      }
-   }
-   else
-   {
-      if ((areaParams :: example().weightWindow > 100 && areaParams :: example().weightWindow < 250) ||
-            (areaParams :: example().heightWindow > 110 && areaParams :: example().heightWindow < 210) ||
-            (w > 0 && areaParams :: example().weightWindow == 100) ||
-            (h > 0 && areaParams :: example().heightWindow == 110) ||
-            (w < 0 && areaParams :: example().weightWindow == 250) ||
-            (h < 0 && areaParams :: example().heightWindow == 210))
-      {
-         areaParams :: example().weightWindow += w * 75;
-         areaParams :: example().heightWindow += h * 5;
-      }
-   }
-   areaParams :: example().draw();
-   swapbuffers();
+   areaParams :: example().setParam(w, h);
+   areaParams :: example().changeParam();
 }
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
 void buttonTools :: press()
 {
+   int numPage = Pages :: example().getPage();
+   if (numPage == 1)
+   {
+      areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7];
+   }
+   else if (numPage == 2)
+      areaParams :: example().obj = object[(250 - areaParams :: example().weightWindow) / 75 + 3];
+   else areaParams :: example().obj = NULL;
    areaDraw :: example().setTool(tool);
 }
 //”ƒ¿À»“‹
@@ -268,11 +195,12 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 //—“≈Õ¿
 void toolWall()
 {
+   areaParams :: example().obj = NULL;
    if (areaDraw :: example().getNumRoom() == 0)
    {
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
-      {    
+      {
          figure *rect = new objectWall(x1, y1, x2, y2, w);
          rect -> draw();
          areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
@@ -295,7 +223,6 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
    IMAGE *b = imageturn(a, 90, WHITE);
    IMAGE *c = imageturn(a, 180, WHITE);
    IMAGE *d = imageturn(a, 270, WHITE);
-   IMAGE *x = createimage(1, 1);
    int centerY = areaDraw :: example().getCenterY();
    int centerX = areaDraw :: example().getCenterX();
    int xt1 = areaDraw :: example().getX1();
@@ -327,38 +254,30 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
       numWall = 3;
       return c;
    }
-   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) &&
-            x1 >= xt1 && x1 <= centerX &&
-            double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   else
    {
       x1 = xt1;
       numWall = 4;
       return b;
    }
-   return x;
 }
 
 //Œ ÕŒ
 void toolWindow()
 {
+   areaParams :: example().obj = object[(250 - areaParams :: example().weightWindow) / 75 + 3];
    if (areaDraw :: example().getNumRoom() != 0)
    {
       int x1, y1, numWall;
       x1 = mousex();
       y1 = mousey();
       IMAGE *a;
-      if (areaParams :: example().weightWindow == 100) a = loadBMP("icon/window1.bmp");
-      else if (areaParams :: example().weightWindow == 175) a = loadBMP("icon/window2.bmp");
-      else a = loadBMP("icon/window3.bmp");
-      imageputpixel(a, 0, 0, WHITE);
-      IMAGE *m = positionOnWall(x1, y1, numWall, a);         
-      if (imageheight(m) != 1)
-      {
-         figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-         rect -> m = createmask(m);
-         rect -> draw();
-         areaDraw :: example().addFigure(rect);
-      }
+      a = areaParams :: example().obj;
+      IMAGE *m = positionOnWall(x1, y1, numWall, a);
+      imageputpixel(m, 0, 0, WHITE);
+      figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+      rect -> draw();
+      areaDraw :: example().addFigure(rect);
    }
    else
    {
@@ -377,32 +296,20 @@ void toolDoor()
       x1 = mousex();
       y1 = mousey();
       IMAGE *a;
-      
-      IMAGE*pic, *pictur, *ma;
-      pic = loadBMP("furniture/sofas/3.bmp");
-      pictur = resize(pic, 200, 200);
-      imageputpixel(pictur, 0, 0, WHITE);
-      ma = createmask(pictur);
-      drawimage(650, 300, ma, pictur);
-      
-      if (areaParams :: example().weightDoor == 70) a = loadBMP("icon/door1.bmp");
-      else if (areaParams :: example().weightDoor == 80) a = loadBMP("icon/door2.bmp");
-      else a = loadBMP("icon/door3.bmp");
+
+      a = areaParams :: example().obj;
       imageputpixel(a, 0, 0, WHITE);
       IMAGE *m = positionOnWall(x1, y1, numWall, a);
-      if (imageheight(m) != 1)
-      {
-         figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-         rect -> m = createmask(m);
-         rect -> draw();
-         areaDraw :: example().addFigure(rect);
-      }
+      figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+      rect -> draw();
+      areaDraw :: example().addFigure(rect);
    }
    else
    {
       IMAGE *image =  loadBMP("icon/back/text2.jpg");
       putimage(61, 556, image, COPY_PUT);
    }
+   swapbuffers();
 }
 //—Œ’–¿Õ»“‹ ¬ œ–Œ≈ “
 void fileSave()

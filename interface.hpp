@@ -6,12 +6,14 @@
 #include <iostream>
 #include <fstream>
 #define NUMBACKGROUND 5
+#define  NUMOBJECT 7
 
 using namespace std;
 
 //сйюгюрекэ мю тсмйжхч
 typedef void (*ptrFunction)();
 extern IMAGE *background[NUMBACKGROUND];
+extern IMAGE *object[NUMOBJECT];
 
 // йкюяя дкъ ярпюмхж
 class Pages 
@@ -228,14 +230,16 @@ public:
       return y2; 
    }
 };
-// йкюяя дкъ упюмемхъ сярпюмнбкеммшу оюпюлерпнб
-class areaParams : public objectClickable
+// йкюяя дкъ оюпюлерпнб назейрю
+class areaParams : public objectDisplay
 {
+   int w, h;
    // онксвюел йннпдхмюрш сцкнб
-   areaParams (int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2),
+   areaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
    weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (35), heightWall(250)
-   {} 
-public: 
+   { obj = NULL; } 
+public:
+   IMAGE *obj;
    int weightDoor,
         heightDoor,
         weightWindow,
@@ -244,7 +248,8 @@ public:
         heightWall;
    static areaParams &example();
    void draw();
-   void press(){};
+   void setParam(int w, int h);
+   void changeParam();
 };
 // йкюяя дкъ пюанвеи япедш
 class areaDraw: public objectClickable 
@@ -281,6 +286,8 @@ public:
    void addFigure(figure* figure);
    //нрпхянбйю
    void draw() override;
+   //опнейжхъ назейрю оепед сярюмнбйни
+   void projection(int x, int y);
    //тсмйжхъ пеюйжхх мю мюфюрхе
    void press() override;
    //яерреп дкъ хмярпслемрю пхянбюмхъ
@@ -344,4 +351,10 @@ public:
    //янупюмхрэ б опнейр
    void save();
 };
+
+void drawimage(int x, int y, IMAGE *m, IMAGE *p);
+IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a);
+IMAGE *createmask(IMAGE *p);
+void drawimage(int x, int y, IMAGE *m, IMAGE *p);
+IMAGE * resize(IMAGE *p, int w, int h);
 #endif

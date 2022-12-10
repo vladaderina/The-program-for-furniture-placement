@@ -6,6 +6,7 @@
 !main.cpp button.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 NUMBACKGROUND #<button.hpp>
 NUMBUTTONS #<button.hpp>
+NUMOBJECT #<interface.hpp>
 Pages _type_ #<interface.hpp>
 Pages() #<interface.hpp>
 areaDraw _type_ #<interface.hpp>
@@ -24,8 +25,8 @@ buttonParam(int x, int y, int w, int h) #<button.hpp>
 buttonTools _type_ #<button.hpp>
 buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
-createmask(IMAGE* p) -> IMAGE* #<button.hpp>
-drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<button.hpp>
+createmask(IMAGE* p) -> IMAGE* #<interface.hpp>
+drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<interface.hpp>
 figure _type_ #<interface.hpp>
 figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
@@ -35,6 +36,7 @@ main() -> int #<main.cpp>
 mainInitialization() -> void #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
 modeStretch(int& x1, int& y1, int& x2, int& y2, void(* shape)(int x1, int y1, int x2, int y2)) -> bool #<button.cpp>
+object : IMAGE*[] #<interface.hpp>
 objectClickable _type_ #<interface.hpp>
 objectClickable(int x1, int y1, int x2, int y2) #<interface.hpp>
 objectDisplay _type_ #<interface.hpp>
@@ -46,9 +48,9 @@ objectFurniture _type_ #<interface.hpp>
 objectFurniture(int x1, int y1, int x2, int y2, int t) #<interface.hpp>
 objectWall _type_ #<interface.hpp>
 objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
-positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<button.hpp>
+positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<interface.hpp>
 ptrFunction _type_ #<interface.hpp>
-resize(IMAGE* p, int w, int h) -> IMAGE* #<button.cpp>
+resize(IMAGE* p, int w, int h) -> IMAGE* #<interface.hpp>
 toolDelete() -> void #<button.hpp>
 toolDoor() -> void #<button.hpp>
 toolFurniture() -> void #<button.hpp>
@@ -71,6 +73,7 @@ toolWindow() -> void #<button.hpp>
 	areaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	areaDraw::addFigure(figure* figure) -> void #<interface.hpp>
 	areaDraw::draw() -> void #<interface.hpp>
+	areaDraw::projection(int x, int y) -> void #<interface.hpp>
 	areaDraw::press() -> void #<interface.hpp>
 	areaDraw::setTool(ptrFunction t) -> void #<interface.hpp>
 	areaDraw::setCenter(int xc, int yc) -> void #<interface.hpp>
@@ -105,6 +108,9 @@ toolWindow() -> void #<button.hpp>
 	areaDraw:coord::y1 : int #<interface.hpp>
 	areaDraw:coord::x2 : int #<interface.hpp>
 	areaDraw:coord::y2 : int #<interface.hpp>
+	areaParams:%w : int #<interface.hpp>
+	areaParams:%h : int #<interface.hpp>
+	areaParams::obj : IMAGE* #<interface.hpp>
 	areaParams::weightDoor : int #<interface.hpp>
 	areaParams::heightDoor : int #<interface.hpp>
 	areaParams::weightWindow : int #<interface.hpp>
@@ -112,8 +118,8 @@ toolWindow() -> void #<button.hpp>
 	areaParams::weightWall : int #<interface.hpp>
 	areaParams::heightWall : int #<interface.hpp>
 	areaParams::draw() -> void #<interface.hpp>
-	areaParams::press() -> void #<interface.hpp>
-	areaParams::press() -> virtual void #<interface.hpp>
+	areaParams::setParam(int w, int h) -> void #<interface.hpp>
+	areaParams::changeParam() -> void #<interface.hpp>
 	areaParams::x1 : int #<interface.hpp>
 	areaParams::y1 : int #<interface.hpp>
 	areaParams::x2 : int #<interface.hpp>

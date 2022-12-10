@@ -61,9 +61,6 @@ public:
    void press();
 };
 //-----------------------------------------------‘”Õ ÷»»-----------------------------------------------/
-IMAGE *createmask(IMAGE *p);
-IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a);
-void drawimage(int x, int y, IMAGE *m, IMAGE *p);
 //»Õ—“–”Ã≈Õ“ ”ƒ¿À≈Õ»ﬂ
 void toolDelete();
 //»Õ—“–”Ã≈Õ“ œ≈–≈Ã≈Ÿ≈Õ»ﬂ

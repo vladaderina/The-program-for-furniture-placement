@@ -12,6 +12,21 @@ void mainInitialization()
       string back = "icon/back/" + to_string(i) + ".jpg";
       background[i - 1] = loadBMP(back.c_str());
    }
+   for(int i = 1; i <=  3; i++)
+   {
+      string obj = "object/door/" + to_string(i) + ".bmp";
+      object[i - 1] = loadBMP(obj.c_str());
+   }
+   for(int i = 4; i <=  6; i++)
+   {
+      string obj = "object/window/" + to_string(i - 3) + ".bmp";
+      object[i - 1] = loadBMP(obj.c_str());
+   }
+   for(int i = 7; i <= 7; i++)
+   {
+      string obj = "object/sofas/" + to_string(3) + ".bmp";
+      object[i - 1] = loadBMP(obj.c_str());
+   }
    //ÊÍÎÏÊÈ ÈÍÑÒÐÓÌÅÍÒÀÐÈß
    buttons[0] = new buttonTools(0, 73, 1, toolWall);
    buttons[1] = new buttonTools(0, 73 + 75, 1, toolDoor);
@@ -96,7 +111,7 @@ int main()
                      bar(buttons[i] -> x1, buttons[i] -> y1, buttons[i] -> x2, buttons[i] -> y2);
                      buttons[i] -> press();
                }
-            }      
+            }
             for (int i = 4; i <= 5; i++)
             {
                if (buttons[i] -> in(x, y)) 
@@ -107,34 +122,10 @@ int main()
             }
          }
       }
-      ptrFunction a = toolDoor;
-      if (areaDraw :: example().getTool() == a)
+      if (areaDraw :: example().in(x, y))
       {
-         if (areaDraw :: example().in(x, y))
-         {
-            IMAGE *a;
-            if (areaParams :: example().weightDoor == 70) a = loadBMP("icon/door1.bmp");
-            else if (areaParams :: example().weightDoor == 80) a = loadBMP("icon/door2.bmp");
-            else a = loadBMP("icon/door3.bmp");
-            int numWall;
-            IMAGE *m1 = positionOnWall(x, y, numWall, a), *m2;
-            imageputpixel(a, 0, 0, WHITE);
-            int x1 = x;
-            int y1 = y;
-            m2 = createmask(m1);
-            Pages :: example().draw();
-            areaDraw :: example().draw();
-            if (Pages :: example().getPage() != 3)
-            {
-               areaParams :: example().draw();
-            }
-            setlinestyle(SOLID_LINE, 2, 2);
-            if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m2), y1 + imageheight(m2))) setcolor(RED);
-            else setcolor(GREEN);
-            rectangle(x1, y1, x1 + imagewidth(m2), y1 + imageheight(m2));
-            drawimage(x1, y1, m2, m1);
-            swapbuffers();
-         }
+         areaDraw :: example().projection(x, y);
       }
-   }
+      delay(30);
+   }   
 }

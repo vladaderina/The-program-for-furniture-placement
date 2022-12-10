@@ -1,6 +1,7 @@
 #include "interface.hpp"
 
 IMAGE *background[NUMBACKGROUND];
+IMAGE *object[NUMOBJECT];
 
 bool objectDisplay :: in(int x, int y)
 {
@@ -13,6 +14,25 @@ bool objectDisplay :: in(int x, int y)
    else
       return false;
 }
+
+void drawimage(int x, int y, IMAGE *m, IMAGE *p)
+{
+   putimage(x, y, m, AND_PUT);
+   putimage(x, y, p, OR_PUT);
+}
+
+// »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
+IMAGE * resize(IMAGE *p, int w, int h)
+{
+   int wp = imagewidth(p);
+   int hp = imageheight(p);
+   IMAGE *r=createimage(w, h);
+   for (int x = 0; x < w; ++x)
+      for (int y = 0; y < h; ++y)
+         imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
+   return r;
+}
+
 //-----------------------------------------------—“–¿Õ»÷€-----------------------------------------------//
 Pages &Pages :: example()
 {
@@ -85,8 +105,7 @@ void objectFigureOnWall :: draw()
       line(x1, y1 + imageheight(m), x1 + imagewidth(m), y1 + imageheight(m));
    else if (numWall == 4)
       line(x1, y1, x1, y1+ imageheight(m));
-   putimage(x1, y1, m, AND_PUT);
-   putimage(x1, y1, objectOnWall, OR_PUT);
+   putimage(x1, y1, objectOnWall, TRANSPARENT_PUT);
 }
 //-----------------------------------------------œ¿–¿Ã≈“–€-----------------------------------------------//
 areaParams &areaParams :: example()
@@ -110,7 +129,7 @@ void areaParams :: draw()
       sprintf(str_h_room, "%d", 2 * (areaDraw::example().getY2() - areaDraw::example().getY1()) / 3);
       sprintf(str_w_room, "%d", 2 * (areaDraw::example().getX2() - areaDraw::example().getX1()) / 3);
       setcolor(RGB(153, 153, 153));
-      outtextxy(230, 407, str_w_room );
+      outtextxy(230, 407, str_w_room);
       outtextxy(230, 489, str_h_room);
       setcolor(RGB(0, 0, 0));
    }
@@ -129,6 +148,61 @@ void areaParams :: draw()
    outtextxy(230, 241, str_h);
    outtextxy(230, 324, str_w);
 }
+
+ void areaParams :: changeParam()
+{
+   int num = Pages :: example().getPage();
+   if (num == 0)
+   {
+      if ((weightWall > 35 && weightWall < 65) ||
+            (heightWall > 250 && heightWall < 500) ||
+            (w > 0 && weightWall == 35) ||
+            (h > 0 && heightWall == 250) ||
+            (w < 0 && weightWall == 65) ||
+            (h < 0 && heightWall == 500))
+      {
+         weightWall += w * 5;
+         areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7 + w];
+         heightWall += h * 10;
+      }
+   }
+   else if (num == 1)
+   {
+      if ((weightDoor > 70 && weightDoor < 90) ||
+            (heightDoor > 200 && heightDoor < 240) ||
+            (w > 0 && weightDoor == 70) ||
+            (h > 0 && heightDoor == 200) ||
+            (w < 0 && weightDoor == 90) ||
+            (h < 0 && heightDoor == 240))
+      {
+         weightDoor += w * 10;
+         heightDoor += h * 5;
+         obj = object[(90 - weightDoor) / 10];
+      }
+   }
+   else
+   {
+      if ((weightWindow > 100 && weightWindow < 250) ||
+            (heightWindow > 110 && heightWindow < 210) ||
+            (w > 0 && weightWindow == 100) ||
+            (h > 0 && heightWindow == 110) ||
+            (w < 0 && weightWindow == 250) ||
+            (h < 0 && heightWindow == 210))
+      {
+         weightWindow += w * 75;
+         heightWindow += h * 5;
+         obj = object[(250 - weightWindow) / 75 + 3];
+      }
+   }
+   draw();
+   swapbuffers();
+}
+
+void areaParams :: setParam(int w, int h)
+{
+   this -> w = w;
+   this -> h = h;
+}
 //-----------------------------------------------–¿¡Œ◊¿ﬂ —–≈ƒ¿-----------------------------------------------//
 //–¿¡Œ◊¿ﬂ —–≈ƒ¿
 areaDraw &areaDraw :: example()
@@ -144,6 +218,35 @@ void areaDraw :: draw()
    for(int i = 0; i < areaDraw :: example().figures.size(); i++)
       figures[i] -> draw();
 }
+//œ–Œ≈ ÷»ﬂ Œ¡⁄≈ “¿ œ≈–≈ƒ ”—“¿ÕŒ¬ Œ…
+void areaDraw :: projection(int x, int y)
+{
+   if (numRoom)
+   {
+      IMAGE *a, *b;
+      a = areaParams :: example().obj;
+      if (a != NULL)
+      {
+         int numWall;
+         IMAGE *m1 = positionOnWall(x, y, numWall, a);
+         imageputpixel(m1, 0, 0, WHITE);
+         int x1 = x;
+         int y1 = y;
+         Pages :: example().draw();
+         draw();
+         if (Pages :: example().getPage() != 3)
+         {
+            areaParams :: example().draw();
+         } setlinestyle(SOLID_LINE, 2, 2);
+         
+         if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1))) setcolor(RED);
+         else setcolor(GREEN);
+         rectangle(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1));
+         putimage(x1, y1, m1, TRANSPARENT_PUT);
+         swapbuffers();
+      }
+   }
+}
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈
 void areaDraw :: press()
 {
@@ -151,7 +254,11 @@ void areaDraw :: press()
    int y = mousey();
    if (mousebuttons() == 1)
    {
-      tool();
+      if (!numRoom)
+         tool();
+      else if (x >= coord.x1 && x <= coord.x2
+      && y >= coord.y1 && y<= coord.y2)
+         tool();
    }
 }
 //œ–Œ¬≈– ¿ Õ¿ÀŒ∆≈Õ»ﬂ Œ¡⁄≈ “¿ Õ¿ ƒ–”√»≈
