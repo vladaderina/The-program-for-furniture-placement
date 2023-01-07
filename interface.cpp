@@ -124,7 +124,7 @@ void areaParams :: draw()
    setusercharsize(9, 20, 9, 10);
    if (num == 0)
    {
-      sprintf(str_h, "%d", weightWall);
+      sprintf(str_h, "%d", weightWall); 
       sprintf(str_w, "%d", heightWall);
       sprintf(str_h_room, "%d", 2 * (areaDraw::example().getY2() - areaDraw::example().getY1()) / 3);
       sprintf(str_w_room, "%d", 2 * (areaDraw::example().getX2() - areaDraw::example().getX1()) / 3);
