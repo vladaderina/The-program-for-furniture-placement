@@ -88,8 +88,6 @@ protected:
       //3 - назейрш мю яреме
    int type;
 public:
-   //люяйю
-   IMAGE *m;
    //онксвюел йннпдхмюрш сцкнб
    figure(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
    //нрпхянбйю назейрю

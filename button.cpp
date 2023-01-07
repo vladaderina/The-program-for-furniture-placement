@@ -38,11 +38,9 @@ void buttonTools :: press()
 {
    int numPage = Pages :: example().getPage();
    if (numPage == 1)
-   {
       areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7];
-   }
    else if (numPage == 2)
-      areaParams :: example().obj = object[(250 - areaParams :: example().weightWindow) / 75 + 3];
+      areaParams :: example().obj = object[((areaParams :: example().weightWindow) / 75) + 2];
    else areaParams :: example().obj = NULL;
    areaDraw :: example().setTool(tool);
 }
@@ -265,7 +263,6 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 //Œ ÕŒ
 void toolWindow()
 {
-   areaParams :: example().obj = object[(250 - areaParams :: example().weightWindow) / 75 + 3];
    if (areaDraw :: example().getNumRoom() != 0)
    {
       int x1, y1, numWall;
@@ -296,7 +293,6 @@ void toolDoor()
       x1 = mousex();
       y1 = mousey();
       IMAGE *a;
-
       a = areaParams :: example().obj;
       imageputpixel(a, 0, 0, WHITE);
       IMAGE *m = positionOnWall(x1, y1, numWall, a);

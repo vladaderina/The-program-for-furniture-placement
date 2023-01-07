@@ -32,7 +32,7 @@ class buttonParam: public button
 {
    int w, h;
 public:
-   //онксвюел йннпдхмюрш сцкнб, йюпрхмйс дкъ ймнойх х сйюгюрекэ мю хмярпслемр
+   //онксвюел йннпдхмюрш сцкнб х оюпюлерпш назейрю
    buttonParam(int x, int y, int w, int h) : 
                         button(x, y, x + 75, y + 35), w(w), h(h) {}
    //пеюйжхъ мю мюфюрхе

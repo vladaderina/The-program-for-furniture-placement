@@ -98,13 +98,13 @@ void objectFigureOnWall :: draw()
 {
    setcolor(RGB(243, 243, 243));
    if (numWall == 1)
-      line(x1, y1, x1 + imagewidth(m), y1);
+      line(x1, y1, x1 + imagewidth(objectOnWall), y1);
    else if (numWall == 2)
-      line(x1 + imagewidth(m), y1, x1 + imagewidth(m), y1+ imageheight(m));
+      line(x1 + imagewidth(objectOnWall), y1, x1 + imagewidth(objectOnWall), y1+ imageheight(objectOnWall));
    else if (numWall == 3)
-      line(x1, y1 + imageheight(m), x1 + imagewidth(m), y1 + imageheight(m));
+      line(x1, y1 + imageheight(objectOnWall), x1 + imagewidth(objectOnWall), y1 + imageheight(objectOnWall));
    else if (numWall == 4)
-      line(x1, y1, x1, y1+ imageheight(m));
+      line(x1, y1, x1, y1+ imageheight(objectOnWall));
    putimage(x1, y1, objectOnWall, TRANSPARENT_PUT);
 }
 //-----------------------------------------------œ¿–¿Ã≈“–€-----------------------------------------------//
@@ -223,7 +223,7 @@ void areaDraw :: projection(int x, int y)
 {
    if (numRoom)
    {
-      IMAGE *a, *b;
+      IMAGE *a;
       a = areaParams :: example().obj;
       if (a != NULL)
       {
