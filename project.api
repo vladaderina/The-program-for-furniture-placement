@@ -70,6 +70,7 @@ toolWindow() -> void #<button.hpp>
 	areaDraw:%figures : vector #<interface.hpp>
 	areaDraw::outputObjects() -> void #<interface.hpp>
 	areaDraw::overlay(int a, int b, int c, int d) -> bool #<interface.hpp>
+	areaDraw::inRoom(int x, int y) -> bool #<interface.hpp>
 	areaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	areaDraw::addFigure(figure* figure) -> void #<interface.hpp>
 	areaDraw::draw() -> void #<interface.hpp>

@@ -209,6 +209,7 @@ void toolWall()
    }
    else
    {
+      cout << 1;
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
       putimage(64, 556, image, COPY_PUT);
    }

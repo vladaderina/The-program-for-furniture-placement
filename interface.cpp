@@ -126,8 +126,8 @@ void areaParams :: draw()
    {
       sprintf(str_h, "%d", weightWall); 
       sprintf(str_w, "%d", heightWall);
-      sprintf(str_h_room, "%d", 2 * (areaDraw::example().getY2() - areaDraw::example().getY1()) / 3);
-      sprintf(str_w_room, "%d", 2 * (areaDraw::example().getX2() - areaDraw::example().getX1()) / 3);
+      sprintf(str_h_room, "%d", 2 * (areaDraw :: example().getY2() - areaDraw :: example().getY1()) / 3);
+      sprintf(str_w_room, "%d", 2 * (areaDraw :: example().getX2() - areaDraw :: example().getX1()) / 3);
       setcolor(RGB(153, 153, 153));
       outtextxy(230, 407, str_w_room);
       outtextxy(230, 489, str_h_room);
@@ -162,7 +162,6 @@ void areaParams :: draw()
             (h < 0 && heightWall == 500))
       {
          weightWall += w * 5;
-         areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7 + w];
          heightWall += h * 10;
       }
    }
@@ -218,6 +217,21 @@ void areaDraw :: draw()
    for(int i = 0; i < areaDraw :: example().figures.size(); i++)
       figures[i] -> draw();
 }
+
+// ÏÐÎÂÅÐÊÀ ÍÀ ÃÐÀÍÈÖÛ ÊÎÌÍÒÀÍÛ 
+bool areaDraw :: inRoom(int x, int y)
+{
+   if (coord.x1 > coord.x2)
+      swap(coord.x1, coord.x2);
+   if (coord.y1 > coord.y2)
+      swap(coord.y1, coord.y2);
+   if (x >= coord.x1 && x <= coord.x2
+      && y >= coord.y1 && y<= coord.y2)
+      return true;
+   else
+      return false;
+}
+
 //ÏÐÎÅÊÖÈß ÎÁÚÅÊÒÀ ÏÅÐÅÄ ÓÑÒÀÍÎÂÊÎÉ
 void areaDraw :: projection(int x, int y)
 {
@@ -254,10 +268,10 @@ void areaDraw :: press()
    int y = mousey();
    if (mousebuttons() == 1)
    {
-      if (!numRoom)
+      /*if (!numRoom)
          tool();
       else if (x >= coord.x1 && x <= coord.x2
-      && y >= coord.y1 && y<= coord.y2)
+      && y >= coord.y1 && y<= coord.y2)*/
          tool();
    }
 }

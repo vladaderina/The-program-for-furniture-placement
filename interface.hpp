@@ -40,9 +40,6 @@ public:
 // йкюяя дкъ назейрнб, йнрнпше нрнапюфючряъ мю щйпюме
 class objectDisplay 
 {
-protected:
-   //йннпдхмюрш бепьхм опълнсцнкэмхйю
-   
 public:
    int x1, y1, x2, y2;
    //онксвюел йннпдхмюрш бепьхм опълнсцнкэмхйю
@@ -278,6 +275,8 @@ public:
    void outputObjects();
    //опнбепйю мюкнфемхъ назейрю мю дпсцхе
    bool overlay(int a, int b, int c, int d);
+   // опнбепйю мю цпюмхжш йнлмрюмш 
+   bool inRoom(int x, int y);
    //сдюкемхе тхцспш  б рнвйе йнрнпни мюундхряъ йспянп
    void deleteFigure(int x, int y);
    //янупюмемхе тхцспш

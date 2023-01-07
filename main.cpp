@@ -122,9 +122,15 @@ int main()
             }
          }
       }
-      if (areaDraw :: example().in(x, y))
+      if (areaDraw :: example().inRoom(x, y))
       {
          areaDraw :: example().projection(x, y);
+      }
+      else 
+      {
+         Pages :: example().draw();
+         areaDraw :: example().draw();
+         swapbuffers();
       }
       delay(30);
    }   
