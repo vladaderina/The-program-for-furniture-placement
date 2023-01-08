@@ -44,7 +44,7 @@ void buttonTools :: press()
       areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
    else if (numPage == 2)
       areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
-   else areaParams :: example().obj = NULL;
+   else areaParams :: example().obj = NULL; 
    areaDraw :: example().setTool(tool);
 }
 //сдюкхрэ
@@ -56,7 +56,7 @@ void toolDelete()
    //сдюкемхе тхцспш, йнрнпни опхмюдкефхр рнвйю б йнрнпни мюундхряъ йспянп
    areaDraw :: example().deleteFigure(x, y);
 }
-
+ 
 //леаекэ
 void toolFurniture()
 {
