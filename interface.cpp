@@ -176,7 +176,7 @@ void areaParams :: draw()
       {
          weightDoor += w * 10;
          heightDoor += h * 5;
-         obj = object[(90 - weightDoor) / 10];
+         obj = object[((90 - weightDoor) / 10) % 3];
       }
    }
    else
@@ -268,11 +268,14 @@ void areaDraw :: press()
    int y = mousey();
    if (mousebuttons() == 1)
    {
-      /*if (!numRoom)
+      try
+      {
          tool();
-      else if (x >= coord.x1 && x <= coord.x2
-      && y >= coord.y1 && y<= coord.y2)*/
-         tool();
+      }
+      catch (error &e)
+      {
+         e.what();
+      }
    }
 }
 //ÏÐÎÂÅÐÊÀ ÍÀËÎÆÅÍÈß ÎÁÚÅÊÒÀ ÍÀ ÄÐÓÃÈÅ

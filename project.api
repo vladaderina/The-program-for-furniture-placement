@@ -27,6 +27,10 @@ buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
 createmask(IMAGE* p) -> IMAGE* #<interface.hpp>
 drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<interface.hpp>
+error : struct manyRooms: #<interface.hpp>
+error : struct noRoom: #<interface.hpp>
+error _type_ #<interface.hpp>
+error() -> virtual~ #<interface.hpp>
 figure _type_ #<interface.hpp>
 figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
@@ -202,6 +206,7 @@ toolWindow() -> void #<button.hpp>
 	buttonTools::getLeft() -> int #<button.hpp>
 	buttonTools::getHeight() -> int #<button.hpp>
 	buttonTools::getWidth() -> int #<button.hpp>
+	error=:what() -> virtual const void* #<interface.hpp>
 	figure:%type : int #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
 	figure::press() -> virtual void #<interface.hpp>

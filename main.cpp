@@ -12,7 +12,7 @@ void mainInitialization()
       string back = "icon/back/" + to_string(i) + ".jpg";
       background[i - 1] = loadBMP(back.c_str());
    }
-   for(int i = 1; i <=  3; i++)
+   for(int i = 1; i <= 3; i++)
    {
       string obj = "object/door/" + to_string(i) + ".bmp";
       object[i - 1] = loadBMP(obj.c_str());
@@ -98,7 +98,7 @@ int main()
                {
                   if(buttons[i] -> in(x, y))
                   {
-                     delay(50);
+                     delay(200);
                      buttons[i] -> press();
                   }
                }
@@ -108,8 +108,10 @@ int main()
                for(int i = 6; i <= 14; i++)
                {
                   if (buttons[i] -> in(x, y))
+                  {
                      bar(buttons[i] -> x1, buttons[i] -> y1, buttons[i] -> x2, buttons[i] -> y2);
                      buttons[i] -> press();
+                  }
                }
             }
             for (int i = 4; i <= 5; i++)
@@ -126,10 +128,11 @@ int main()
       {
          areaDraw :: example().projection(x, y);
       }
-      else 
+      else
       {
          Pages :: example().draw();
          areaDraw :: example().draw();
+         if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParams :: example().draw();
          swapbuffers();
       }
       delay(30);

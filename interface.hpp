@@ -15,6 +15,37 @@ typedef void (*ptrFunction)();
 extern IMAGE *background[NUMBACKGROUND];
 extern IMAGE *object[NUMOBJECT];
 
+// БАЗОВЫЙ КЛАСС ДЛЯ ОШИБОК
+struct error
+{ 
+   virtual ~error() {} // деструктор
+   virtual const void *what() const = 0; // сообщение для печати
+};
+
+struct manyRooms: error
+{
+   const void *what() const
+   {
+      IMAGE *image =  loadBMP("icon/back/text1.jpg");
+      putimage(64, 556, image, COPY_PUT); // сообщение для печати
+      swapbuffers();
+      delay(1300);
+      return 0;
+   }
+};
+
+struct noRoom: error
+{
+   const void *what() const
+   {
+     IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      swapbuffers();
+      delay(1300);
+      return 0;
+   }
+};
+
 // КЛАСС ДЛЯ СТРАНИЦ
 class Pages 
 {
@@ -69,7 +100,7 @@ public:
 class objectClickable: public objectDisplay
 {
 public:
-   //ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
+   // УСТАНАВЛИВАЕМ КООРДИНАТЫ УГЛОВ
    objectClickable(int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2) {}
    //ФУНКЦИЯ РЕАКЦИИ НА НАЖАТИЕ
    virtual void press() = 0;

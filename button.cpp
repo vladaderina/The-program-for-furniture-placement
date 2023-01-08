@@ -2,6 +2,9 @@
 #include <math.h>
 #include <clocale>
 
+//IMAGE *errorRoom = loadBMP("icon/back/text1.jpg");
+//Error manyRoom(64, 556, errorRoom);
+
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button :: draw()
 {
@@ -38,9 +41,9 @@ void buttonTools :: press()
 {
    int numPage = Pages :: example().getPage();
    if (numPage == 1)
-      areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7];
+      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
    else if (numPage == 2)
-      areaParams :: example().obj = object[((areaParams :: example().weightWindow) / 75) + 2];
+      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
    else areaParams :: example().obj = NULL;
    areaDraw :: example().setTool(tool);
 }
@@ -194,7 +197,8 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 void toolWall()
 {
    areaParams :: example().obj = NULL;
-   if (areaDraw :: example().getNumRoom() == 0)
+   if (areaDraw :: example().getNumRoom() != 0) throw manyRooms();
+   else
    {
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
@@ -206,12 +210,6 @@ void toolWall()
          areaDraw :: example().addFigure(rect);
          areaDraw :: example().setNumRoom(1);
       }
-   }
-   else
-   {
-      cout << 1;
-      IMAGE *image =  loadBMP("icon/back/text1.jpg");
-      putimage(64, 556, image, COPY_PUT);
    }
    swapbuffers();
 }
@@ -234,6 +232,7 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
          double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
    {
       y1 = yt1;
+      if (x1 > xt2 - imagewidth(a)) x1 = xt2 - imagewidth(a);
       numWall = 1;
       return a;
    }
@@ -242,6 +241,7 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
             double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
    {
       x1 = xt2 - imagewidth(d);
+      if (y1 > yt2 - imageheight(d)) y1 = yt2 - imageheight(d);
       numWall = 2;
       return d;
    }
@@ -250,12 +250,14 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
             double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
    {
       y1 = yt2 - imageheight(c);
+      if (x1 > xt2 - imagewidth(c)) x1 = xt2 - imagewidth(c);
       numWall = 3;
       return c;
    }
    else
    {
       x1 = xt1;
+      if (y1 > yt2 - imageheight(b)) y1 = yt2 - imageheight(b);
       numWall = 4;
       return b;
    }
@@ -264,7 +266,8 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 //Œ ÕŒ
 void toolWindow()
 {
-   if (areaDraw :: example().getNumRoom() != 0)
+   if (areaDraw :: example().getNumRoom() == 0) throw noRoom();
+   else
    {
       int x1, y1, numWall;
       x1 = mousex();
@@ -272,15 +275,9 @@ void toolWindow()
       IMAGE *a;
       a = areaParams :: example().obj;
       IMAGE *m = positionOnWall(x1, y1, numWall, a);
-      imageputpixel(m, 0, 0, WHITE);
       figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
       rect -> draw();
       areaDraw :: example().addFigure(rect);
-   }
-   else
-   {
-      IMAGE *image =  loadBMP("icon/back/text2.jpg");
-      putimage(61, 556, image, COPY_PUT);
    }
    swapbuffers();
 }
@@ -288,7 +285,8 @@ void toolWindow()
 //ƒ¬≈–‹
 void toolDoor()
 {
-   if (areaDraw :: example().getNumRoom() != 0)
+   if (areaDraw :: example().getNumRoom() == 0) throw noRoom();
+   else
    {
       int x1, y1, numWall;
       x1 = mousex();
@@ -300,11 +298,6 @@ void toolDoor()
       figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
       rect -> draw();
       areaDraw :: example().addFigure(rect);
-   }
-   else
-   {
-      IMAGE *image =  loadBMP("icon/back/text2.jpg");
-      putimage(61, 556, image, COPY_PUT);
    }
    swapbuffers();
 }

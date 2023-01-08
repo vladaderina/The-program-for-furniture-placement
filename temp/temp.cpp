@@ -2,124 +2,215 @@
 
 
 
-//ймнойх сопюбкемхъ
-button *buttons[NUMBUTTONS];
-//хмхжхюкхгюжхъ
-void mainInitialization()
+//IMAGE *errorRoom = loadBMP("icon/back/text1.jpg");
+//Error manyRoom(64, 556, errorRoom);
+
+//нрпхянбйю ймнойх
+void button :: draw()
 {
-   for(int i = 1; i <=  NUMBACKGROUND; i++)
-   {
-      string back = "icon/back/" + to_string(i) + ".jpg";
-      background[i - 1] = loadBMP(back.c_str());
-   }
-   for(int i = 1; i <=  3; i++)
-   {
-      string obj = "object/door/" + to_string(i) + ".bmp";
-      object[i - 1] = loadBMP(obj.c_str());
-   }
-   for(int i = 4; i <=  6; i++)
-   {
-      string obj = "object/window/" + to_string(i - 3) + ".bmp";
-      object[i - 1] = loadBMP(obj.c_str());
-   }
-   for(int i = 7; i <= 7; i++)
-   {
-      string obj = "object/sofas/" + to_string(3) + ".bmp";
-      object[i - 1] = loadBMP(obj.c_str());
-   }
-   //ймнойх хмярпслемрюпхъ
-   buttons[0] = new buttonTools(0, 73, 1, toolWall);
-   buttons[1] = new buttonTools(0, 73 + 75, 1, toolDoor);
-   buttons[2] = new buttonTools(0, 73 + 75 * 2, 1, toolWindow);
-   buttons[3] = new buttonTools(0, 75 * 4, 1, toolDelete);
-   //ймнойх пюанрш я тюикнл
-   buttons[4] = new buttonFile(0, 630, fileEnd);
-   buttons[5] = new buttonFile(0, 510, fileSave);
-   //ймнойх леаекх
-   for(int i = 6; i <= 14; i++)
-   {
-      buttons[i] = new buttonFurniture(90, 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3), (i - 6), toolDelete);
-   }
-   //ймнойх оюпюлерпнб
-   buttons[15] = new buttonParam(85, 215, 1, 0);
-   buttons[16] = new buttonParam(85, 295, 0, 1);
-   buttons[17] = new buttonParam(290, 215, -1, 0);
-   buttons[18] = new buttonParam(290, 290, 0, -1);
-   //сярюмюбкхбюел ярюмдюпрмши хмярпслемр
-   areaDraw::example().setTool(toolWall);
+   //гюкхбйю
+   setfillstyle(SOLID_FILL, COLOR(63, 63, 63));
+   bar(x1, y1, x2, y2);
+
+   //йнмрсп
+   setcolor(BLACK);
+   setlinestyle(SOLID_LINE, THICK_WIDTH, THICK_WIDTH);
+   rectangle(x1, y1, x2, y2);
+}
+//пеюйжхъ мю мюфюрхе ймнойх леаекх
+void buttonFurniture :: press()
+{
+   //сярюмнбхрэ хмярпслемр х рхо рхо леаекх
+   areaDraw::example().setTool(tool);
+   objectFurniture::example().setT(type);
+}
+//пеюйжхъ мю мюфюрхе ймнойх пюанрш я тюикнл
+void buttonFile :: press()
+{
+   //деиярбхе
+   action();
+}
+//пеюйжхъ мю мюфюрхе ймнойх я оюпюлерпюлх
+void buttonParam :: press()
+{
+   areaParams :: example().setParam(w, h);
+   areaParams :: example().changeParam();
+}
+//пеюйжхъ мю мюфюрхе ймнойх хмярпслемрюпхъ
+void buttonTools :: press()
+{
+   int numPage = Pages :: example().getPage();
+   if (numPage == 1)
+      areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7];
+   else if (numPage == 2)
+      areaParams :: example().obj = object[((areaParams :: example().weightWindow) / 75) + 2];
+   else areaParams :: example().obj = NULL;
+   areaDraw :: example().setTool(tool);
+}
+//сдюкхрэ
+void toolDelete()
+{
+   //йспянп
+   int x = mousex();
+   int y = mousey();
+   //сдюкемхе тхцспш, йнрнпни опхмюдкефхр рнвйю б йнрнпни мюундхряъ йспянп
+   areaDraw :: example().deleteFigure(x, y);
 }
 
-//нямнбмюъ тсмйжхъ
-int main()
+//леаекэ
+void toolFurniture()
 {
-   initwindow(1280, 720, "RoomPlanner", 0, 0, true);
-   //хмхжхюкхгюжхъ х нрпхянбйю щкелемрнб
-   mainInitialization();
-   
-   setbkcolor(RGB(243, 243, 243));
-   Pages :: example().draw();
-   int x, y;
-   areaParams :: example().draw();
-   swapbuffers();
-   while(1)
-   {
-      //йнпдхмюрш йспянпю
-      x = mousex();
-      y = mousey();
-      //нрякефхбюел мюфюрхе
-      if(mousebuttons())
-      {
-         if (areaDraw :: example().in(x, y))
-         {
-            areaDraw :: example().press();
-         }
-         else
-         {
-            for (int i = 0; i <= 3; i++)
-            {
-               if (buttons[i] -> in(x, y)) 
-               {
-                  Pages :: example().setPage(i);
-                  Pages :: example().draw();
-                  areaDraw :: example().draw();
-                  if (i != 3) 
-                  {
-                     areaParams :: example().draw();
-                  }
-                  swapbuffers();
-                  buttons[i] -> press();
-                  break;
-               }
-            }
-            int num = Pages :: example().getPage();
-            if (num == 0 || num == 1 || num == 2)
-            {
-               for(int i = 15; i <= 18; i++)
-               {
-                  if(buttons[i] -> in(x, y))
-                  {
-                     delay(50);
-                     buttons[i] -> press();
-                  }
-               }
-            }
-            else if (num == 3 || num == 4)
-            {
-               for(int i = 6; i <= 14; i++)
-               {
-                  if (buttons[i] -> in(x, y))
-                     bar(buttons[i] -> x1, buttons[i] -> y1, buttons[i] -> x2, buttons[i] -> y2);
-                     buttons[i] -> press();
-               }
-            }
-            for (int i = 4; i <= 5; i++)
-            {
-               if (buttons[i] -> in(x, y)) 
-               {
-                  buttons[i] -> press();
-                  if (i == 4) return 0;
-               }
-            }
-         }
+   //йннпдхмюрш
+   int x1, y1, x2, y2; //йннпдхмюрш
+
+   //ьхпхмю х бшянрю
+   int w, h;
+
+   //вхрюел ьхпхмс х бшянрс хг тюикю
+   string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
+   FILE *f = fopen(t.c_str(), "r");
+   fscanf(f, "%d:%d", &w, &h);
+   fclose(f);
+
+   //йннпдхмюрш
+   x1 = 200;
+   y1 = 100;
+
+   int k = getch();
+   while (1) {
+      //оепелеыемхе тхцспш
+      k = getch();
+      //бмхг
+      if (k == KEY_DOWN) {
+         y1 += 10;
       }
-      if (areaDraw :: _abracadabra_cast(example());
+      //ббепу
+      if (k == KEY_UP) {
+         y1 -= 10;
+      }
+      //бкебн
+      if (k == KEY_LEFT)
+      {
+         x1 -= 10;
+      }
+      //бопюбн
+      if (k == KEY_RIGHT)
+      {
+         x1 += 10;
+      }
+      //онбнпнр
+      if (k == KEY_SHIFT)
+      {
+         swap(w, h);
+      }
+      if (x1 < 100) {
+         x1 += 10;
+      }
+      if (y1 < 20) {
+         y1 += 10;
+      }
+      if (y2 > 550) {
+         y1 -= 10;
+      }
+      if (x2 > 750) {
+         x1 -= 10;
+      }
+      //пюявер х нрпхянбйю
+      x2 = x1 + w;
+      y2 = y1 + h;
+      //ондрбепфдемхе сярюмнбйх леаекх
+      if (k == KEY_ENTER) {
+         setfillstyle(SOLID_FILL, objectFurniture::example().getT());
+         bar(x1, y1, x2, y2);
+         setcolor(BLACK);
+         rectangle(x1, y1, x2, y2);
+         //ме мюйкюдшбюрэ тхцспш дпсц мю дпсцю
+         for (int i = x1; i < x2; i++)
+         {
+            for (int j = y1; j < y2; j++)
+            {
+               areaDraw::example().deleteFigure(i, j);
+            }
+         }
+         break;
+      }
+   }
+   //назейр
+   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
+   areaDraw::example().addFigure(rect);
+}
+//оюпюлерпш тхцспш
+void modeFigure(int x1, int y1, int x2, int y2)
+{
+   char str_w[10], str_h[10];
+   int w = areaParams :: example().weightWall;
+   setlinestyle(SOLID_LINE, w / 3, w / 3);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   areaParams :: example().draw();
+   int wight = 2 * (x2 - x1) / 3;
+   int height = 2 * (y2 - y1) / 3;
+   sprintf(str_w, "%d", wight);
+   sprintf(str_h, "%d", height);
+   setcolor(RGB(153, 153, 153));
+   outtextxy(230, 407, str_w);
+   outtextxy(230, 489, str_h);
+   setcolor(RGB(200, 200, 200));
+   rectangle(x1, y1, x2, y2);
+   swapbuffers();
+}
+//пюяръцхбюмхе тхцспш опх пхянбюмхх
+bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y1, int x2, int y2))
+{
+   x1 = mousex();
+   y1 = mousey();
+   x2 = x1;
+   y2 = y1;
+   shape(x1, y1, x2, y2);
+   while (1)
+   {
+      int cursorClick = mousebuttons();
+      if (!cursorClick)
+      {
+         break;
+      }
+      int cursorX = mousex();
+      int cursorY = mousey();
+      if (!areaDraw :: example().in(cursorX, cursorY))
+      {
+         shape(x1, y1, x2, y2);
+         return 0;
+      }
+      if ((cursorX - x1 > 0) && (cursorY - y1 > 0))
+      {
+         shape(x1, y1, x2, y2);
+         x2 = cursorX;
+         y2 = cursorY;
+         shape(x1, y1, x2, y2);
+      }
+   }
+   shape(x1, y1, x2, y2);
+   return 1;
+}
+
+//яремю
+void toolWall()
+{
+   areaParams :: example().obj = NULL;
+   if (areaDraw :: example().getNumRoom() == 0)
+   {
+      int x1, y1, x2, y2, w = areaParams :: example().weightWall;
+      if (modeStretch(x1, y1, x2, y2, modeFigure))
+      {
+         figure *rect = new objectWall(x1, y1, x2, y2, w);
+         rect -> draw();
+         areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
+         areaDraw :: example().setCoord(x1, y1, x2, y2);
+         areaDraw :: example().addFigure(rect);
+         areaDraw :: example().setNumRoom(1);
+      }
+   }
+   else
+   {
+      Error :: example().setError()
+      Error :: _abracadabra_cast(example());
