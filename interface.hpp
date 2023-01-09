@@ -16,41 +16,46 @@ extern IMAGE *background[NUMBACKGROUND];
 extern IMAGE *object[NUMOBJECT];
 
 // БАЗОВЫЙ КЛАСС ДЛЯ ОШИБОК
-struct error
-{ 
-   virtual ~error() {} // деструктор
+struct Error
+{
+   int showTime = 0;
+   virtual ~Error() {} // деструктор
    virtual const void *what() const = 0; // сообщение для печати
 };
 
-struct manyRooms: error
+struct ManyRoomsError: Error
 {
    const void *what() const
    {
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
       putimage(64, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      //delay(1300);
+      putimage(64, 556, image, COPY_PUT); // сообщение для печати
+      swapbuffers();
       return 0;
    }
 };
 
-struct noRoom: error
+struct NoRoomError: Error
 {
    const void *what() const
    {
-     IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      IMAGE *image =  loadBMP("icon/back/text2.jpg");
       putimage(61, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      //delay(1300);
+      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      swapbuffers();
       return 0;
    }
 };
 
-struct objectOverlay: error
+struct ObjectOverlayError: Error
 {
    const void *what() const
    {
-     IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      swapbuffers();
       putimage(61, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
       //delay(1300);
@@ -289,11 +294,13 @@ public:
    void setParam(int w, int h);
    void changeParam();
 };
+
 // КЛАСС ДЛЯ РАБОЧЕЙ СРЕДЫ
 class areaDraw: public objectClickable 
 {
+   IMAGE *back = loadBMP("icon/back/areaDraw.jpg");
    // ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
-   areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr), numRoom(0){} 
+   areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr), numRoom(0) {} 
 protected:
    // ЧИСЛО КОМНАТ РАСПОЛОЖЕННЫХ НА ЭКРАНЕ
    int numRoom;
@@ -309,9 +316,9 @@ protected:
    } coord;
    //ВЫБРАННЫЙ ИНСТРУМЕНТ
    ptrFunction tool; // текущий инструмент
+public:
    // МАССИВ ДЛЯ ОБЪЕКТОВ РАСПОЛОЖЕННЫХ НА ЭКРАНЕ
    vector <figure*> figures;
-public:
    //РАБОЧАЯ СРЕДА
    static areaDraw &example();
    //ЗАПИСЫВАЕМ ОБЪЕКТЫ
@@ -326,6 +333,8 @@ public:
    void addFigure(figure* figure);
    //ОТРИСОВКА
    void draw() override;
+   // ЗАДНИЙ ФОН
+   void drawBack();
    //ПРОЕКЦИЯ ОБЪЕКТА ПЕРЕД УСТАНОВКОЙ
    void projection(int x, int y);
    //ФУНКЦИЯ РЕАКЦИИ НА НАЖАТИЕ

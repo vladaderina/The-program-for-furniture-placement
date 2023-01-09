@@ -2,9 +2,6 @@
 
 
 
-//IMAGE *errorRoom = loadBMP("icon/back/text1.jpg");
-//Error manyRoom(64, 556, errorRoom);
-
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button :: draw()
 {
@@ -21,8 +18,8 @@ void button :: draw()
 void buttonFurniture :: press()
 {
    //”—“¿ÕŒ¬»“‹ »Õ—“–”Ã≈Õ“ » “»œ “»œ Ã≈¡≈À»
-   areaDraw::example().setTool(tool);
-   objectFurniture::example().setT(type);
+   areaDraw :: example().setTool(tool);
+   objectFurniture :: example().setT(type);
 }
 //–≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
 void buttonFile :: press()
@@ -136,7 +133,7 @@ void toolFurniture()
       }
    }
    //Œ¡⁄≈ “
-   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
+   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture :: example().getT());
    areaDraw::example().addFigure(rect);
 }
 //œ¿–¿Ã≈“–€ ‘»√”–€
@@ -197,7 +194,7 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 void toolWall()
 {
    areaParams :: example().obj = NULL;
-   if (areaDraw :: example().getNumRoom() != 0) throw manyRooms();
+   if (areaDraw :: example().getNumRoom() != 0) throw ManyRoomsError();
    else
    {
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
@@ -263,8 +260,20 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
    }
 }
 
-//Œ ÕŒ
-void toolWindow()
+// Œ¡⁄≈ “€ Õ¿ —“≈Õ≈
+void toolOnWall()
 {
-   if (areaDraw :: example().getNumRoom() == 0) throw noRoom();
-   else if (areaDraw :: _abracadabra_cast(example());
+   if (areaDraw :: example().inRoom(mousex(), mousey()))
+   {
+      int x1, y1, numWall;
+      x1 = mousex();
+      y1 = mousey();
+      IMAGE *a;
+      a = areaParams :: example().obj;
+      IMAGE *m = positionOnWall(x1, y1, numWall, a);
+      if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
+      else if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw ObjectOverlayError();
+      else if (areaDraw :: example().inRoom(x1, y1))
+      {
+         figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
+         areaDraw :: _abracadabra_cast(example());

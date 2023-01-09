@@ -46,7 +46,7 @@ void mainInitialization()
    buttons[17] = new buttonParam(290, 215, -1, 0);
    buttons[18] = new buttonParam(290, 290, 0, -1);
    //ÓÑÒÀÍÀÂËÈÂÀÅÌ ÑÒÀÍÄÀÐÒÍÛÉ ÈÍÑÒÐÓÌÅÍÒ
-   areaDraw::example().setTool(toolWall);
+   areaDraw :: example().setTool(toolWall);
 }
 
 //ÎÑÍÎÂÍÀß ÔÓÍÊÖÈß
@@ -60,6 +60,7 @@ int main()
    int x, y;
    areaParams :: example().draw();
    swapbuffers();
+   bool flag = 0;
    while(1)
    {
       //ÊÎÐÄÈÍÀÒÛ ÊÓÐÑÎÐÀ
@@ -123,13 +124,16 @@ int main()
             }
          }
       }
-      if (areaDraw :: example().inRoom(x, y))
+      if (areaDraw :: example().getNumRoom() && areaDraw :: example().inRoom(x, y))
       {
+         //flag = 1;
          areaDraw :: example().projection(x, y);
       }
-      else
+      else if (areaDraw :: example().getNumRoom() && Pages :: example().getPage() != 0)
       {
+         //flag = 0;
          Pages :: example().draw();
+         //areaDraw :: example().drawBack();
          areaDraw :: example().draw();
          if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParams :: example().draw();
          swapbuffers();

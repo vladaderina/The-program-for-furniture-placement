@@ -2,6 +2,7 @@
 
 IMAGE *background[NUMBACKGROUND];
 IMAGE *object[NUMOBJECT];
+int type = 0;
 
 bool objectDisplay :: in(int x, int y)
 {
@@ -22,11 +23,11 @@ void drawimage(int x, int y, IMAGE *m, IMAGE *p)
 }
 
 // »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
-IMAGE * resize(IMAGE *p, int w, int h)
+IMAGE *resize(IMAGE *p, int w, int h)
 {
    int wp = imagewidth(p);
    int hp = imageheight(p);
-   IMAGE *r=createimage(w, h);
+   IMAGE *r = createimage(w, h);
    for (int x = 0; x < w; ++x)
       for (int y = 0; y < h; ++y)
          imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
@@ -41,11 +42,11 @@ Pages &Pages :: example()
 }
 void Pages :: draw()
 {
-    putimage(0, 0, background[Pages :: example().getPage()], COPY_PUT);
+   putimage(0, 0, background[Pages :: example().getPage()], COPY_PUT);
 }
 
 //-----------------------------------------------Ã≈¡≈À‹-----------------------------------------------//
-void objectFurniture :: setT(int type) 
+void objectFurniture :: setT(int type)
 {
    t = type;
    draw();
@@ -124,7 +125,7 @@ void areaParams :: draw()
    setusercharsize(9, 20, 9, 10);
    if (num == 0)
    {
-      sprintf(str_h, "%d", weightWall); 
+      sprintf(str_h, "%d", weightWall);
       sprintf(str_w, "%d", heightWall);
       sprintf(str_h_room, "%d", 2 * (areaDraw :: example().getY2() - areaDraw :: example().getY1()) / 3);
       sprintf(str_w_room, "%d", 2 * (areaDraw :: example().getX2() - areaDraw :: example().getX1()) / 3);
@@ -149,7 +150,7 @@ void areaParams :: draw()
    outtextxy(230, 324, str_w);
 }
 
- void areaParams :: changeParam()
+void areaParams :: changeParam()
 {
    int num = Pages :: example().getPage();
    if (num == 0)
@@ -212,13 +213,19 @@ areaDraw &areaDraw :: example()
 //Œ“–»—Œ¬ ¿
 void areaDraw :: draw()
 {
-   Pages :: example().draw();
+   //Pages :: example().draw();
+   areaDraw :: example().drawBack();
    //‘»√”–€
-   for(int i = 0; i < areaDraw :: example().figures.size(); i++)
+   for (int i = 0; i < figures.size(); i++)
       figures[i] -> draw();
 }
+// «¿ƒÕ»… ‘ŒÕ
+void areaDraw :: drawBack()
+{
+   putimage(1280 - imagewidth(back), 720 - imageheight(back), back, COPY_PUT);
+}
 
-// œ–Œ¬≈– ¿ Õ¿ √–¿Õ»÷€  ŒÃÕ“¿Õ€ 
+// œ–Œ¬≈– ¿ Õ¿ √–¿Õ»÷€  ŒÃÕ“¿Õ€
 bool areaDraw :: inRoom(int x, int y)
 {
    if (coord.x1 > coord.x2)
@@ -226,7 +233,7 @@ bool areaDraw :: inRoom(int x, int y)
    if (coord.y1 > coord.y2)
       swap(coord.y1, coord.y2);
    if (x >= coord.x1 && x <= coord.x2
-      && y >= coord.y1 && y<= coord.y2)
+         && y >= coord.y1 && y<= coord.y2)
       return true;
    else
       return false;
@@ -246,13 +253,14 @@ void areaDraw :: projection(int x, int y)
          imageputpixel(m1, 0, 0, WHITE);
          int x1 = x;
          int y1 = y;
-         Pages :: example().draw();
+         areaDraw :: example().drawBack(); //Pages :: example().draw();
          draw();
          if (Pages :: example().getPage() != 3)
          {
             areaParams :: example().draw();
-         } setlinestyle(SOLID_LINE, 2, 2);
-         
+         }
+         setlinestyle(SOLID_LINE, 2, 2);
+
          if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1))) setcolor(RED);
          else setcolor(GREEN);
          rectangle(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1));
@@ -272,7 +280,7 @@ void areaDraw :: press()
       {
          tool();
       }
-      catch (error &e)
+      catch (Error &e)
       {
          e.what();
       }
@@ -288,9 +296,9 @@ bool areaDraw :: overlay(int a, int b, int c, int d)
       int x2 = figures[i] -> getX2();
       int y2 = figures[i] -> getY2();
       if (((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
-         (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) || 
-         (y1 <= d && y2 >= d) ||
-         (y1 >= b && y2 <= d)))
+            (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
+                                      (y1 <= d && y2 >= d) ||
+                                      (y1 >= b && y2 <= d)))
          return true;
    }
    return false;
@@ -311,7 +319,7 @@ void areaDraw :: save()
 }
 
 //ƒŒ¡¿¬»“‹ Œ¡⁄≈ “
-void areaDraw :: addFigure(figure* figure)
+void areaDraw :: addFigure(figure *figure)
 {
    figures.push_back(figure);
 }
@@ -335,7 +343,7 @@ void areaDraw :: deleteFigure(int x, int y)
             swapbuffers();
             break;
          }
-         figures.erase(figures.begin() + i); 
+         figures.erase(figures.begin() + i);
          draw();
          if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
          //delay(600);

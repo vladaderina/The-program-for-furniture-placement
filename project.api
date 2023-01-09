@@ -4,6 +4,11 @@
 !interface.cpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !interface.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
 !main.cpp button.hpp cctype cerrno clocale cstdint cstdio cstdlib ctype.h cwchar cwctype errno.h exception fstream graphics.h initializer_list interface.hpp ios iosfwd iostream istream keys_n_colors.h limits limits.h locale.h new ostream signal.h stddef.h stdexcept stdint.h stdio.h stdlib.h streambuf string string_view system_error type_traits typeinfo utility vector wchar.h wctype.h #<#>
+Error : struct ManyRoomsError: #<interface.hpp>
+Error : struct NoRoomError: #<interface.hpp>
+Error : struct ObjectOverlayError: #<interface.hpp>
+Error _type_ #<interface.hpp>
+Error() -> virtual~ #<interface.hpp>
 NUMBACKGROUND #<button.hpp>
 NUMBUTTONS #<button.hpp>
 NUMOBJECT #<interface.hpp>
@@ -27,11 +32,6 @@ buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
 createmask(IMAGE* p) -> IMAGE* #<interface.hpp>
 drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<interface.hpp>
-error : struct manyRooms: #<interface.hpp>
-error : struct noRoom: #<interface.hpp>
-error : struct objectOverlay: #<interface.hpp>
-error _type_ #<interface.hpp>
-error() -> virtual~ #<interface.hpp>
 figure _type_ #<interface.hpp>
 figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
@@ -62,22 +62,27 @@ toolHeightDown() -> void #<button.hpp>
 toolMove() -> void #<button.hpp>
 toolOnWall() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
+type : int #<interface.cpp>
+	Error::showTime : int #<interface.hpp>
+	Error=:what() -> virtual const void* #<interface.hpp>
 	Pages:%page : int #<interface.hpp>
 	Pages::draw() -> void #<interface.hpp>
 	Pages::setPage(int page) -> void #<interface.hpp>
 	Pages::getPage() -> int #<interface.hpp>
 	Pages$:example() -> Pages& #<interface.hpp>
+	areaDraw:%back : IMAGE* #<interface.hpp>
 	areaDraw:%numRoom : int #<interface.hpp>
 	areaDraw:%center : center #<interface.hpp>
 	areaDraw:%coord : coord #<interface.hpp>
 	areaDraw:%tool : ptrFunction #<interface.hpp>
-	areaDraw:%figures : vector #<interface.hpp>
+	areaDraw::figures : vector #<interface.hpp>
 	areaDraw::outputObjects() -> void #<interface.hpp>
 	areaDraw::overlay(int a, int b, int c, int d) -> bool #<interface.hpp>
 	areaDraw::inRoom(int x, int y) -> bool #<interface.hpp>
 	areaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	areaDraw::addFigure(figure* figure) -> void #<interface.hpp>
 	areaDraw::draw() -> void #<interface.hpp>
+	areaDraw::drawBack() -> void #<interface.hpp>
 	areaDraw::projection(int x, int y) -> void #<interface.hpp>
 	areaDraw::press() -> void #<interface.hpp>
 	areaDraw::setTool(ptrFunction t) -> void #<interface.hpp>
@@ -206,7 +211,6 @@ toolWall() -> void #<button.hpp>
 	buttonTools::getLeft() -> int #<button.hpp>
 	buttonTools::getHeight() -> int #<button.hpp>
 	buttonTools::getWidth() -> int #<button.hpp>
-	error=:what() -> virtual const void* #<interface.hpp>
 	figure:%type : int #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
 	figure::press() -> virtual void #<interface.hpp>

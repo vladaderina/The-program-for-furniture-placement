@@ -2,9 +2,6 @@
 #include <math.h>
 #include <clocale>
 
-//IMAGE *errorRoom = loadBMP("icon/back/text1.jpg");
-//Error manyRoom(64, 556, errorRoom);
-
 //Œ“–»—Œ¬ ¿  ÕŒœ »
 void button :: draw()
 {
@@ -197,7 +194,7 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 void toolWall()
 {
    areaParams :: example().obj = NULL;
-   if (areaDraw :: example().getNumRoom() != 0) throw manyRooms();
+   if (areaDraw :: example().getNumRoom() != 0) throw ManyRoomsError();
    else
    {
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
@@ -272,15 +269,18 @@ void toolOnWall()
    IMAGE *a;
    a = areaParams :: example().obj;
    IMAGE *m = positionOnWall(x1, y1, numWall, a);
-   if (!areaDraw :: example().getNumRoom()) throw noRoom();
-   else if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw objectOverlay();
-   else if (areaDraw :: example().inRoom(x1, y1))
+   if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
+   else if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw ObjectOverlayError();
+   else if (areaDraw :: example().inRoom(mousex(), mousey()))
    {
       figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-      rect -> draw();
       areaDraw :: example().addFigure(rect);
+      for (int i = 0; i < areaDraw :: example().figures.size(); i++)
+         areaDraw :: example().figures[i] -> draw();
+      areaDraw :: example().projection(x1, y1);
    }
    swapbuffers();
+   delay(200);
 }
 
 //—Œ’–¿Õ»“‹ ¬ œ–Œ≈ “
