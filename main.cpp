@@ -29,8 +29,8 @@ void mainInitialization()
    }
    // ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
    buttons[0] = new buttonTools(0, 73, 1, toolWall);
-   buttons[1] = new buttonTools(0, 73 + 75, 1, toolDoor);
-   buttons[2] = new buttonTools(0, 73 + 75 * 2, 1, toolWindow);
+   buttons[1] = new buttonTools(0, 73 + 75, 1, toolOnWall);
+   buttons[2] = new buttonTools(0, 73 + 75 * 2, 1, toolOnWall);
    buttons[3] = new buttonTools(0, 75 * 4, 1, toolDelete);
    // ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
    buttons[4] = new buttonFile(0, 630, fileEnd);
@@ -55,7 +55,6 @@ int main()
    initwindow(1280, 720, "RoomPlanner", 0, 0, true);
    //»Õ»÷»¿À»«¿÷»ﬂ » Œ“–»—Œ¬ ¿ ›À≈Ã≈Õ“Œ¬
    mainInitialization();
-   
    setbkcolor(RGB(243, 243, 243));
    Pages :: example().draw();
    int x, y;

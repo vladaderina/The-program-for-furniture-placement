@@ -29,7 +29,7 @@ struct manyRooms: error
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
       putimage(64, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      delay(1300);
+      //delay(1300);
       return 0;
    }
 };
@@ -41,7 +41,19 @@ struct noRoom: error
      IMAGE *image =  loadBMP("icon/back/text2.jpg");
       putimage(61, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      delay(1300);
+      //delay(1300);
+      return 0;
+   }
+};
+
+struct objectOverlay: error
+{
+   const void *what() const
+   {
+     IMAGE *image =  loadBMP("icon/back/text2.jpg");
+      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      swapbuffers();
+      //delay(1300);
       return 0;
    }
 };

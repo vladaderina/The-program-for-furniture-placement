@@ -29,6 +29,7 @@ createmask(IMAGE* p) -> IMAGE* #<interface.hpp>
 drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<interface.hpp>
 error : struct manyRooms: #<interface.hpp>
 error : struct noRoom: #<interface.hpp>
+error : struct objectOverlay: #<interface.hpp>
 error _type_ #<interface.hpp>
 error() -> virtual~ #<interface.hpp>
 figure _type_ #<interface.hpp>
@@ -56,12 +57,11 @@ positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<interface.h
 ptrFunction _type_ #<interface.hpp>
 resize(IMAGE* p, int w, int h) -> IMAGE* #<interface.hpp>
 toolDelete() -> void #<button.hpp>
-toolDoor() -> void #<button.hpp>
 toolFurniture() -> void #<button.hpp>
 toolHeightDown() -> void #<button.hpp>
 toolMove() -> void #<button.hpp>
+toolOnWall() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
-toolWindow() -> void #<button.hpp>
 	Pages:%page : int #<interface.hpp>
 	Pages::draw() -> void #<interface.hpp>
 	Pages::setPage(int page) -> void #<interface.hpp>

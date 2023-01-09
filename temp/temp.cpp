@@ -41,10 +41,10 @@ void buttonTools :: press()
 {
    int numPage = Pages :: example().getPage();
    if (numPage == 1)
-      areaParams :: example().obj = object[(areaParams :: example().weightDoor / 10) % 7];
+      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
    else if (numPage == 2)
-      areaParams :: example().obj = object[((areaParams :: example().weightWindow) / 75) + 2];
-   else areaParams :: example().obj = NULL;
+      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
+   else areaParams :: example().obj = NULL; 
    areaDraw :: example().setTool(tool);
 }
 //”ƒ¿À»“‹
@@ -56,7 +56,7 @@ void toolDelete()
    //”ƒ¿À≈Õ»≈ ‘»√”–€,  Œ“Œ–Œ… œ–»Õ¿ƒÀ≈∆»“ “Œ◊ ¿ ¬  Œ“Œ–Œ… Õ¿’Œƒ»“—ﬂ  ”–—Œ–
    areaDraw :: example().deleteFigure(x, y);
 }
-
+ 
 //Ã≈¡≈À‹
 void toolFurniture()
 {
@@ -197,7 +197,8 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 void toolWall()
 {
    areaParams :: example().obj = NULL;
-   if (areaDraw :: example().getNumRoom() == 0)
+   if (areaDraw :: example().getNumRoom() != 0) throw manyRooms();
+   else
    {
       int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
@@ -210,7 +211,60 @@ void toolWall()
          areaDraw :: example().setNumRoom(1);
       }
    }
+   swapbuffers();
+}
+
+//–¿—œŒÀŒ∆≈Õ»≈ Œ¡⁄≈ “¿ Õ¿ —“≈Õ≈
+IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
+{
+   IMAGE *b = imageturn(a, 90, WHITE);
+   IMAGE *c = imageturn(a, 180, WHITE);
+   IMAGE *d = imageturn(a, 270, WHITE);
+   int centerY = areaDraw :: example().getCenterY();
+   int centerX = areaDraw :: example().getCenterX();
+   int xt1 = areaDraw :: example().getX1();
+   int yt1 = areaDraw :: example().getY1();
+   int xt2 = areaDraw :: example().getX2();
+   int yt2 = areaDraw :: example().getY2();
+
+   if (double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
+         y1 >= yt1 && y1 <= centerY &&
+         double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
+      y1 = yt1;
+      if (x1 > xt2 - imagewidth(a)) x1 = xt2 - imagewidth(a);
+      numWall = 1;
+      return a;
+   }
+   else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) &&
+            x1 <= xt2 && x1 >= centerX &&
+            double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   {
+      x1 = xt2 - imagewidth(d);
+      if (y1 > yt2 - imageheight(d)) y1 = yt2 - imageheight(d);
+      numWall = 2;
+      return d;
+   }
+   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
+            y1 <= yt2 && y1 >= centerY &&
+            double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
+      y1 = yt2 - imageheight(c);
+      if (x1 > xt2 - imagewidth(c)) x1 = xt2 - imagewidth(c);
+      numWall = 3;
+      return c;
+   }
    else
    {
-      Error :: example().setError()
-      Error :: _abracadabra_cast(example());
+      x1 = xt1;
+      if (y1 > yt2 - imageheight(b)) y1 = yt2 - imageheight(b);
+      numWall = 4;
+      return b;
+   }
+}
+
+//Œ ÕŒ
+void toolWindow()
+{
+   if (areaDraw :: example().getNumRoom() == 0) throw noRoom();
+   else if (areaDraw :: _abracadabra_cast(example());

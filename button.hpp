@@ -69,10 +69,8 @@ void toolMove();
 void toolFurniture();
 //хмярпслемр яремю
 void toolWall();
-//хмярпслемр нймн
-void toolWindow();
-//хмярпслемр дбепх
-void toolDoor();
+//хмярпслемр назейр мю яреме
+void toolOnWall();
 //гюцпсгйю хг опнейрю
 void fileLoad();
 //янупюмемхе б опнейр

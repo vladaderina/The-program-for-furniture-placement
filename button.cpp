@@ -21,8 +21,8 @@ void button :: draw()
 void buttonFurniture :: press()
 {
    //сярюмнбхрэ хмярпслемр х рхо рхо леаекх
-   areaDraw::example().setTool(tool);
-   objectFurniture::example().setT(type);
+   areaDraw :: example().setTool(tool);
+   objectFurniture :: example().setT(type);
 }
 //пеюйжхъ мю мюфюрхе ймнойх пюанрш я тюикнл
 void buttonFile :: press()
@@ -136,7 +136,7 @@ void toolFurniture()
       }
    }
    //назейр
-   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture::example().getT());
+   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture :: example().getT());
    areaDraw::example().addFigure(rect);
 }
 //оюпюлерпш тхцспш
@@ -263,18 +263,19 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
    }
 }
 
-//нймн
-void toolWindow()
+// назейрш мю яреме
+void toolOnWall()
 {
-   if (areaDraw :: example().getNumRoom() == 0) throw noRoom();
-   else
+   int x1, y1, numWall;
+   x1 = mousex();
+   y1 = mousey();
+   IMAGE *a;
+   a = areaParams :: example().obj;
+   IMAGE *m = positionOnWall(x1, y1, numWall, a);
+   if (!areaDraw :: example().getNumRoom()) throw noRoom();
+   else if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw objectOverlay();
+   else if (areaDraw :: example().inRoom(x1, y1))
    {
-      int x1, y1, numWall;
-      x1 = mousex();
-      y1 = mousey();
-      IMAGE *a;
-      a = areaParams :: example().obj;
-      IMAGE *m = positionOnWall(x1, y1, numWall, a);
       figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
       rect -> draw();
       areaDraw :: example().addFigure(rect);
@@ -282,25 +283,6 @@ void toolWindow()
    swapbuffers();
 }
 
-//дбепэ
-void toolDoor()
-{
-   if (areaDraw :: example().getNumRoom() == 0) throw noRoom();
-   else
-   {
-      int x1, y1, numWall;
-      x1 = mousex();
-      y1 = mousey();
-      IMAGE *a;
-      a = areaParams :: example().obj;
-      imageputpixel(a, 0, 0, WHITE);
-      IMAGE *m = positionOnWall(x1, y1, numWall, a);
-      figure *rect= new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
-      rect -> draw();
-      areaDraw :: example().addFigure(rect);
-   }
-   swapbuffers();
-}
 //янупюмхрэ б опнейр
 void fileSave()
 {
