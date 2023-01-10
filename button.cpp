@@ -2,149 +2,79 @@
 #include <math.h>
 #include <clocale>
 
-//нрпхянбйю ймнойх
+// нрпхянбйю ймнойх
 void button :: draw()
 {
-   //гюкхбйю
-   setfillstyle(SOLID_FILL, COLOR(63, 63, 63));
-   bar(x1, y1, x2, y2);
-
-   //йнмрсп
-   setcolor(BLACK);
-   setlinestyle(SOLID_LINE, THICK_WIDTH, THICK_WIDTH);
-   rectangle(x1, y1, x2, y2);
+   
 }
-//пеюйжхъ мю мюфюрхе ймнойх леаекх
+// пеюйжхъ мю мюфюрхе ймнойх леаекх
 void buttonFurniture :: press()
 {
-   //сярюмнбхрэ хмярпслемр х рхо рхо леаекх
+   // сярюмнбхрэ хмярпслемр х рхо рхо леаекх
    areaDraw :: example().setTool(tool);
    objectFurniture :: example().setT(type);
 }
-//пеюйжхъ мю мюфюрхе ймнойх пюанрш я тюикнл
+// пеюйжхъ мю мюфюрхе ймнойх пюанрш я тюикнл
 void buttonFile :: press()
 {
-   //деиярбхе
+   // деиярбхе
    action();
 }
-//пеюйжхъ мю мюфюрхе ймнойх я оюпюлерпюлх
+// пеюйжхъ мю мюфюрхе ймнойх я оюпюлерпюлх
 void buttonParam :: press()
 {
-   areaParams :: example().setParam(w, h);
-   areaParams :: example().changeParam();
+   areaParamsOnWall :: example().setParam(w, h);
+   areaParamsOnWall :: example().changeParam();
 }
-//пеюйжхъ мю мюфюрхе ймнойх хмярпслемрюпхъ
+// пеюйжхъ мю мюфюрхе ймнойх хмярпслемрюпхъ
 void buttonTools :: press()
 {
    int numPage = Pages :: example().getPage();
    if (numPage == 1)
-      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
+      areaParamsOnWall :: example().obj = object[((90 - areaParamsOnWall :: example().weightDoor) / 10) % 3];
    else if (numPage == 2)
-      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
-   else areaParams :: example().obj = NULL; 
+      areaParamsOnWall :: example().obj = object[((250 - areaParamsOnWall :: example().weightWindow) / 75) + 3];
+   else areaParamsOnWall :: example().obj = NULL; 
    areaDraw :: example().setTool(tool);
 }
-//сдюкхрэ
+// сдюкхрэ
 void toolDelete()
 {
-   //йспянп
+   // йспянп
    int x = mousex();
    int y = mousey();
-   //сдюкемхе тхцспш, йнрнпни опхмюдкефхр рнвйю б йнрнпни мюундхряъ йспянп
+   // сдюкемхе тхцспш, йнрнпни опхмюдкефхр рнвйю б йнрнпни мюундхряъ йспянп
    areaDraw :: example().deleteFigure(x, y);
 }
  
-//леаекэ
+// леаекэ
 void toolFurniture()
 {
-   //йннпдхмюрш
-   int x1, y1, x2, y2; //йннпдхмюрш
+   // йннпдхмюрш
+   int x1, y1, x2, y2;
 
-   //ьхпхмю х бшянрю
+   // ьхпхмю х бшянрю
    int w, h;
 
-   //вхрюел ьхпхмс х бшянрс хг тюикю
+   // вхрюел ьхпхмс х бшянрс хг тюикю
    string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
    FILE *f = fopen(t.c_str(), "r");
    fscanf(f, "%d:%d", &w, &h);
    fclose(f);
 
-   //йннпдхмюрш
    x1 = 200;
    y1 = 100;
-
-   int k = getch();
-   while (1) {
-      //оепелеыемхе тхцспш
-      k = getch();
-      //бмхг
-      if (k == KEY_DOWN) {
-         y1 += 10;
-      }
-      //ббепу
-      if (k == KEY_UP) {
-         y1 -= 10;
-      }
-      //бкебн
-      if (k == KEY_LEFT)
-      {
-         x1 -= 10;
-      }
-      //бопюбн
-      if (k == KEY_RIGHT)
-      {
-         x1 += 10;
-      }
-      //онбнпнр
-      if (k == KEY_SHIFT)
-      {
-         swap(w, h);
-      }
-      if (x1 < 100) {
-         x1 += 10;
-      }
-      if (y1 < 20) {
-         y1 += 10;
-      }
-      if (y2 > 550) {
-         y1 -= 10;
-      }
-      if (x2 > 750) {
-         x1 -= 10;
-      }
-      //пюявер х нрпхянбйю
-      x2 = x1 + w;
-      y2 = y1 + h;
-      //ондрбепфдемхе сярюмнбйх леаекх
-      if (k == KEY_ENTER) {
-         setfillstyle(SOLID_FILL, objectFurniture::example().getT());
-         bar(x1, y1, x2, y2);
-         setcolor(BLACK);
-         rectangle(x1, y1, x2, y2);
-         //ме мюйкюдшбюрэ тхцспш дпсц мю дпсцю
-         for (int i = x1; i < x2; i++)
-         {
-            for (int j = y1; j < y2; j++)
-            {
-               areaDraw::example().deleteFigure(i, j);
-            }
-         }
-         break;
-      }
-   }
-   //назейр
-   figure *rect = new objectFurniture(x1, y1, x2, y2, objectFurniture :: example().getT());
-   areaDraw::example().addFigure(rect);
 }
-//оюпюлерпш тхцспш
+
+// оюпюлерпш тхцспш
 void modeFigure(int x1, int y1, int x2, int y2)
 {
    char str_w[10], str_h[10];
-   int w = areaParams :: example().weightWall;
+   int w = areaParamsOnWall :: example().weightWall;
    setlinestyle(SOLID_LINE, w / 3, w / 3);
    Pages :: example().draw();
    areaDraw :: example().draw();
-   areaParams :: example().draw();
+   areaParamsOnWall :: example().draw();
    int wight = 2 * (x2 - x1) / 3;
    int height = 2 * (y2 - y1) / 3;
    sprintf(str_w, "%d", wight);
@@ -156,7 +86,8 @@ void modeFigure(int x1, int y1, int x2, int y2)
    rectangle(x1, y1, x2, y2);
    swapbuffers();
 }
-//пюяръцхбюмхе тхцспш опх пхянбюмхх
+
+// пюяръцхбюмхе тхцспш опх пхянбюмхх
 bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y1, int x2, int y2))
 {
    x1 = mousex();
@@ -190,14 +121,14 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
    return 1;
 }
 
-//яремю
+// яремю
 void toolWall()
 {
-   areaParams :: example().obj = NULL;
+   areaParamsOnWall :: example().obj = NULL;
    if (areaDraw :: example().getNumRoom() != 0) throw ManyRoomsError();
    else
    {
-      int x1, y1, x2, y2, w = areaParams :: example().weightWall;
+      int x1, y1, x2, y2, w = areaParamsOnWall :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
       {
          figure *rect = new objectWall(x1, y1, x2, y2, w);
@@ -205,13 +136,16 @@ void toolWall()
          areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
          areaDraw :: example().setCoord(x1, y1, x2, y2);
          areaDraw :: example().addFigure(rect);
+         areaDraw :: example().draw();
+         swapbuffers();
+         areaDraw :: example().draw();
          areaDraw :: example().setNumRoom(1);
       }
    }
    swapbuffers();
 }
 
-//пюяонкнфемхе назейрю мю яреме
+// пюяонкнфемхе назейрю мю яреме
 IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 {
    IMAGE *b = imageturn(a, 90, WHITE);
@@ -267,10 +201,11 @@ void toolOnWall()
    x1 = mousex();
    y1 = mousey();
    IMAGE *a;
-   a = areaParams :: example().obj;
+   a = areaParamsOnWall :: example().obj;
    IMAGE *m = positionOnWall(x1, y1, numWall, a);
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
-   else if (areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw ObjectOverlayError();
+   else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
+               areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw ObjectOverlayError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()))
    {
       figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
@@ -283,12 +218,12 @@ void toolOnWall()
    delay(200);
 }
 
-//янупюмхрэ б опнейр
+// янупюмхрэ б опнейр
 void fileSave()
 {
    areaDraw::example().save();
 }
-//гюйпшрэ опнцпюллс
+// гюйпшрэ опнцпюллс
 void fileEnd()
 {
    closegraph();

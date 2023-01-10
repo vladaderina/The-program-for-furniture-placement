@@ -10,10 +10,11 @@
 
 using namespace std;
 
-//УКАЗАТЕЛЬ НА ФУНКЦИЮ
+//  УКАЗАТЕЛЬ НА ФУНКЦИЮ
 typedef void (*ptrFunction)();
 extern IMAGE *background[NUMBACKGROUND];
 extern IMAGE *object[NUMOBJECT];
+extern bool flag;
 
 // БАЗОВЫЙ КЛАСС ДЛЯ ОШИБОК
 struct Error
@@ -28,9 +29,9 @@ struct ManyRoomsError: Error
    const void *what() const
    {
       IMAGE *image =  loadBMP("icon/back/text1.jpg");
-      putimage(64, 556, image, COPY_PUT); // сообщение для печати
+      putimage(63, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      putimage(64, 556, image, COPY_PUT); // сообщение для печати
+      putimage(63, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
       return 0;
    }
@@ -41,9 +42,9 @@ struct NoRoomError: Error
    const void *what() const
    {
       IMAGE *image =  loadBMP("icon/back/text2.jpg");
-      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      putimage(63, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      putimage(63, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
       return 0;
    }
@@ -53,10 +54,10 @@ struct ObjectOverlayError: Error
 {
    const void *what() const
    {
-      IMAGE *image =  loadBMP("icon/back/text2.jpg");
-      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      IMAGE *image =  loadBMP("icon/back/text3.jpg");
+      putimage(63, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
-      putimage(61, 556, image, COPY_PUT); // сообщение для печати
+      putimage(63, 556, image, COPY_PUT); // сообщение для печати
       swapbuffers();
       //delay(1300);
       return 0;
@@ -101,7 +102,7 @@ public:
       return y1 + 1; 
    }
    int getLeft() { 
-      return x1+1; 
+      return x1 + 1; 
    }
    int getHeight() {
       return y2 - y1 - 1; 
@@ -147,6 +148,7 @@ public:
    //ГЕТТЕР ДЛЯ ТИПА ФИГУРЫ
    virtual int getType();
 };
+
 // КЛАСС ДЛЯ ОБЪЕКТОВ-МЕБЕЛИ
 class objectFurniture : public figure
 {
@@ -190,6 +192,7 @@ public:
    //ОБЪЕКТ
    static objectFurniture &example();
 };
+
 //КЛАСС ДЛЯ СТЕН
 class objectWall : public figure
 {
@@ -273,12 +276,13 @@ public:
       return y2; 
    }
 };
-// КЛАСС ДЛЯ ПАРАМЕТРОВ ОБЪЕКТА
-class areaParams : public objectDisplay
+
+// КЛАСС ДЛЯ ПАРАМЕТРОВ ОБЪЕКТОВ НА СТЕНЕ
+class areaParamsOnWall : public objectDisplay
 {
    int w, h;
    // ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
-   areaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
+   areaParamsOnWall (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
    weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (35), heightWall(250)
    { obj = NULL; } 
 public:
@@ -289,7 +293,29 @@ public:
         heightWindow,
         weightWall,
         heightWall;
-   static areaParams &example();
+   static areaParamsOnWall &example();
+   void draw();
+   void setParam(int w, int h);
+   void changeParam();
+};
+
+// КЛАСС ДЛЯ ПАРАМЕТРОВ ОБЪЕКТОВ МЕБЕЛИ
+class areaParamsFurniture : public objectDisplay
+{
+   int w, h;
+   // ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
+   areaParamsFurniture (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
+   weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (35), heightWall(250)
+   { obj = NULL; } 
+public:
+   IMAGE *obj;
+   int weightDoor,
+        heightDoor,
+        weightWindow,
+        heightWindow,
+        weightWall,
+        heightWall;
+   static areaParamsFurniture &example();
    void draw();
    void setParam(int w, int h);
    void changeParam();

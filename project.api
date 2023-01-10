@@ -16,8 +16,10 @@ Pages _type_ #<interface.hpp>
 Pages() #<interface.hpp>
 areaDraw _type_ #<interface.hpp>
 areaDraw(int x1, int y1, int x2, int y2) #<interface.hpp>
-areaParams _type_ #<interface.hpp>
-areaParams(int x1, int y1, int x2, int y2) #<interface.hpp>
+areaParamsFurniture _type_ #<interface.hpp>
+areaParamsFurniture(int x1, int y1, int x2, int y2) #<interface.hpp>
+areaParamsOnWall _type_ #<interface.hpp>
+areaParamsOnWall(int x1, int y1, int x2, int y2) #<interface.hpp>
 background : IMAGE*[] #<interface.hpp>
 button _type_ #<button.hpp>
 button(int x1, int y1, int x2, int y2) #<button.hpp>
@@ -37,6 +39,7 @@ figure(int x1, int y1, int x2, int y2) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
 fileLoad() -> void #<button.hpp>
 fileSave() -> void #<button.hpp>
+flag : bool #<interface.hpp>
 main() -> int #<main.cpp>
 mainInitialization() -> void #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
@@ -62,7 +65,6 @@ toolHeightDown() -> void #<button.hpp>
 toolMove() -> void #<button.hpp>
 toolOnWall() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
-type : int #<interface.cpp>
 	Error::showTime : int #<interface.hpp>
 	Error=:what() -> virtual const void* #<interface.hpp>
 	Pages:%page : int #<interface.hpp>
@@ -118,29 +120,52 @@ type : int #<interface.cpp>
 	areaDraw:coord::y1 : int #<interface.hpp>
 	areaDraw:coord::x2 : int #<interface.hpp>
 	areaDraw:coord::y2 : int #<interface.hpp>
-	areaParams:%w : int #<interface.hpp>
-	areaParams:%h : int #<interface.hpp>
-	areaParams::obj : IMAGE* #<interface.hpp>
-	areaParams::weightDoor : int #<interface.hpp>
-	areaParams::heightDoor : int #<interface.hpp>
-	areaParams::weightWindow : int #<interface.hpp>
-	areaParams::heightWindow : int #<interface.hpp>
-	areaParams::weightWall : int #<interface.hpp>
-	areaParams::heightWall : int #<interface.hpp>
-	areaParams::draw() -> void #<interface.hpp>
-	areaParams::setParam(int w, int h) -> void #<interface.hpp>
-	areaParams::changeParam() -> void #<interface.hpp>
-	areaParams::x1 : int #<interface.hpp>
-	areaParams::y1 : int #<interface.hpp>
-	areaParams::x2 : int #<interface.hpp>
-	areaParams::y2 : int #<interface.hpp>
-	areaParams::in(int x, int y) -> bool #<interface.hpp>
-	areaParams::draw() -> virtual void #<interface.hpp>
-	areaParams::getTop() -> int #<interface.hpp>
-	areaParams::getLeft() -> int #<interface.hpp>
-	areaParams::getHeight() -> int #<interface.hpp>
-	areaParams::getWidth() -> int #<interface.hpp>
-	areaParams$:example() -> areaParams& #<interface.hpp>
+	areaParamsFurniture:%w : int #<interface.hpp>
+	areaParamsFurniture:%h : int #<interface.hpp>
+	areaParamsFurniture::obj : IMAGE* #<interface.hpp>
+	areaParamsFurniture::weightDoor : int #<interface.hpp>
+	areaParamsFurniture::heightDoor : int #<interface.hpp>
+	areaParamsFurniture::weightWindow : int #<interface.hpp>
+	areaParamsFurniture::heightWindow : int #<interface.hpp>
+	areaParamsFurniture::weightWall : int #<interface.hpp>
+	areaParamsFurniture::heightWall : int #<interface.hpp>
+	areaParamsFurniture::draw() -> void #<interface.hpp>
+	areaParamsFurniture::setParam(int w, int h) -> void #<interface.hpp>
+	areaParamsFurniture::changeParam() -> void #<interface.hpp>
+	areaParamsFurniture::x1 : int #<interface.hpp>
+	areaParamsFurniture::y1 : int #<interface.hpp>
+	areaParamsFurniture::x2 : int #<interface.hpp>
+	areaParamsFurniture::y2 : int #<interface.hpp>
+	areaParamsFurniture::in(int x, int y) -> bool #<interface.hpp>
+	areaParamsFurniture::draw() -> virtual void #<interface.hpp>
+	areaParamsFurniture::getTop() -> int #<interface.hpp>
+	areaParamsFurniture::getLeft() -> int #<interface.hpp>
+	areaParamsFurniture::getHeight() -> int #<interface.hpp>
+	areaParamsFurniture::getWidth() -> int #<interface.hpp>
+	areaParamsFurniture$:example() -> areaParamsFurniture& #<interface.hpp>
+	areaParamsOnWall:%w : int #<interface.hpp>
+	areaParamsOnWall:%h : int #<interface.hpp>
+	areaParamsOnWall::obj : IMAGE* #<interface.hpp>
+	areaParamsOnWall::weightDoor : int #<interface.hpp>
+	areaParamsOnWall::heightDoor : int #<interface.hpp>
+	areaParamsOnWall::weightWindow : int #<interface.hpp>
+	areaParamsOnWall::heightWindow : int #<interface.hpp>
+	areaParamsOnWall::weightWall : int #<interface.hpp>
+	areaParamsOnWall::heightWall : int #<interface.hpp>
+	areaParamsOnWall::draw() -> void #<interface.hpp>
+	areaParamsOnWall::setParam(int w, int h) -> void #<interface.hpp>
+	areaParamsOnWall::changeParam() -> void #<interface.hpp>
+	areaParamsOnWall::x1 : int #<interface.hpp>
+	areaParamsOnWall::y1 : int #<interface.hpp>
+	areaParamsOnWall::x2 : int #<interface.hpp>
+	areaParamsOnWall::y2 : int #<interface.hpp>
+	areaParamsOnWall::in(int x, int y) -> bool #<interface.hpp>
+	areaParamsOnWall::draw() -> virtual void #<interface.hpp>
+	areaParamsOnWall::getTop() -> int #<interface.hpp>
+	areaParamsOnWall::getLeft() -> int #<interface.hpp>
+	areaParamsOnWall::getHeight() -> int #<interface.hpp>
+	areaParamsOnWall::getWidth() -> int #<interface.hpp>
+	areaParamsOnWall$:example() -> areaParamsOnWall& #<interface.hpp>
 	button::draw() -> void #<button.hpp>
 	button::press() -> virtual void #<button.hpp>
 	button::x1 : int #<button.hpp>

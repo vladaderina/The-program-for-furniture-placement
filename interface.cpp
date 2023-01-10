@@ -2,7 +2,7 @@
 
 IMAGE *background[NUMBACKGROUND];
 IMAGE *object[NUMOBJECT];
-int type = 0;
+bool flag = 0;
 
 bool objectDisplay :: in(int x, int y)
 {
@@ -48,19 +48,10 @@ void Pages :: draw()
 //-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
 void objectFurniture :: setT(int type)
 {
-   t = type;
-   draw();
 }
 //ÎÒÐÈÑÎÂÊÀ
 void objectFurniture :: draw()
 {
-   //ÇÀËÈÂÊÀ
-   setcolor(t);
-   setfillstyle(SOLID_FILL, t);
-   bar(x1, y1, x2, y2);
-   //ÊÎÍÒÓÐ
-   setcolor(BLACK);
-   rectangle(x1, y1, x2, y2);
 }
 void objectFurniture::press()
 {
@@ -109,12 +100,12 @@ void objectFigureOnWall :: draw()
    putimage(x1, y1, objectOnWall, TRANSPARENT_PUT);
 }
 //-----------------------------------------------ÏÀÐÀÌÅÒÐÛ-----------------------------------------------//
-areaParams &areaParams :: example()
+areaParamsOnWall &areaParamsOnWall :: example()
 {
-   static areaParams pa(70, 60, 400, 720);
+   static areaParamsOnWall pa(70, 60, 400, 720);
    return pa;
 }
-void areaParams :: draw()
+void areaParamsOnWall :: draw()
 {
    char str_w[10], str_h[10];
    char str_w_room[10], str_h_room[10];
@@ -150,7 +141,7 @@ void areaParams :: draw()
    outtextxy(230, 324, str_w);
 }
 
-void areaParams :: changeParam()
+void areaParamsOnWall :: changeParam()
 {
    int num = Pages :: example().getPage();
    if (num == 0)
@@ -198,7 +189,7 @@ void areaParams :: changeParam()
    swapbuffers();
 }
 
-void areaParams :: setParam(int w, int h)
+void areaParamsOnWall :: setParam(int w, int h)
 {
    this -> w = w;
    this -> h = h;
@@ -245,7 +236,7 @@ void areaDraw :: projection(int x, int y)
    if (numRoom)
    {
       IMAGE *a;
-      a = areaParams :: example().obj;
+      a = areaParamsOnWall :: example().obj;
       if (a != NULL)
       {
          int numWall;
@@ -257,7 +248,7 @@ void areaDraw :: projection(int x, int y)
          draw();
          if (Pages :: example().getPage() != 3)
          {
-            areaParams :: example().draw();
+            areaParamsOnWall :: example().draw();
          }
          setlinestyle(SOLID_LINE, 2, 2);
 
@@ -283,22 +274,29 @@ void areaDraw :: press()
       catch (Error &e)
       {
          e.what();
+         flag = 1;
+         delay(200);
       }
+   }
+   if (mousebuttons() == 2)
+   {
+      deleteFigure(x, y);
    }
 }
 //ÏÐÎÂÅÐÊÀ ÍÀËÎÆÅÍÈß ÎÁÚÅÊÒÀ ÍÀ ÄÐÓÃÈÅ
 bool areaDraw :: overlay(int a, int b, int c, int d)
 {
-   for (int i = figures.size() - 1; i >= 1; i--)
+   for (int i = figures.size() - 1; i >= 0; i--)
    {
       int x1 = figures[i] -> getX1();
       int y1 = figures[i] -> getY1();
       int x2 = figures[i] -> getX2();
       int y2 = figures[i] -> getY2();
-      if (((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
-            (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
-                                      (y1 <= d && y2 >= d) ||
-                                      (y1 >= b && y2 <= d)))
+      if (i && ((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
+         (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
+         (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)))
+         return true;
+      else if (!i && (a < x1 || c > x2 || b < y1 || d > y2))
          return true;
    }
    return false;
@@ -338,14 +336,14 @@ void areaDraw :: deleteFigure(int x, int y)
             numRoom = 0;
             figures.erase(figures.begin(), figures.end());
             draw();
-            if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
+            if (num != 1 && num != 2 && num != 3) areaParamsOnWall :: example().draw();
             areaDraw :: example().setCoord(0, 0, 0, 0);
             swapbuffers();
             break;
          }
          figures.erase(figures.begin() + i);
          draw();
-         if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
+         if (num != 1 && num != 2 && num != 3) areaParamsOnWall :: example().draw();
          //delay(600);
          swapbuffers();
          break;

@@ -17,7 +17,7 @@ void mainInitialization()
       string obj = "object/door/" + to_string(i) + ".bmp";
       object[i - 1] = loadBMP(obj.c_str());
    }
-   for(int i = 4; i <=  6; i++)
+   for(int i = 4; i <= 6; i++)
    {
       string obj = "object/window/" + to_string(i - 3) + ".bmp";
       object[i - 1] = loadBMP(obj.c_str());
@@ -58,9 +58,8 @@ int main()
    setbkcolor(RGB(243, 243, 243));
    Pages :: example().draw();
    int x, y;
-   areaParams :: example().draw();
+   areaParamsOnWall :: example().draw();
    swapbuffers();
-   bool flag = 0;
    while(1)
    {
       //ÊÎÐÄÈÍÀÒÛ ÊÓÐÑÎÐÀ
@@ -69,6 +68,15 @@ int main()
       //ÎÒÑËÅÆÈÂÀÅÌ ÍÀÆÀÒÈÅ
       if(mousebuttons())
       {
+         if (flag) 
+         {
+            IMAGE* p = loadBMP("icon/back/clean.jpg");
+            putimage(63, 556, p, COPY_PUT);
+            swapbuffers();
+            putimage(63, 556, p, COPY_PUT);
+            swapbuffers();
+            flag = 0;
+         }
          if (areaDraw :: example().in(x, y))
          {
             areaDraw :: example().press();
@@ -84,7 +92,7 @@ int main()
                   areaDraw :: example().draw();
                   if (i != 3) 
                   {
-                     areaParams :: example().draw();
+                     areaParamsOnWall :: example().draw();
                   }
                   swapbuffers();
                   buttons[i] -> press();
@@ -135,7 +143,7 @@ int main()
          Pages :: example().draw();
          //areaDraw :: example().drawBack();
          areaDraw :: example().draw();
-         if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParams :: example().draw();
+         if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParamsOnWall :: example().draw();
          swapbuffers();
       }
       delay(30);
