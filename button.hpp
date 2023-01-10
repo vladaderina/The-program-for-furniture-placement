@@ -3,17 +3,18 @@
 #include <graphics.h>
 #include "interface.hpp"
 #define NUMBUTTONS 19
-#define NUMBACKGROUND 5
+#define NUMBACKGROUND 6
 
 // йкюяя дкъ ймнонй
 class button: public objectClickable
 {
 public:
-   // онксвюел йннпдхмюрш сцкнб х яяшкйс мю йюпрхмйс
+   // онксвюел йннпдхмюрш сцкнб
    button(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
    //мюпхянбюрэ назейр
    void draw();
 };
+
 // йкюяя дкъ ймнонй леаекх
 class buttonFurniture: public button
 {
@@ -27,7 +28,8 @@ public:
    //пеюйжхъ мю мюфюрхе
    void press();
 };
-// йкюяя дкъ оюпюлерпнб назейрю
+
+// йкюяя дкъ оепейкчвемхъ оюпюлерпнб назейрю
 class buttonParam: public button
 {
    int w, h;
@@ -38,6 +40,19 @@ public:
    //пеюйжхъ мю мюфюрхе
    void press();
 };
+
+// йкюяя дкъ оепейкчвемхъ ярпюмхж
+class buttonPage: public button
+{
+   // тнм
+   int page; 
+public:
+   //онксвюел йннпдхмюрш сцкнб х мнлеп тнмю
+   buttonPage(int x1, int y1, int x2, int y2, int page) : button(x1, y1, x2, y2), page(page) {}
+   //пеюйжхъ мю мюфюрхе
+   void press();
+};
+
 // йкюяя дкъ ймнонй хмярпслемрюпхъ
 class buttonTools : public button
 {
@@ -49,6 +64,7 @@ public:
    //пеюйжхъ мю мюфюрхе
    void press();
 };
+
 //йкюяя дкъ ймнонй пюанрш я тюикнл
 class buttonFile: public button
 {
@@ -60,6 +76,7 @@ public:
    //пеюйжхъ мю мюфюрхе
    void press();
 };
+
 //-----------------------------------------------тсмйжхх-----------------------------------------------/
 //хмярпслемр сдюкемхъ
 void toolDelete();

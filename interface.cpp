@@ -52,11 +52,13 @@ void objectFurniture :: setT(int type)
 //ÎÒÐÈÑÎÂÊÀ
 void objectFurniture :: draw()
 {
+   
 }
-void objectFurniture::press()
+void objectFurniture :: press()
 {
+
 }
-objectFurniture &objectFurniture::example()
+objectFurniture &objectFurniture :: example()
 {
    static objectFurniture st(0, 0, 0, 0, 1);
    return st;
@@ -100,12 +102,12 @@ void objectFigureOnWall :: draw()
    putimage(x1, y1, objectOnWall, TRANSPARENT_PUT);
 }
 //-----------------------------------------------ÏÀÐÀÌÅÒÐÛ-----------------------------------------------//
-areaParamsOnWall &areaParamsOnWall :: example()
+areaParams &areaParams :: example()
 {
-   static areaParamsOnWall pa(70, 60, 400, 720);
+   static areaParams pa(70, 60, 400, 720);
    return pa;
 }
-void areaParamsOnWall :: draw()
+void areaParams :: draw()
 {
    char str_w[10], str_h[10];
    char str_w_room[10], str_h_room[10];
@@ -141,7 +143,7 @@ void areaParamsOnWall :: draw()
    outtextxy(230, 324, str_w);
 }
 
-void areaParamsOnWall :: changeParam()
+void areaParams :: changeParam()
 {
    int num = Pages :: example().getPage();
    if (num == 0)
@@ -189,7 +191,7 @@ void areaParamsOnWall :: changeParam()
    swapbuffers();
 }
 
-void areaParamsOnWall :: setParam(int w, int h)
+void areaParams :: setParam(int w, int h)
 {
    this -> w = w;
    this -> h = h;
@@ -236,7 +238,7 @@ void areaDraw :: projection(int x, int y)
    if (numRoom)
    {
       IMAGE *a;
-      a = areaParamsOnWall :: example().obj;
+      a = areaParams :: example().obj;
       if (a != NULL)
       {
          int numWall;
@@ -248,7 +250,7 @@ void areaDraw :: projection(int x, int y)
          draw();
          if (Pages :: example().getPage() != 3)
          {
-            areaParamsOnWall :: example().draw();
+            areaParams :: example().draw();
          }
          setlinestyle(SOLID_LINE, 2, 2);
 
@@ -336,14 +338,14 @@ void areaDraw :: deleteFigure(int x, int y)
             numRoom = 0;
             figures.erase(figures.begin(), figures.end());
             draw();
-            if (num != 1 && num != 2 && num != 3) areaParamsOnWall :: example().draw();
+            if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
             areaDraw :: example().setCoord(0, 0, 0, 0);
             swapbuffers();
             break;
          }
          figures.erase(figures.begin() + i);
          draw();
-         if (num != 1 && num != 2 && num != 3) areaParamsOnWall :: example().draw();
+         if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
          //delay(600);
          swapbuffers();
          break;

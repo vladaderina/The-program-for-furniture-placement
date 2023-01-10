@@ -27,20 +27,23 @@ void mainInitialization()
       string obj = "object/sofas/" + to_string(3) + ".bmp";
       object[i - 1] = loadBMP(obj.c_str());
    }
-   //ймнойх хмярпслемрюпхъ
+   // ймнойх хмярпслемрюпхъ
    buttons[0] = new buttonTools(0, 73, 1, toolWall);
    buttons[1] = new buttonTools(0, 73 + 75, 1, toolOnWall);
    buttons[2] = new buttonTools(0, 73 + 75 * 2, 1, toolOnWall);
-   buttons[3] = new buttonTools(0, 75 * 4, 1, toolDelete);
-   //ймнойх пюанрш я тюикнл
+   buttons[3] = new buttonPage(0, 75 * 4, 73, 373, 3);
+   // ймнойх пюанрш я тюикнл
    buttons[4] = new buttonFile(0, 630, fileEnd);
    buttons[5] = new buttonFile(0, 510, fileSave);
-   //ймнойх леаекх
+   // ймнойх дкъ оепейкчвемхъ ярпюмхж
+   int x = 90, y;
    for(int i = 6; i <= 14; i++)
    {
-      buttons[i] = new buttonFurniture(90, 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3), (i - 6), toolDelete);
+      y = 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3);
+      buttons[i] = new buttonPage(x, y, 290, y + 35, 5);
    }
-   //ймнойх оюпюлерпнб
+   
+   // ймнойх оюпюлерпнб
    buttons[15] = new buttonParam(85, 215, 1, 0);
    buttons[16] = new buttonParam(85, 295, 0, 1);
    buttons[17] = new buttonParam(290, 215, -1, 0);
@@ -58,7 +61,7 @@ int main()
    setbkcolor(RGB(243, 243, 243));
    Pages :: example().draw();
    int x, y;
-   areaParamsOnWall :: example().draw();
+   areaParams :: example().draw();
    swapbuffers();
    while(1)
    {
@@ -92,7 +95,7 @@ int main()
                   areaDraw :: example().draw();
                   if (i != 3) 
                   {
-                     areaParamsOnWall :: example().draw();
+                     areaParams :: example().draw();
                   }
                   swapbuffers();
                   buttons[i] -> press();
@@ -117,7 +120,6 @@ int main()
                {
                   if (buttons[i] -> in(x, y))
                   {
-                     bar(buttons[i] -> x1, buttons[i] -> y1, buttons[i] -> x2, buttons[i] -> y2);
                      buttons[i] -> press();
                   }
                }
@@ -143,7 +145,7 @@ int main()
          Pages :: example().draw();
          //areaDraw :: example().drawBack();
          areaDraw :: example().draw();
-         if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParamsOnWall :: example().draw();
+         if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParams :: example().draw();
          swapbuffers();
       }
       delay(30);

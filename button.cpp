@@ -23,20 +23,30 @@ void buttonFile :: press()
 // –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » — œ¿–¿Ã≈“–¿Ã»
 void buttonParam :: press()
 {
-   areaParamsOnWall :: example().setParam(w, h);
-   areaParamsOnWall :: example().changeParam();
+   areaParams :: example().setParam(w, h);
+   areaParams :: example().changeParam();
 }
 // –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
 void buttonTools :: press()
 {
    int numPage = Pages :: example().getPage();
    if (numPage == 1)
-      areaParamsOnWall :: example().obj = object[((90 - areaParamsOnWall :: example().weightDoor) / 10) % 3];
+      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
    else if (numPage == 2)
-      areaParamsOnWall :: example().obj = object[((250 - areaParamsOnWall :: example().weightWindow) / 75) + 3];
-   else areaParamsOnWall :: example().obj = NULL; 
+      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
+   else areaParams :: example().obj = NULL; 
    areaDraw :: example().setTool(tool);
 }
+// –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » œ≈–≈ Àﬁ◊≈Õ»ﬂ —“–¿Õ»÷€
+ void buttonPage :: press()
+{
+   Pages :: example().setPage(page);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   swapbuffers();
+   delay(200);
+}
+
 // ”ƒ¿À»“‹
 void toolDelete()
 {
@@ -70,11 +80,11 @@ void toolFurniture()
 void modeFigure(int x1, int y1, int x2, int y2)
 {
    char str_w[10], str_h[10];
-   int w = areaParamsOnWall :: example().weightWall;
+   int w = areaParams :: example().weightWall;
    setlinestyle(SOLID_LINE, w / 3, w / 3);
    Pages :: example().draw();
    areaDraw :: example().draw();
-   areaParamsOnWall :: example().draw();
+   areaParams :: example().draw();
    int wight = 2 * (x2 - x1) / 3;
    int height = 2 * (y2 - y1) / 3;
    sprintf(str_w, "%d", wight);
@@ -124,11 +134,11 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 // —“≈Õ¿
 void toolWall()
 {
-   areaParamsOnWall :: example().obj = NULL;
+   areaParams :: example().obj = NULL;
    if (areaDraw :: example().getNumRoom() != 0) throw ManyRoomsError();
    else
    {
-      int x1, y1, x2, y2, w = areaParamsOnWall :: example().weightWall;
+      int x1, y1, x2, y2, w = areaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
       {
          figure *rect = new objectWall(x1, y1, x2, y2, w);
@@ -201,7 +211,7 @@ void toolOnWall()
    x1 = mousex();
    y1 = mousey();
    IMAGE *a;
-   a = areaParamsOnWall :: example().obj;
+   a = areaParams :: example().obj;
    IMAGE *m = positionOnWall(x1, y1, numWall, a);
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()) && 

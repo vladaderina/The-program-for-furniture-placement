@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#define NUMBACKGROUND 5
+#define NUMBACKGROUND 6
 #define  NUMOBJECT 7
 
 using namespace std;
@@ -277,13 +277,16 @@ public:
    }
 };
 
-// йкюяя дкъ оюпюлерпнб назейрнб мю яреме
-class areaParamsOnWall : public objectDisplay
+// йкюяя дкъ оюпюлерпнб
+class areaParams : public objectDisplay
 {
    int w, h;
    // онксвюел йннпдхмюрш сцкнб
-   areaParamsOnWall (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
-   weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (35), heightWall(250)
+   areaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
+   weightDoor(70), heightDoor(200), 
+   weightWindow(100), heightWindow(110), 
+   weightWall (35), heightWall(250),
+   rotationFurniture(0), heightFurniture (0)
    { obj = NULL; } 
 public:
    IMAGE *obj;
@@ -292,30 +295,10 @@ public:
         weightWindow,
         heightWindow,
         weightWall,
-        heightWall;
-   static areaParamsOnWall &example();
-   void draw();
-   void setParam(int w, int h);
-   void changeParam();
-};
-
-// йкюяя дкъ оюпюлерпнб назейрнб леаекх
-class areaParamsFurniture : public objectDisplay
-{
-   int w, h;
-   // онксвюел йннпдхмюрш сцкнб
-   areaParamsFurniture (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
-   weightDoor(70), heightDoor(200), weightWindow(100), heightWindow(110), weightWall (35), heightWall(250)
-   { obj = NULL; } 
-public:
-   IMAGE *obj;
-   int weightDoor,
-        heightDoor,
-        weightWindow,
-        heightWindow,
-        weightWall,
-        heightWall;
-   static areaParamsFurniture &example();
+        heightWall,
+        rotationFurniture,
+        heightFurniture;
+   static areaParams &example();
    void draw();
    void setParam(int w, int h);
    void changeParam();
