@@ -7,40 +7,63 @@ void button :: draw()
 {
    
 }
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÌÅÁÅËÈ
-void buttonFurniture :: press()
-{
-   // ÓÑÒÀÍÎÂÈÒÜ ÈÍÑÒÐÓÌÅÍÒ È ÒÈÏ ÒÈÏ ÌÅÁÅËÈ
-   areaDraw :: example().setTool(tool);
-   objectFurniture :: example().setT(type);
-}
+
 // ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÐÀÁÎÒÛ Ñ ÔÀÉËÎÌ
 void buttonFile :: press()
 {
    // ÄÅÉÑÒÂÈÅ
    action();
 }
+
 // ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ Ñ ÏÀÐÀÌÅÒÐÀÌÈ
 void buttonParam :: press()
 {
    areaParams :: example().setParam(w, h);
    areaParams :: example().changeParam();
 }
+
+// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÏÅÐÅÊËÞ×ÅÍÈß ÑÒÐÀÍÈÖÛ
+void buttonPage :: press()
+{
+   int p = Pages :: example().getCurrentPage();
+   if (p == 3 || p == 4) Pages :: example().setListFurniturePage(p);
+   Pages :: example().setCurrentPage(page);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   areaDraw :: example().setTool(NULL);
+   swapbuffers();
+   delay(200);
+}
+
 // ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÈÍÑÒÐÓÌÅÍÒÀÐÈß
 void buttonTools :: press()
 {
-   int numPage = Pages :: example().getPage();
-   if (numPage == 1)
+   int p = Pages :: example().getCurrentPage();
+   if (p >= 5 && p <= 22) Pages :: example().setListTypePage(p);
+   Pages :: example().setCurrentPage(page);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+    if (page != 3) 
+   {
+      areaParams :: example().draw();
+   }
+   if (page == 1)
       areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
-   else if (numPage == 2)
+   else if (page == 2)
       areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
-   else areaParams :: example().obj = NULL; 
+   else areaParams :: example().obj = NULL;
    areaDraw :: example().setTool(tool);
+   swapbuffers();
 }
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÏÅÐÅÊËÞ×ÅÍÈß ÑÒÐÀÍÈÖÛ
- void buttonPage :: press()
+
+// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÍÀÇÀÄ
+void buttonBack :: press()
 {
-   Pages :: example().setPage(page);
+   int m = Pages :: example().getListFurniturePage();
+   int n = Pages :: example().getListTypePage();
+   int p = Pages :: example().getCurrentPage();
+   if (p == 23) Pages :: example().setCurrentPage(n);
+   else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
    Pages :: example().draw();
    areaDraw :: example().draw();
    swapbuffers();
@@ -60,20 +83,18 @@ void toolDelete()
 // ÌÅÁÅËÜ
 void toolFurniture()
 {
-   // ÊÎÎÐÄÈÍÀÒÛ
-   int x1, y1, x2, y2;
-
-   // ØÈÐÈÍÀ È ÂÛÑÎÒÀ
-   int w, h;
-
    // ×ÈÒÀÅÌ ØÈÐÈÍÓ È ÂÛÑÎÒÓ ÈÇ ÔÀÉËÀ
-   string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
-   FILE *f = fopen(t.c_str(), "r");
-   fscanf(f, "%d:%d", &w, &h);
-   fclose(f);
-
-   x1 = 200;
-   y1 = 100;
+   //string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
+   //FILE *f = fopen(t.c_str(), "r");
+   //fscanf(f, "%d:%d", &w, &h);
+   //fclose(f);
+   int x1 = mousex();
+   int y1 = mousey();
+   IMAGE*m = loadBMP("object/door/1.bmp");
+   
+   putimage(x1, y1, m, TRANSPARENT_PUT, 250);
+   
+   swapbuffers();
 }
 
 // ÏÀÐÀÌÅÒÐÛ ÔÈÃÓÐÛ

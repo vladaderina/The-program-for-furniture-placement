@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#define NUMBACKGROUND 6
+#define NUMBACKGROUND 24
 #define  NUMOBJECT 7
 
 using namespace std;
@@ -67,22 +67,46 @@ struct ObjectOverlayError: Error
 // йкюяя дкъ ярпюмхж
 class Pages 
 {
-   //мнлеп ярпюмхжш
-   int page;
-   Pages() : page(0) {}
+   // мнлеп ярпюмхжш ян яохяйнл бяеи леаекх 
+   int listFurniturePage;
+   // мнлеп ярпюмхжш я рхоюлх бшапюммни леаекх
+   int listTypePage;
+   // мнлеп рейсыеи ярпюмхжш
+   int currentPage;
+   Pages() : currentPage(0) {}
 public:
    static Pages &example();
-   //нрпхянбйю тнмю
+   // нрпхянбйю тнмю
    void draw();
-   //яерреп дкъ мнлепю ярпюмхжш
-   void setPage(int page)
+   // яерреп дкъ мнлепю рейсыеи ярпюмхжш
+   void setCurrentPage(int page)
    {
-      this -> page = page; 
+      currentPage = page; 
    }
-   //церреп дкъ мнлепю ярпюмхжш
-   int getPage()
+   // церреп дкъ мнлепю рейсыеи ярпюмхжш
+   int getCurrentPage()
    {
-      return page; 
+      return currentPage; 
+   }
+   // яерреп дкъ мнлепю ярпюмхжш ян яохяйнл бяеи леаекх
+   void setListFurniturePage(int page)
+   {
+      listFurniturePage = page; 
+   }
+   // церреп дкъ мнлепю ярпюмхжш ян яохяйнл бяеи леаекх 
+   int getListFurniturePage()
+   {
+      return listFurniturePage; 
+   }
+   // яерреп дкъ мнлепю ярпюмхжш я рхоюлх бшапюммни леаекх
+   void setListTypePage(int page)
+   {
+      listTypePage = page; 
+   }
+   // церреп дкъ мнлепю ярпюмхжш я рхоюлх бшапюммни леаекх
+   int getListTypePage()
+   {
+      return listTypePage; 
    }
 };
 
@@ -340,7 +364,7 @@ public:
    void deleteFigure(int x, int y);
    //янупюмемхе тхцспш
    void addFigure(figure* figure);
-   //нрпхянбйю
+   //нрпхянбйю назейрнб
    void draw() override;
    // гюдмхи тнм
    void drawBack();

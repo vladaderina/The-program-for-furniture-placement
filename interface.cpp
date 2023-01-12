@@ -42,7 +42,7 @@ Pages &Pages :: example()
 }
 void Pages :: draw()
 {
-   putimage(0, 0, background[Pages :: example().getPage()], COPY_PUT);
+   putimage(0, 0, background[Pages :: example().getCurrentPage()], COPY_PUT);
 }
 
 //-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
@@ -111,7 +111,7 @@ void areaParams :: draw()
 {
    char str_w[10], str_h[10];
    char str_w_room[10], str_h_room[10];
-   int num = Pages :: example().getPage();
+   int num = Pages :: example().getCurrentPage();
    setcolor(RGB(0, 0, 0));
    settextjustify(CENTER_TEXT, CENTER_TEXT);
    settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
@@ -145,7 +145,7 @@ void areaParams :: draw()
 
 void areaParams :: changeParam()
 {
-   int num = Pages :: example().getPage();
+   int num = Pages :: example().getCurrentPage();
    if (num == 0)
    {
       if ((weightWall > 35 && weightWall < 65) ||
@@ -248,7 +248,7 @@ void areaDraw :: projection(int x, int y)
          int y1 = y;
          areaDraw :: example().drawBack(); //Pages :: example().draw();
          draw();
-         if (Pages :: example().getPage() != 3)
+         if (Pages :: example().getCurrentPage() != 3)
          {
             areaParams :: example().draw();
          }
@@ -267,7 +267,7 @@ void areaDraw :: press()
 {
    int x = mousex();
    int y = mousey();
-   if (mousebuttons() == 1)
+   if (mousebuttons() == 1 && areaDraw :: example().getTool() != NULL)
    {
       try
       {
@@ -328,7 +328,8 @@ void areaDraw :: addFigure(figure *figure)
 void areaDraw :: deleteFigure(int x, int y)
 {
    delay(150);
-   int num = Pages :: example().getPage();
+   int num = Pages :: example().getCurrentPage();
+   Pages :: example().draw();
    for (int i = figures.size() - 1; i >= 0; i--)
    {
       if (figures[i] -> in(x, y))

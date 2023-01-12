@@ -28,26 +28,40 @@ void mainInitialization()
       object[i - 1] = loadBMP(obj.c_str());
    }
    //  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
-   buttons[0] = new buttonTools(0, 73, 1, toolWall);
-   buttons[1] = new buttonTools(0, 73 + 75, 1, toolOnWall);
-   buttons[2] = new buttonTools(0, 73 + 75 * 2, 1, toolOnWall);
-   buttons[3] = new buttonPage(0, 75 * 4, 73, 373, 3);
+   buttons[0] = new buttonTools(0, 73, 73, 176, 0, toolWall);
+   buttons[1] = new buttonTools(0, 148, 73, 221, 1, toolOnWall);
+   buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
+   buttons[3] = new buttonPage(0, 300, 73, 373, 3);
+   
+   buttons[4] = new buttonTools(70, 170, 240, 285, 23, toolFurniture);
+   buttons[5] = new buttonTools(240, 170, 400, 285, 23, toolFurniture);
+   buttons[6] = new buttonTools(70, 285, 235, 420, 23, toolFurniture);
+   buttons[7] = new buttonTools(240, 285, 400, 420, 23, toolFurniture);
+   
    //  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
-   buttons[4] = new buttonFile(0, 630, fileEnd);
-   buttons[5] = new buttonFile(0, 510, fileSave);
+   buttons[8] = new buttonFile(0, 630, fileEnd);
+   buttons[9] = new buttonFile(0, 510, fileSave);
+   
    //  ÕŒœ » ƒÀﬂ œ≈–≈ Àﬁ◊≈Õ»ﬂ —“–¿Õ»÷
-   int x = 90, y;
-   for(int i = 6; i <= 14; i++)
+   int y;
+   for(int i = 10; i <= 18; i++)
    {
-      y = 190 + 50 * ((i - 6) % 15) + 26 * ((i - 6) / 3);
-      buttons[i] = new buttonPage(x, y, 290, y + 35, 5);
+      y = 190 + 50 * ((i - 10) % 15) + 26 * ((i - 10) / 3);
+      buttons[i] = new buttonPage(90, y, 400, y + 35, i - 5);
+      buttons[i + 9] = new buttonPage(90, y, 400, y + 35, i + 4);
    }
+   buttons[28] = new buttonPage(70, 130, 400, 160, 3);
+   buttons[29] = new buttonPage(70, 685, 400, 720, 4);
    
    //  ÕŒœ » œ¿–¿Ã≈“–Œ¬
-   buttons[15] = new buttonParam(85, 215, 1, 0);
-   buttons[16] = new buttonParam(85, 295, 0, 1);
-   buttons[17] = new buttonParam(290, 215, -1, 0);
-   buttons[18] = new buttonParam(290, 290, 0, -1);
+   buttons[30] = new buttonParam(85, 215, 1, 0);
+   buttons[31] = new buttonParam(85, 295, 0, 1);
+   buttons[32] = new buttonParam(290, 215, -1, 0);
+   buttons[33] = new buttonParam(290, 290, 0, -1);
+   
+   // ÕŒœ ¿ ¬Œ«¬–¿“¿ Õ¿«¿ƒ
+   buttons[34] = new buttonBack(70, 90, 240, 140);
+   
    //”—“¿Õ¿¬À»¬¿≈Ã —“¿Õƒ¿–“Õ€… »Õ—“–”Ã≈Õ“
    areaDraw :: example().setTool(toolWall);
 }
@@ -59,8 +73,11 @@ int main()
    //»Õ»÷»¿À»«¿÷»ﬂ » Œ“–»—Œ¬ ¿ ›À≈Ã≈Õ“Œ¬
    mainInitialization();
    setbkcolor(RGB(243, 243, 243));
-   Pages :: example().draw();
    int x, y;
+   Pages :: example().draw();
+   areaParams :: example().draw();
+   swapbuffers();
+   Pages :: example().draw();
    areaParams :: example().draw();
    swapbuffers();
    while(1)
@@ -86,37 +103,40 @@ int main()
          }
          else
          {
+            int num = Pages :: example().getCurrentPage();
             for (int i = 0; i <= 3; i++)
             {
                if (buttons[i] -> in(x, y)) 
                {
-                  Pages :: example().setPage(i);
-                  Pages :: example().draw();
-                  areaDraw :: example().draw();
-                  if (i != 3) 
-                  {
-                     areaParams :: example().draw();
-                  }
-                  swapbuffers();
                   buttons[i] -> press();
                   break;
                }
             }
-            int num = Pages :: example().getPage();
-            if (num == 0 || num == 1 || num == 2)
+            if (num >= 5 && num <= 22)
             {
-               for(int i = 15; i <= 18; i++)
+               for (int i = 4; i <= 7; i++)
                {
-                  if(buttons[i] -> in(x, y))
+                  if (buttons[i] -> in(x, y)) 
+                  {
+                     buttons[i] -> press();
+                     break;
+                  }
+               }
+            }
+            if (num <= 2)
+            {
+               for (int i = 30; i <= 33; i++)
+               {
+                  if (buttons[i] -> in(x, y))
                   {
                      delay(200);
                      buttons[i] -> press();
                   }
                }
             }
-            else if (num == 3 || num == 4)
+            if (num == 3 || num == 4)
             {
-               for(int i = 6; i <= 14; i++)
+               for (int i = 28; i <= 29; i++)
                {
                   if (buttons[i] -> in(x, y))
                   {
@@ -124,7 +144,34 @@ int main()
                   }
                }
             }
-            for (int i = 4; i <= 5; i++)
+            if (num == 3)
+            {
+               for (int i = 10; i <= 18; i++)
+               {
+                  if (buttons[i] -> in(x, y))
+                  {
+                     buttons[i] -> press();
+                  }
+               }
+            }
+            if (num == 4)
+            {
+               for (int i = 19; i <= 27; i++)
+               {
+                  if (buttons[i] -> in(x, y))
+                  {
+                     buttons[i] -> press();
+                  }
+               }
+            }
+            if (num >= 5 && num <= 23)
+            {
+               if (buttons[34] -> in(x, y)) 
+               {
+                  buttons[34] -> press();
+               }
+            }
+            for (int i = 8; i <= 9; i++)
             {
                if (buttons[i] -> in(x, y)) 
                {
@@ -134,19 +181,19 @@ int main()
             }
          }
       }
-      if (areaDraw :: example().getNumRoom() && areaDraw :: example().inRoom(x, y))
+      if (areaDraw :: example().getTool() != NULL)
       {
-         //flag = 1;
-         areaDraw :: example().projection(x, y);
-      }
-      else if (areaDraw :: example().getNumRoom() && Pages :: example().getPage() != 0)
-      {
-         //flag = 0;
-         Pages :: example().draw();
-         //areaDraw :: example().drawBack();
-         areaDraw :: example().draw();
-         if (Pages :: example().getPage() >= 0 && Pages :: example().getPage() <= 2) areaParams :: example().draw();
-         swapbuffers();
+         if (areaDraw :: example().getNumRoom() && areaDraw :: example().inRoom(x, y))
+         {
+            areaDraw :: example().projection(x, y);
+         }
+         else if (areaDraw :: example().getNumRoom() && Pages :: example().getCurrentPage() != 0)
+         {
+            Pages :: example().draw();
+            areaDraw :: example().draw();
+            if (Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) areaParams :: example().draw();
+            swapbuffers();
+         }
       }
       delay(30);
    }   

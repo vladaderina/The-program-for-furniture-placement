@@ -21,16 +21,16 @@ areaParams(int x1, int y1, int x2, int y2) #<interface.hpp>
 background : IMAGE*[] #<interface.hpp>
 button _type_ #<button.hpp>
 button(int x1, int y1, int x2, int y2) #<button.hpp>
+buttonBack _type_ #<button.hpp>
+buttonBack(int x1, int y1, int x2, int y2) #<button.hpp>
 buttonFile _type_ #<button.hpp>
 buttonFile(int x, int y, ptrFunction a) #<button.hpp>
-buttonFurniture _type_ #<button.hpp>
-buttonFurniture(int x, int y, int type, ptrFunction t) #<button.hpp>
 buttonPage _type_ #<button.hpp>
 buttonPage(int x1, int y1, int x2, int y2, int page) #<button.hpp>
 buttonParam _type_ #<button.hpp>
 buttonParam(int x, int y, int w, int h) #<button.hpp>
 buttonTools _type_ #<button.hpp>
-buttonTools(int x, int y, int type, ptrFunction t) #<button.hpp>
+buttonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
 createmask(IMAGE* p) -> IMAGE* #<interface.hpp>
 drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<interface.hpp>
@@ -67,10 +67,16 @@ toolOnWall() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
 	Error::showTime : int #<interface.hpp>
 	Error=:what() -> virtual const void* #<interface.hpp>
-	Pages:%page : int #<interface.hpp>
+	Pages:%listFurniturePage : int #<interface.hpp>
+	Pages:%listTypePage : int #<interface.hpp>
+	Pages:%currentPage : int #<interface.hpp>
 	Pages::draw() -> void #<interface.hpp>
-	Pages::setPage(int page) -> void #<interface.hpp>
-	Pages::getPage() -> int #<interface.hpp>
+	Pages::setCurrentPage(int page) -> void #<interface.hpp>
+	Pages::getCurrentPage() -> int #<interface.hpp>
+	Pages::setListFurniturePage(int page) -> void #<interface.hpp>
+	Pages::getListFurniturePage() -> int #<interface.hpp>
+	Pages::setListTypePage(int page) -> void #<interface.hpp>
+	Pages::getListTypePage() -> int #<interface.hpp>
 	Pages$:example() -> Pages& #<interface.hpp>
 	areaDraw:%back : IMAGE* #<interface.hpp>
 	areaDraw:%numRoom : int #<interface.hpp>
@@ -157,6 +163,19 @@ toolWall() -> void #<button.hpp>
 	button::getLeft() -> int #<button.hpp>
 	button::getHeight() -> int #<button.hpp>
 	button::getWidth() -> int #<button.hpp>
+	buttonBack::press() -> void #<button.hpp>
+	buttonBack::draw() -> void #<button.hpp>
+	buttonBack::press() -> virtual void #<button.hpp>
+	buttonBack::x1 : int #<button.hpp>
+	buttonBack::y1 : int #<button.hpp>
+	buttonBack::x2 : int #<button.hpp>
+	buttonBack::y2 : int #<button.hpp>
+	buttonBack::in(int x, int y) -> bool #<button.hpp>
+	buttonBack::draw() -> virtual void #<button.hpp>
+	buttonBack::getTop() -> int #<button.hpp>
+	buttonBack::getLeft() -> int #<button.hpp>
+	buttonBack::getHeight() -> int #<button.hpp>
+	buttonBack::getWidth() -> int #<button.hpp>
 	buttonFile:%action : ptrFunction #<button.hpp>
 	buttonFile::press() -> void #<button.hpp>
 	buttonFile::draw() -> void #<button.hpp>
@@ -171,21 +190,6 @@ toolWall() -> void #<button.hpp>
 	buttonFile::getLeft() -> int #<button.hpp>
 	buttonFile::getHeight() -> int #<button.hpp>
 	buttonFile::getWidth() -> int #<button.hpp>
-	buttonFurniture:%type : int #<button.hpp>
-	buttonFurniture:%tool : ptrFunction #<button.hpp>
-	buttonFurniture::press() -> void #<button.hpp>
-	buttonFurniture::draw() -> void #<button.hpp>
-	buttonFurniture::press() -> virtual void #<button.hpp>
-	buttonFurniture::x1 : int #<button.hpp>
-	buttonFurniture::y1 : int #<button.hpp>
-	buttonFurniture::x2 : int #<button.hpp>
-	buttonFurniture::y2 : int #<button.hpp>
-	buttonFurniture::in(int x, int y) -> bool #<button.hpp>
-	buttonFurniture::draw() -> virtual void #<button.hpp>
-	buttonFurniture::getTop() -> int #<button.hpp>
-	buttonFurniture::getLeft() -> int #<button.hpp>
-	buttonFurniture::getHeight() -> int #<button.hpp>
-	buttonFurniture::getWidth() -> int #<button.hpp>
 	buttonPage:%page : int #<button.hpp>
 	buttonPage::press() -> void #<button.hpp>
 	buttonPage::draw() -> void #<button.hpp>
@@ -216,6 +220,7 @@ toolWall() -> void #<button.hpp>
 	buttonParam::getHeight() -> int #<button.hpp>
 	buttonParam::getWidth() -> int #<button.hpp>
 	buttonTools:%tool : ptrFunction #<button.hpp>
+	buttonTools:%page : int #<button.hpp>
 	buttonTools::press() -> void #<button.hpp>
 	buttonTools::draw() -> void #<button.hpp>
 	buttonTools::press() -> virtual void #<button.hpp>
