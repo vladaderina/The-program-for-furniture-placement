@@ -15,6 +15,18 @@ public:
    void draw();
 };
 
+//йкюяя дкъ ймнонй пюанрш я тюикнл
+class buttonFile: public button
+{
+   //деиярбхе
+   ptrFunction action; 
+public:
+   // онксвюел йннпдхмюрш сцкнб, йюпрхмйс х сйюгюрекэ мю деиярбхе я тюикнл
+   buttonFile(int x, int y, ptrFunction a) : button(x, y, x + 73, y + 73), action(a) {}
+   //пеюйжхъ мю мюфюрхе
+   void press();
+};
+
 // йкюяя дкъ хглемемхъ оюпюлерпнб назейрю
 class buttonParam: public button
 {
@@ -53,6 +65,7 @@ public:
 // йкюяя дкъ ймнонй хмярпслемрюпхъ
 class buttonTools : public buttonPage
 {
+protected:
    //хмярпслемр
    ptrFunction tool;
 public:
@@ -62,14 +75,14 @@ public:
    void press();
 };
 
-//йкюяя дкъ ймнонй пюанрш я тюикнл
-class buttonFile: public button
+// йкюяя дкъ ймнонй леаекх
+class buttonFurniture : public buttonTools
 {
-   //деиярбхе
-   ptrFunction action; 
+   // мнлеп ймнойх
+   int num;
 public:
-   // онксвюел йннпдхмюрш сцкнб, йюпрхмйс х сйюгюрекэ мю деиярбхе я тюикнл
-   buttonFile(int x, int y, ptrFunction a) : button(x, y, x + 73, y + 73), action(a) {}
+   //онксвюел йннпдхмюрш сцкнб, мнлеп ярпюмхжш х сйюгюрекэ мю хмярпслемр
+   buttonFurniture(int x1, int y1, int x2, int y2, int page, int num, ptrFunction t) : buttonTools(x1, y1, x2, y2, page, t), num(num) {}
    //пеюйжхъ мю мюфюрхе
    void press();
 };

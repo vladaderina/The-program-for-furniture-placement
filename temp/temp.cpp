@@ -7,13 +7,6 @@ void button :: draw()
 {
    
 }
-// –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » Ã≈¡≈À»
-void buttonFurniture :: press()
-{
-   // ”—“¿ÕŒ¬»“‹ »Õ—“–”Ã≈Õ“ » “»œ “»œ Ã≈¡≈À»
-   areaDraw :: example().setTool(tool);
-   objectFurniture :: example().setT(type);
-}
 
 // –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
 void buttonFile :: press()
@@ -46,4 +39,7 @@ void buttonPage :: press()
 void buttonTools :: press()
 {
    int p = Pages :: example().getCurrentPage();
-   if (p == 5) Pages :: _abracadabra_cast(example());
+   Pages :: example().setCurrentPage(page);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   areaParams :: _abracadabra_cast(example());

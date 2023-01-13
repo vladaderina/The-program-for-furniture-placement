@@ -16,24 +16,6 @@ bool objectDisplay :: in(int x, int y)
       return false;
 }
 
-void drawimage(int x, int y, IMAGE *m, IMAGE *p)
-{
-   putimage(x, y, m, AND_PUT);
-   putimage(x, y, p, OR_PUT);
-}
-
-// »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
-IMAGE *resize(IMAGE *p, int w, int h)
-{
-   int wp = imagewidth(p);
-   int hp = imageheight(p);
-   IMAGE *r = createimage(w, h);
-   for (int x = 0; x < w; ++x)
-      for (int y = 0; y < h; ++y)
-         imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
-   return r;
-}
-
 //-----------------------------------------------—“–¿Õ»÷€-----------------------------------------------//
 Pages &Pages :: example()
 {
@@ -52,15 +34,15 @@ void objectFurniture :: setT(int type)
 //Œ“–»—Œ¬ ¿
 void objectFurniture :: draw()
 {
-   
+   putimage(x1, y1, m, TRANSPARENT_PUT);
 }
 void objectFurniture :: press()
 {
-
+   
 }
 objectFurniture &objectFurniture :: example()
 {
-   static objectFurniture st(0, 0, 0, 0, 1);
+   static objectFurniture st(0, 0, 0, 0, NULL);
    return st;
 }
 //-----------------------------------------------—“≈Õ€-----------------------------------------------//
@@ -226,7 +208,7 @@ bool areaDraw :: inRoom(int x, int y)
    if (coord.y1 > coord.y2)
       swap(coord.y1, coord.y2);
    if (x >= coord.x1 && x <= coord.x2
-         && y >= coord.y1 && y<= coord.y2)
+         && y >= coord.y1 && y <= coord.y2)
       return true;
    else
       return false;
@@ -235,17 +217,23 @@ bool areaDraw :: inRoom(int x, int y)
 //œ–Œ≈ ÷»ﬂ Œ¡⁄≈ “¿ œ≈–≈ƒ ”—“¿ÕŒ¬ Œ…
 void areaDraw :: projection(int x, int y)
 {
-   if (numRoom)
+      if (numRoom)
    {
       IMAGE *a;
       a = areaParams :: example().obj;
+      int  type = areaParams :: example().getType();
       if (a != NULL)
       {
          int numWall;
-         IMAGE *m1 = positionOnWall(x, y, numWall, a);
+         IMAGE *m1;
+         int x1, y1;
+         
+         if (type == 1) m1 = positionOnWall(x, y, numWall, a);
+         else m1 = a;
+         
          imageputpixel(m1, 0, 0, WHITE);
-         int x1 = x;
-         int y1 = y;
+         x1 = x;
+         y1 = y;
          areaDraw :: example().drawBack(); //Pages :: example().draw();
          draw();
          if (Pages :: example().getCurrentPage() != 3)
@@ -253,7 +241,6 @@ void areaDraw :: projection(int x, int y)
             areaParams :: example().draw();
          }
          setlinestyle(SOLID_LINE, 2, 2);
-
          if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1))) setcolor(RED);
          else setcolor(GREEN);
          rectangle(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1));

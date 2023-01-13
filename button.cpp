@@ -39,11 +39,11 @@ void buttonPage :: press()
 void buttonTools :: press()
 {
    int p = Pages :: example().getCurrentPage();
-   if (p >= 5 && p <= 22) Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
    areaDraw :: example().draw();
-    if (page != 3) 
+   areaParams :: example().setType(1);
+   if (page != 3)
    {
       areaParams :: example().draw();
    }
@@ -52,6 +52,21 @@ void buttonTools :: press()
    else if (page == 2)
       areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
    else areaParams :: example().obj = NULL;
+   areaDraw :: example().setTool(tool);
+   swapbuffers();
+}
+
+// –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » Ã≈¡≈À»
+void buttonFurniture :: press()
+{
+   int p = Pages :: example().getCurrentPage();
+   string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
+   Pages :: example().setListTypePage(p);
+   Pages :: example().setCurrentPage(page);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   areaParams :: example().obj = loadBMP(obj.c_str());
+   areaParams :: example().setType(2);
    areaDraw :: example().setTool(tool);
    swapbuffers();
 }
@@ -90,11 +105,21 @@ void toolFurniture()
    //fclose(f);
    int x1 = mousex();
    int y1 = mousey();
-   IMAGE*m = loadBMP("object/door/1.bmp");
-   
-   putimage(x1, y1, m, TRANSPARENT_PUT, 250);
-   
+   IMAGE *m = areaParams :: example().obj;
+   // putimage(x1, y1, m, TRANSPARENT_PUT);
+   if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
+   else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
+               areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw ObjectOverlayError();
+   else if (areaDraw :: example().inRoom(x1, y1))
+   {
+      figure *rect = new objectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), m);
+      areaDraw :: example().addFigure(rect);
+      for (int i = 0; i < areaDraw :: example().figures.size(); i++)
+         areaDraw :: example().figures[i] -> draw();
+      areaDraw :: example().projection(x1, y1);
+   }
    swapbuffers();
+   delay(200);
 }
 
 // œ¿–¿Ã≈“–€ ‘»√”–€
@@ -237,7 +262,7 @@ void toolOnWall()
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
                areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m))) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()))
+   else if (areaDraw :: example().inRoom(x1, y1))
    {
       figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, m);
       areaDraw :: example().addFigure(rect);

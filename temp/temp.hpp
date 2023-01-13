@@ -2,8 +2,8 @@
 #define button_H
 
 
-#define NUMBUTTONS 19
-#define NUMBACKGROUND 6
+#define NUMBUTTONS 35
+#define NUMBACKGROUND 24
 
 // йкюяя дкъ ймнонй
 class button: public objectClickable
@@ -15,16 +15,14 @@ public:
    void draw();
 };
 
-// йкюяя дкъ ймнонй леаекх
-class buttonFurniture: public button
+//йкюяя дкъ ймнонй пюанрш я тюикнл
+class buttonFile: public button
 {
-   //рхо леаекх(0-14)
-   int type;
-   //хмярпслемр
-   ptrFunction tool; 
+   //деиярбхе
+   ptrFunction action; 
 public:
-   //онксвюел йннпдхмюрш сцкнб, йюпрхмйс дкъ ймнойх х сйюгюрекэ мю хмярпслемр
-   buttonFurniture(int x, int y, int type, ptrFunction t) : button(x, y, x + 290, y + 35), type(type), tool(t) {}
+   // онксвюел йннпдхмюрш сцкнб, йюпрхмйс х сйюгюрекэ мю деиярбхе я тюикнл
+   buttonFile(int x, int y, ptrFunction a) : button(x, y, x + 73, y + 73), action(a) {}
    //пеюйжхъ мю мюфюрхе
    void press();
 };
@@ -46,4 +44,41 @@ class buttonBack: public button
 {
 public:
    //онксвюел йннпдхмюрш сцкнб
-   buttonBack(int x1, int y1, int x2, int y2) : _abracadabra_cast(button(x1, y1, x2, y2));
+   buttonBack(int x1, int y1, int x2, int y2) : button(x1, y1, x2, y2) {};
+   //пеюйжхъ мю мюфюрхе
+   void press();
+};
+
+// йкюяя дкъ оепеундю мю ярпюмхжс
+class buttonPage: public button
+{
+protected:
+   // мнлеп ярпюмхжш
+   int page;
+public:
+   //онксвюел йннпдхмюрш сцкнб х мнлеп тнмю
+   buttonPage(int x1, int y1, int x2, int y2, int page) : button(x1, y1, x2, y2), page(page) {}
+   //пеюйжхъ мю мюфюрхе
+   void press();
+};
+
+// йкюяя дкъ ймнонй хмярпслемрюпхъ
+class buttonTools : public buttonPage
+{
+   //хмярпслемр
+   ptrFunction tool;
+public:
+   //онксвюел йннпдхмюрш сцкнб, мнлеп ярпюмхжш х сйюгюрекэ мю хмярпслемр
+   buttonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) : buttonPage(x1, y1, x2, y2, page), tool(t) {}
+   //пеюйжхъ мю мюфюрхе
+   void press();
+};
+
+// йкюяя дкъ ймнонй леаекх
+class buttonFurniture : public buttonTools
+{
+   // мнлеп ймнойх
+   int num;
+public:
+   //онксвюел йннпдхмюрш сцкнб, мнлеп ярпюмхжш х сйюгюрекэ мю хмярпслемр
+   buttonFurniture(int x1, int y1, int x2, int y2, int page, int num, ptrFunction t) : buttonTools(x1, y1, x2, y2, _abracadabra_cast(page);

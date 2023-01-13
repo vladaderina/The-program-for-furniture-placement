@@ -7,42 +7,39 @@ button *buttons[NUMBUTTONS];
 //»Õ»÷»¿À»«¿÷»ﬂ
 void mainInitialization()
 {
-   for(int i = 1; i <=  NUMBACKGROUND; i++)
+   for (int i = 1; i <=  NUMBACKGROUND; i++)
    {
       string back = "icon/back/" + to_string(i) + ".jpg";
       background[i - 1] = loadBMP(back.c_str());
    }
-   for(int i = 1; i <= 3; i++)
+   for (int i = 1; i <= 3; i++)
    {
       string obj = "object/door/" + to_string(i) + ".bmp";
       object[i - 1] = loadBMP(obj.c_str());
    }
-   for(int i = 4; i <= 6; i++)
+   for (int i = 4; i <= 6; i++)
    {
       string obj = "object/window/" + to_string(i - 3) + ".bmp";
       object[i - 1] = loadBMP(obj.c_str());
    }
-   for(int i = 7; i <= 7; i++)
-   {
-      string obj = "object/sofas/" + to_string(3) + ".bmp";
-      object[i - 1] = loadBMP(obj.c_str());
-   }
+
    //  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
    buttons[0] = new buttonTools(0, 73, 73, 176, 0, toolWall);
    buttons[1] = new buttonTools(0, 148, 73, 221, 1, toolOnWall);
    buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
-   buttons[3] = new buttonPage(0, 300, 73, 373, 3);
    
-   buttons[4] = new buttonTools(70, 170, 240, 285, 23, toolFurniture);
-   buttons[5] = new buttonTools(240, 170, 400, 285, 23, toolFurniture);
-   buttons[6] = new buttonTools(70, 285, 235, 420, 23, toolFurniture);
-   buttons[7] = new buttonTools(240, 285, 400, 420, 23, toolFurniture);
+   //  ÕŒœ » Ã≈¡≈À»
+   buttons[4] = new buttonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
+   buttons[5] = new buttonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
+   buttons[6] = new buttonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
+   buttons[7] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
    
    //  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
    buttons[8] = new buttonFile(0, 630, fileEnd);
    buttons[9] = new buttonFile(0, 510, fileSave);
    
    //  ÕŒœ » ƒÀﬂ œ≈–≈ Àﬁ◊≈Õ»ﬂ —“–¿Õ»÷
+   buttons[3] = new buttonPage(0, 300, 73, 373, 3);
    int y;
    for(int i = 10; i <= 18; i++)
    {

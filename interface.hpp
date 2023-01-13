@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #define NUMBACKGROUND 24
-#define  NUMOBJECT 7
+#define  NUMOBJECT 6
 
 using namespace std;
 
@@ -176,11 +176,11 @@ public:
 // ÊËÀÑÑ ÄËß ÎÁÚÅÊÒÎÂ-ÌÅÁÅËÈ
 class objectFurniture : public figure
 {
-   //ÒÈÏ ÌÅÁÅËÈ (0-14)
-   int t;
 public:
+   //ÈÇÎÁÐÀÆÅÍÈÅ ÌÅÁÅËÈ
+   IMAGE* m;
    //ÏÎËÓ×ÀÅÌ ÊÎÎÐÄÈÍÀÒÛ ÓÃËÎÂ
-   objectFurniture(int x1, int y1, int x2, int y2, int t) : figure(x1, y1, x2, y2), t(1) { type = 1; }
+   objectFurniture(int x1, int y1, int x2, int y2, IMAGE* m) : figure(x1, y1, x2, y2), m(m) { type = 1; }
    //ÎÒÐÈÑÎÂÊÀ ÎÁÚÅÊÒÀ 
    void draw() override;
    //ÔÓÍÊÖÈß ÐÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
@@ -200,11 +200,6 @@ public:
    int getY2()
    {
       return y2; 
-   }
-   //ÃÅÒÒÅÐ ÄËß ÒÈÏÀ ÌÅÁÅËÈ
-   int getT()
-   {
-      return t;
    }
    //ÃÅÒÒÅÐ ÄËß ÒÈÏÀ ÔÈÃÓÐÛ
    int getType()
@@ -304,6 +299,8 @@ public:
 // ÊËÀÑÑ ÄËß ÏÀÐÀÌÅÒÐÎÂ
 class areaParams : public objectDisplay
 {
+   //ÒÈÏ ÎÁÚÅÊÒÀ
+   int type;
    int w, h;
    // ÏÎËÓ×ÀÅÌ ÊÎÎÐÄÈÍÀÒÛ ÓÃËÎÂ
    areaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
@@ -324,6 +321,14 @@ public:
         heightFurniture;
    static areaParams &example();
    void draw();
+   int getType()
+   {
+      return type;
+   }
+   void setType(int type)
+   {
+      this -> type = type;
+   }
    void setParam(int w, int h);
    void changeParam();
 };
