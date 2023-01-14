@@ -60,6 +60,27 @@ void buttonTools :: press()
 void buttonFurniture :: press()
 {
    int p = Pages :: example().getCurrentPage();
+   ifstream file("groups.cfg");
+   object_info d;
+   int m;
+   string s;
+   int p;
+   while (getline(file, s))
+   {
+      d.text.clear();
+      int i = 0;
+      while (s[i] != ':')
+      {
+         d.text += s[i];
+         i++;
+      }
+
+      p = i+2;
+      istringstream s1(s.substr(p));
+      s1 >> m >> d.width >> d.length >> d.color >> d.onwall;
+      obj[m] = d;
+   }
+   file.close();
    string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
@@ -98,11 +119,6 @@ void toolDelete()
 // Ã≈¡≈À‹
 void toolFurniture()
 {
-   // ◊»“¿≈Ã ÿ»–»Õ” » ¬€—Œ“” »« ‘¿…À¿
-   //string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
-   //FILE *f = fopen(t.c_str(), "r");
-   //fscanf(f, "%d:%d", &w, &h);
-   //fclose(f);
    int x1 = mousex();
    int y1 = mousey();
    IMAGE *m = areaParams :: example().obj;
@@ -113,6 +129,11 @@ void toolFurniture()
    else if (areaDraw :: example().inRoom(x1, y1))
    {
       figure *rect = new objectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), m);
+      // ◊»“¿≈Ã ÿ»–»Õ” » ¬€—Œ“” »« ‘¿…À¿
+      //string t  ="cfg/" + to_string(objectFurniture::example().getT() + 1) + ".txt";
+      //FILE *f = fopen(t.c_str(), "r");
+      //fscanf(f, "%d:%d", &w, &h);
+      //fclose(f);
       areaDraw :: example().addFigure(rect);
       for (int i = 0; i < areaDraw :: example().figures.size(); i++)
          areaDraw :: example().figures[i] -> draw();

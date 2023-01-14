@@ -128,9 +128,10 @@ toolWall() -> void #<button.hpp>
 	areaDraw:coord::y1 : int #<interface.hpp>
 	areaDraw:coord::x2 : int #<interface.hpp>
 	areaDraw:coord::y2 : int #<interface.hpp>
+	areaParams:%name : string #<interface.hpp>
 	areaParams:%type : int #<interface.hpp>
-	areaParams:%w : int #<interface.hpp>
-	areaParams:%h : int #<interface.hpp>
+	areaParams:%a : int #<interface.hpp>
+	areaParams:%b : int #<interface.hpp>
 	areaParams::obj : IMAGE* #<interface.hpp>
 	areaParams::weightDoor : int #<interface.hpp>
 	areaParams::heightDoor : int #<interface.hpp>
@@ -143,7 +144,7 @@ toolWall() -> void #<button.hpp>
 	areaParams::draw() -> void #<interface.hpp>
 	areaParams::getType() -> int #<interface.hpp>
 	areaParams::setType(int type) -> void #<interface.hpp>
-	areaParams::setParam(int w, int h) -> void #<interface.hpp>
+	areaParams::setParam(int a, int b) -> void #<interface.hpp>
 	areaParams::changeParam() -> void #<interface.hpp>
 	areaParams::x1 : int #<interface.hpp>
 	areaParams::y1 : int #<interface.hpp>
@@ -257,7 +258,6 @@ toolWall() -> void #<button.hpp>
 	buttonTools::getWidth() -> int #<button.hpp>
 	figure:%type : int #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
-	figure::press() -> virtual void #<interface.hpp>
 	figure::getX1() -> virtual int #<interface.hpp>
 	figure::getY1() -> virtual int #<interface.hpp>
 	figure::getX2() -> virtual int #<interface.hpp>
@@ -297,14 +297,12 @@ toolWall() -> void #<button.hpp>
 	objectFigureOnWall::numWall : int #<interface.hpp>
 	objectFigureOnWall::objectOnWall : IMAGE* #<interface.hpp>
 	objectFigureOnWall::draw() -> void #<interface.hpp>
-	objectFigureOnWall::press() -> void #<interface.hpp>
 	objectFigureOnWall::getType() -> int #<interface.hpp>
 	objectFigureOnWall::getX1() -> int #<interface.hpp>
 	objectFigureOnWall::getY1() -> int #<interface.hpp>
 	objectFigureOnWall::getX2() -> int #<interface.hpp>
 	objectFigureOnWall::getY2() -> int #<interface.hpp>
 	objectFigureOnWall::draw() -> virtual void #<interface.hpp>
-	objectFigureOnWall::press() -> virtual void #<interface.hpp>
 	objectFigureOnWall::getX1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getY1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getX2() -> virtual int #<interface.hpp>
@@ -320,17 +318,15 @@ toolWall() -> void #<button.hpp>
 	objectFigureOnWall::getHeight() -> int #<interface.hpp>
 	objectFigureOnWall::getWidth() -> int #<interface.hpp>
 	objectFurniture:%type : int #<interface.hpp>
+	objectFurniture::height : int #<interface.hpp>
 	objectFurniture::m : IMAGE* #<interface.hpp>
 	objectFurniture::draw() -> void #<interface.hpp>
-	objectFurniture::press() -> void #<interface.hpp>
 	objectFurniture::getX1() -> int #<interface.hpp>
 	objectFurniture::getY1() -> int #<interface.hpp>
 	objectFurniture::getX2() -> int #<interface.hpp>
 	objectFurniture::getY2() -> int #<interface.hpp>
 	objectFurniture::getType() -> int #<interface.hpp>
-	objectFurniture::setT(int t) -> void #<interface.hpp>
 	objectFurniture::draw() -> virtual void #<interface.hpp>
-	objectFurniture::press() -> virtual void #<interface.hpp>
 	objectFurniture::getX1() -> virtual int #<interface.hpp>
 	objectFurniture::getY1() -> virtual int #<interface.hpp>
 	objectFurniture::getX2() -> virtual int #<interface.hpp>
@@ -345,14 +341,12 @@ toolWall() -> void #<button.hpp>
 	objectFurniture::getLeft() -> int #<interface.hpp>
 	objectFurniture::getHeight() -> int #<interface.hpp>
 	objectFurniture::getWidth() -> int #<interface.hpp>
-	objectFurniture$:example() -> objectFurniture& #<interface.hpp>
 	objectWall:%w : int #<interface.hpp>
 	objectWall:%weightRoom : int #<interface.hpp>
 	objectWall:%heightRoom : int #<interface.hpp>
 	objectWall:%paramRoom() -> void #<interface.hpp>
 	objectWall:%type : int #<interface.hpp>
 	objectWall::draw() -> void #<interface.hpp>
-	objectWall::press() -> void #<interface.hpp>
 	objectWall::getX1() -> int #<interface.hpp>
 	objectWall::getY1() -> int #<interface.hpp>
 	objectWall::getX2() -> int #<interface.hpp>
@@ -361,7 +355,6 @@ toolWall() -> void #<button.hpp>
 	objectWall::getType() -> int #<interface.hpp>
 	objectWall::setW(int w) -> void #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
-	objectWall::press() -> virtual void #<interface.hpp>
 	objectWall::getX1() -> virtual int #<interface.hpp>
 	objectWall::getY1() -> virtual int #<interface.hpp>
 	objectWall::getX2() -> virtual int #<interface.hpp>

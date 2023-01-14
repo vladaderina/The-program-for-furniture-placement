@@ -111,7 +111,7 @@ public:
 };
 
 // ÊËÀÑÑ ÄËß ÎÁÚÅÊÒÎÂ, ÊÎÒÎÐÛÅ ÎÒÎÁÐÀÆÀÞÒÑß ÍÀ ÝÊÐÀÍÅ
-class objectDisplay 
+class objectDisplay
 {
 public:
    int x1, y1, x2, y2;
@@ -149,7 +149,7 @@ public:
 };
 
 //ÊËÀÑÑ ÄËß ÂÑÅÕ ÔÈÃÓÐ
-class figure: public objectClickable
+class figure: public objectDisplay
 {
 protected:
    //ÒÈÏ ÎÁÚÅÊÒÀ:
@@ -159,11 +159,9 @@ protected:
    int type;
 public:
    //ÏÎËÓ×ÀÅÌ ÊÎÎÐÄÈÍÀÒÛ ÓÃËÎÂ
-   figure(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
+   figure(int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2) {}
    //ÎÒÐÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    virtual void draw() = 0;
-   //ÔÓÍÊÖÈß ÐÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
-   virtual void press() = 0;
    //ÃÅÒÒÅÐÛ ÄËß ÊÎÎÐÄÈÍÀÒ ÓÃËÎÂ
    virtual int getX1(); 
    virtual int getY1();
@@ -177,14 +175,14 @@ public:
 class objectFurniture : public figure
 {
 public:
+   // ÂÛÑÎÒÀ ÎÁÚÅÒÀ
+   int height;
    //ÈÇÎÁÐÀÆÅÍÈÅ ÌÅÁÅËÈ
    IMAGE* m;
    //ÏÎËÓ×ÀÅÌ ÊÎÎÐÄÈÍÀÒÛ ÓÃËÎÂ
    objectFurniture(int x1, int y1, int x2, int y2, IMAGE* m) : figure(x1, y1, x2, y2), m(m) { type = 1; }
    //ÎÒÐÈÑÎÂÊÀ ÎÁÚÅÊÒÀ 
    void draw() override;
-   //ÔÓÍÊÖÈß ÐÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
-   void press() override;
    //ÃÅÒÒÅÐÛ ÄËß ÊÎÎÐÄÈÍÀÒ ÓÃËÎÂ
    int getX1()
    { 
@@ -206,10 +204,6 @@ public:
    {
       return type;
    }
-   //ÑÅÒÒÅÐ ÄËß ÒÈÏÀ ÌÅÁÅËÈ
-   void setT(int t);
-   //ÎÁÚÅÊÒ
-   static objectFurniture &example();
 };
 
 //ÊËÀÑÑ ÄËß ÑÒÅÍ
@@ -226,8 +220,6 @@ public:
    objectWall(int x1, int y1, int x2, int y2, int w) : figure(x1, y1, x2, y2), w(w) { type = 2; }
    //ÎÒÐÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    void draw() override; //íàðèñîâàòü ôèãóðó
-   //ÔÓÍÊÖÈß ÐÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
-   void press() override;
    //ÃÅÒÒÅÐÛ ÄËß ÊÎÎÐÄÈÍÀÒ ÓÃËÎÂ
    int getX1()
    { 
@@ -270,8 +262,6 @@ public:
    objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, IMAGE *a) : figure(x1, y1, x2, y2), numWall(numWall), objectOnWall(a) { type = 3; }
    //ÎÒÐÈÑÎÂÊÀ ÎÁÚÅÊÒÀ
    void draw() override;
-   //ÔÓÍÊÖÈß ÐÅÀÊÖÈÈ ÍÀ ÍÀÆÀÒÈÅ
-   void press() override;
    //ÃÅÒÒÅÐ ÄËß ÒÈÏÀ ÔÈÃÓÐÛ
    int getType()
    {
@@ -296,12 +286,14 @@ public:
    }
 };
 
-// ÊËÀÑÑ ÄËß ÏÀÐÀÌÅÒÐÎÂ
+// ÊËÀÑÑ ÄËß ÏÀÐÀÌÅÒÐÎÂ ÐÈÑÎÂÀÍÈß
 class areaParams : public objectDisplay
 {
+   //ÍÀÇÂÀÍÈÅ ÎÁÚÅÊÒÀ
+   string name;
    //ÒÈÏ ÎÁÚÅÊÒÀ
    int type;
-   int w, h;
+   int a, b;
    // ÏÎËÓ×ÀÅÌ ÊÎÎÐÄÈÍÀÒÛ ÓÃËÎÂ
    areaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
    weightDoor(70), heightDoor(200), 
@@ -329,7 +321,7 @@ public:
    {
       this -> type = type;
    }
-   void setParam(int w, int h);
+   void setParam(int a, int b);
    void changeParam();
 };
 

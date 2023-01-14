@@ -28,27 +28,12 @@ void Pages :: draw()
 }
 
 //-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
-void objectFurniture :: setT(int type)
-{
-}
 //ÎÒÐÈÑÎÂÊÀ
 void objectFurniture :: draw()
 {
    putimage(x1, y1, m, TRANSPARENT_PUT);
 }
-void objectFurniture :: press()
-{
-   
-}
-objectFurniture &objectFurniture :: example()
-{
-   static objectFurniture st(0, 0, 0, 0, NULL);
-   return st;
-}
 //-----------------------------------------------ÑÒÅÍÛ-----------------------------------------------//
-void objectWall :: press()
-{
-}
 //ÎÒÐÈÑÎÂÊÀ
 void objectWall :: draw()
 {
@@ -66,9 +51,6 @@ void objectWall :: paramRoom()
    heightRoom = y2 - y1;
 }
 //-----------------------------------------------ÍÀ-ÑÒÅÍÅ-----------------------------------------------//
-void objectFigureOnWall :: press()
-{
-}
 //ÎÒÐÈÑÎÂÊÀ
 void objectFigureOnWall :: draw()
 {
@@ -132,40 +114,54 @@ void areaParams :: changeParam()
    {
       if ((weightWall > 35 && weightWall < 65) ||
             (heightWall > 250 && heightWall < 500) ||
-            (w > 0 && weightWall == 35) ||
-            (h > 0 && heightWall == 250) ||
-            (w < 0 && weightWall == 65) ||
-            (h < 0 && heightWall == 500))
+            (a > 0 && weightWall == 35) ||
+            (b > 0 && heightWall == 250) ||
+            (a < 0 && weightWall == 65) ||
+            (b < 0 && heightWall == 500))
       {
-         weightWall += w * 5;
-         heightWall += h * 10;
+         weightWall += a * 5;
+         heightWall += b * 10;
       }
    }
    else if (num == 1)
    {
       if ((weightDoor > 70 && weightDoor < 90) ||
             (heightDoor > 200 && heightDoor < 240) ||
-            (w > 0 && weightDoor == 70) ||
-            (h > 0 && heightDoor == 200) ||
-            (w < 0 && weightDoor == 90) ||
-            (h < 0 && heightDoor == 240))
+            (a > 0 && weightDoor == 70) ||
+            (b > 0 && heightDoor == 200) ||
+            (a < 0 && weightDoor == 90) ||
+            (b < 0 && heightDoor == 240))
       {
-         weightDoor += w * 10;
-         heightDoor += h * 5;
+         weightDoor += a * 10;
+         heightDoor += b * 5;
          obj = object[((90 - weightDoor) / 10) % 3];
       }
    }
-   else
+   else if (num == 2)
    {
       if ((weightWindow > 100 && weightWindow < 250) ||
             (heightWindow > 110 && heightWindow < 210) ||
-            (w > 0 && weightWindow == 100) ||
-            (h > 0 && heightWindow == 110) ||
-            (w < 0 && weightWindow == 250) ||
-            (h < 0 && heightWindow == 210))
+            (a > 0 && weightWindow == 100) ||
+            (b > 0 && heightWindow == 110) ||
+            (a < 0 && weightWindow == 250) ||
+            (b < 0 && heightWindow == 210))
       {
-         weightWindow += w * 75;
-         heightWindow += h * 5;
+         weightWindow += a * 75;
+         heightWindow += b * 5;
+         obj = object[(250 - weightWindow) / 75 + 3];
+      }
+   }
+   else if (num == 23)
+   {
+      if ((rotationFurniture > 0 && rotationFurniture < 360) ||
+            (heightFurniture > 0 && heightFurniture < heightWall) ||
+            (a > 0 && rotationFurniture == 0) ||
+            (b > 0 && heightFurniture == 0) ||
+            (a < 0 && rotationFurniture == 360) ||
+            (b < 0 && heightFurniture == heightWall))
+      {
+         weightWindow += a * 90;
+         heightWindow += b * 10;
          obj = object[(250 - weightWindow) / 75 + 3];
       }
    }
@@ -173,10 +169,10 @@ void areaParams :: changeParam()
    swapbuffers();
 }
 
-void areaParams :: setParam(int w, int h)
+void areaParams :: setParam(int a, int b)
 {
-   this -> w = w;
-   this -> h = h;
+   this -> a = a;
+   this -> b = b;
 }
 //-----------------------------------------------ÐÀÁÎ×Àß ÑÐÅÄÀ-----------------------------------------------//
 //ÐÀÁÎ×Àß ÑÐÅÄÀ
