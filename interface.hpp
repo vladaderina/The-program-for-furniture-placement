@@ -289,8 +289,6 @@ public:
 // йкюяя дкъ оюпюлерпнб пхянбюмхъ
 class areaParams : public objectDisplay
 {
-   //мюгбюмхе назейрю
-   string name;
    //рхо назейрю
    int type;
    int a, b;
@@ -302,6 +300,10 @@ class areaParams : public objectDisplay
    rotationFurniture(0), heightFurniture (0)
    { obj = NULL; } 
 public:
+   //мюгбюмхе назейрю
+   string name;
+   //бшянрю назейрю
+   int height;
    IMAGE *obj;
    int weightDoor,
         heightDoor,

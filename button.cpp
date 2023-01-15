@@ -60,27 +60,31 @@ void buttonTools :: press()
 void buttonFurniture :: press()
 {
    int p = Pages :: example().getCurrentPage();
-   ifstream file("groups.cfg");
-   object_info d;
+   string param = "object/"+ to_string(p - 4) + "/groups.cfg";
+   ifstream file(param);
    int m;
    string s;
-   int p;
+   int k;
+   int j = 0;
    while (getline(file, s))
    {
-      d.text.clear();
-      int i = 0;
-      while (s[i] != ':')
+      j++;
+      if (j == num)
       {
-         d.text += s[i];
-         i++;
+         areaParams :: example().name.clear();
+         int i = 0;
+         while (s[i] != ':')
+         {
+            areaParams :: example().name += s[i];
+            i++;
+         }
+         k = i + 2;
+         istringstream s1(s.substr(k));
+         s1 >> areaParams :: example().height;
       }
-
-      p = i+2;
-      istringstream s1(s.substr(p));
-      s1 >> m >> d.width >> d.length >> d.color >> d.onwall;
-      obj[m] = d;
    }
    file.close();
+   
    string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
@@ -89,6 +93,9 @@ void buttonFurniture :: press()
    areaParams :: example().obj = loadBMP(obj.c_str());
    areaParams :: example().setType(2);
    areaDraw :: example().setTool(tool);
+   // setfillstyle(EMPTY_FILL, BLACK, WHITE);
+   const char * c = areaParams :: example().name.c_str();
+   outtextxy(220, 120, c);
    swapbuffers();
 }
 

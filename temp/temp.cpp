@@ -42,4 +42,25 @@ void buttonTools :: press()
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
    areaDraw :: example().draw();
-   areaParams :: _abracadabra_cast(example());
+   areaParams :: example().setType(1);
+   if (page != 3)
+   {
+      areaParams :: example().draw();
+   }
+   if (page == 1)
+      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
+   else if (page == 2)
+      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
+   else areaParams :: example().obj = NULL;
+   areaDraw :: example().setTool(tool);
+   swapbuffers();
+}
+
+// –≈¿ ÷»ﬂ Õ¿ Õ¿∆¿“»≈  ÕŒœ » Ã≈¡≈À»
+void buttonFurniture :: press()
+{
+   int p = Pages :: example().getCurrentPage();
+   string param = "object/"+ to_string(p - 4) + "/groups.cfg";
+   ifstream file(param);
+   int m;
+   string s, f = areaParams :: _abracadabra_cast(example());

@@ -66,6 +66,7 @@ void mainInitialization()
 //нямнбмюъ тсмйжхъ
 int main()
 {
+   setlocale(LC_ALL, "rus");
    initwindow(1280, 720, "RoomPlanner", 0, 0, true);
    //хмхжхюкхгюжхъ х нрпхянбйю щкелемрнб
    mainInitialization();

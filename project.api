@@ -128,10 +128,11 @@ toolWall() -> void #<button.hpp>
 	areaDraw:coord::y1 : int #<interface.hpp>
 	areaDraw:coord::x2 : int #<interface.hpp>
 	areaDraw:coord::y2 : int #<interface.hpp>
-	areaParams:%name : string #<interface.hpp>
 	areaParams:%type : int #<interface.hpp>
 	areaParams:%a : int #<interface.hpp>
 	areaParams:%b : int #<interface.hpp>
+	areaParams::name : string #<interface.hpp>
+	areaParams::height : int #<interface.hpp>
 	areaParams::obj : IMAGE* #<interface.hpp>
 	areaParams::weightDoor : int #<interface.hpp>
 	areaParams::heightDoor : int #<interface.hpp>
