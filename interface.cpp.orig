@@ -2,7 +2,7 @@
 
 IMAGE *background[NUMBACKGROUND];
 IMAGE *object[NUMOBJECT];
-int type
+bool flag = 0;
 
 bool objectDisplay :: in(int x, int y)
 {
@@ -15,25 +15,6 @@ bool objectDisplay :: in(int x, int y)
    else
       return false;
 }
-
-void drawimage(int x, int y, IMAGE *m, IMAGE *p)
-{
-   putimage(x, y, m, AND_PUT);
-   putimage(x, y, p, OR_PUT);
-}
-
-// »«Ã≈Õ≈Õ»≈ –¿«Ã≈–¿  ¿–“»Õ »
-IMAGE * resize(IMAGE *p, int w, int h)
-{
-   int wp = imagewidth(p);
-   int hp = imageheight(p);
-   IMAGE *r = createimage(w, h);
-   for (int x = 0; x < w; ++x)
-      for (int y = 0; y < h; ++y)
-         imageputpixel(r, x, y, imagegetpixel(p, x * wp / w, y * hp / h));
-   return r;
-}
-
 //-----------------------------------------------—“–¿Õ»÷€-----------------------------------------------//
 Pages &Pages :: example()
 {
@@ -42,38 +23,16 @@ Pages &Pages :: example()
 }
 void Pages :: draw()
 {
-   putimage(0, 0, background[Pages :: example().getPage()], COPY_PUT);
+   putimage(0, 0, background[Pages :: example().getCurrentPage()], COPY_PUT);
 }
 
 //-----------------------------------------------Ã≈¡≈À‹-----------------------------------------------//
-void objectFurniture :: setT(int type) 
-{
-   t = type;
-   draw();
-}
 //Œ“–»—Œ¬ ¿
 void objectFurniture :: draw()
 {
-   //«¿À»¬ ¿
-   setcolor(t);
-   setfillstyle(SOLID_FILL, t);
-   bar(x1, y1, x2, y2);
-   // ŒÕ“”–
-   setcolor(BLACK);
-   rectangle(x1, y1, x2, y2);
-}
-void objectFurniture::press()
-{
-}
-objectFurniture &objectFurniture::example()
-{
-   static objectFurniture st(0, 0, 0, 0, 1);
-   return st;
+   putimage(x1, y1, m, TRANSPARENT_PUT);
 }
 //-----------------------------------------------—“≈Õ€-----------------------------------------------//
-void objectWall :: press()
-{
-}
 //Œ“–»—Œ¬ ¿
 void objectWall :: draw()
 {
@@ -91,15 +50,15 @@ void objectWall :: paramRoom()
    heightRoom = y2 - y1;
 }
 //-----------------------------------------------Õ¿-—“≈Õ≈-----------------------------------------------//
-void objectFigureOnWall :: press()
-{
-}
 //Œ“–»—Œ¬ ¿
 void objectFigureOnWall :: draw()
 {
    setcolor(RGB(243, 243, 243));
+   cout << numWall << " ";
    if (numWall == 1)
+   {
       line(x1, y1, x1 + imagewidth(objectOnWall), y1);
+   }
    else if (numWall == 2)
       line(x1 + imagewidth(objectOnWall), y1, x1 + imagewidth(objectOnWall), y1+ imageheight(objectOnWall));
    else if (numWall == 3)
@@ -118,14 +77,15 @@ void areaParams :: draw()
 {
    char str_w[10], str_h[10];
    char str_w_room[10], str_h_room[10];
-   int num = Pages :: example().getPage();
+   int num = Pages :: example().getCurrentPage();
    setcolor(RGB(0, 0, 0));
    settextjustify(CENTER_TEXT, CENTER_TEXT);
    settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
    setusercharsize(9, 20, 9, 10);
+   setbkcolor(RGB(243, 243, 243));
    if (num == 0)
    {
-      sprintf(str_h, "%d", weightWall); 
+      sprintf(str_h, "%d", weightWall);
       sprintf(str_w, "%d", heightWall);
       sprintf(str_h_room, "%d", 2 * (areaDraw :: example().getY2() - areaDraw :: example().getY1()) / 3);
       sprintf(str_w_room, "%d", 2 * (areaDraw :: example().getX2() - areaDraw :: example().getX1()) / 3);
@@ -139,69 +99,99 @@ void areaParams :: draw()
       sprintf(str_h, "%d", weightDoor);
       sprintf(str_w, "%d", heightDoor);
    }
-   else
+   else if (num == 2)
    {
       sprintf(str_h, "%d", weightWindow);
       sprintf(str_w, "%d", heightWindow);
    }
-
+   else if (num == 23)
+   {
+      settextjustify(LEFT_TEXT, CENTER_TEXT);
+      sprintf(str_h, "%d", rotationFurniture);
+      sprintf(str_w, "%d", heightFurniture);
+      setbkcolor(WHITE);
+      setcolor(BLACK);
+      //setfillstyle(EMPTY_FILL, BLACK, WHITE);
+      //settextstyle(GOTHIC_FONT /*SIMPLEX_FONT*/, HORIZ_DIR, USER_CHAR_SIZE);
+      //setusercharsize(5, 9, 5, 5);
+      const char * c = areaParams :: example().name.c_str();
+      outtextxy(120, 123, c);
+   }
    setcolor(COLOR(0, 0, 0));
    outtextxy(230, 241, str_h);
    outtextxy(230, 324, str_w);
 }
 
- void areaParams :: changeParam()
+void areaParams :: changeParam()
 {
-   int num = Pages :: example().getPage();
+   int num = Pages :: example().getCurrentPage();
    if (num == 0)
    {
       if ((weightWall > 35 && weightWall < 65) ||
             (heightWall > 250 && heightWall < 500) ||
-            (w > 0 && weightWall == 35) ||
-            (h > 0 && heightWall == 250) ||
-            (w < 0 && weightWall == 65) ||
-            (h < 0 && heightWall == 500))
+            (a > 0 && weightWall == 35) ||
+            (b > 0 && heightWall == 250) ||
+            (a < 0 && weightWall == 65) ||
+            (b < 0 && heightWall == 500))
       {
-         weightWall += w * 5;
-         heightWall += h * 10;
+         weightWall += a * 5;
+         heightWall += b * 10;
+         heightLift = 0;
       }
    }
    else if (num == 1)
    {
       if ((weightDoor > 70 && weightDoor < 90) ||
             (heightDoor > 200 && heightDoor < 240) ||
-            (w > 0 && weightDoor == 70) ||
-            (h > 0 && heightDoor == 200) ||
-            (w < 0 && weightDoor == 90) ||
-            (h < 0 && heightDoor == 240))
+            (a > 0 && weightDoor == 70) ||
+            (b > 0 && heightDoor == 200) ||
+            (a < 0 && weightDoor == 90) ||
+            (b < 0 && heightDoor == 240))
       {
-         weightDoor += w * 10;
-         heightDoor += h * 5;
+         weightDoor += a * 10;
+         heightDoor += b * 5;
+         heightLift = 0;
          obj = object[((90 - weightDoor) / 10) % 3];
       }
    }
-   else
+   else if (num == 2)
    {
       if ((weightWindow > 100 && weightWindow < 250) ||
             (heightWindow > 110 && heightWindow < 210) ||
-            (w > 0 && weightWindow == 100) ||
-            (h > 0 && heightWindow == 110) ||
-            (w < 0 && weightWindow == 250) ||
-            (h < 0 && heightWindow == 210))
+            (a > 0 && weightWindow == 100) ||
+            (b > 0 && heightWindow == 110) ||
+            (a < 0 && weightWindow == 250) ||
+            (b < 0 && heightWindow == 210))
       {
-         weightWindow += w * 75;
-         heightWindow += h * 5;
+         weightWindow += a * 75;
+         heightWindow += b * 5;
+         heightLift = 170;
          obj = object[(250 - weightWindow) / 75 + 3];
+      }
+   }
+   else if (num == 23)
+   {
+      if ((rotationFurniture > 0 && rotationFurniture < 360) ||
+            (heightFurniture > 0 && heightFurniture < heightWall) ||
+            (a > 0 && rotationFurniture == 0) ||
+            (b > 0 && heightFurniture == 0) ||
+            (a < 0 && rotationFurniture == 360) ||
+            (b < 0 && heightFurniture == heightWall))
+      {
+         rotationFurniture += a * 90;
+         heightFurniture += b * 10;
+         heightLift = heightFurniture;
+         if (a) obj = imageturn(obj, 90, NO_COLOR);
       }
    }
    draw();
    swapbuffers();
 }
 
-void areaParams :: setParam(int w, int h)
+void areaParams :: setParam(int a, int b)
 {
-   this -> w = w;
-   this -> h = h;
+   this -> a = a;
+   this -> b = b;
 }
 //-----------------------------------------------–¿¡Œ◊¿ﬂ —–≈ƒ¿-----------------------------------------------//
 //–¿¡Œ◊¿ﬂ —–≈ƒ¿
@@ -216,7 +206,15 @@ void areaDraw :: draw()
    //Pages :: example().draw();
    areaDraw :: example().drawBack();
    //‘»√”–€
-   for(int i = 0; i < areaDraw :: example().figures.size(); i++)
+   if (figures.size() > 0)
+   {
+      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+      {
+         return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
+      });
+   }
+
+   for (int i = 0; i < figures.size(); i++)
       figures[i] -> draw();
 }
 // «¿ƒÕ»… ‘ŒÕ
@@ -225,7 +223,7 @@ void areaDraw :: drawBack()
    putimage(1280 - imagewidth(back), 720 - imageheight(back), back, COPY_PUT);
 }
 
-// œ–Œ¬≈– ¿ Õ¿ √–¿Õ»÷€  ŒÃÕ“¿Õ€ 
+// œ–Œ¬≈– ¿ Õ¿ √–¿Õ»÷€  ŒÃÕ“¿Õ€
 bool areaDraw :: inRoom(int x, int y)
 {
    if (coord.x1 > coord.x2)
@@ -233,7 +231,7 @@ bool areaDraw :: inRoom(int x, int y)
    if (coord.y1 > coord.y2)
       swap(coord.y1, coord.y2);
    if (x >= coord.x1 && x <= coord.x2
-      && y >= coord.y1 && y<= coord.y2)
+         && y >= coord.y1 && y <= coord.y2)
       return true;
    else
       return false;
@@ -246,24 +244,52 @@ void areaDraw :: projection(int x, int y)
    {
       IMAGE *a;
       a = areaParams :: example().obj;
+      int  type = areaParams :: example().getType();
       if (a != NULL)
       {
          int numWall;
-         IMAGE *m1 = positionOnWall(x, y, numWall, a);
+         IMAGE *m1;
+         int x1, y1;
+         
+         if (type == 1) m1 = positionOnWall(x, y, numWall, a);
+         else m1 = a;
+         
          imageputpixel(m1, 0, 0, WHITE);
-         int x1 = x;
-         int y1 = y;
+         x1 = x;
+         y1 = y;
          areaDraw :: example().drawBack(); //Pages :: example().draw();
-         draw();
-         if (Pages :: example().getPage() != 3)
+         int height = areaParams :: example().height;
+         int heightLift = areaParams :: example().heightLift;
+         
+         if (figures.size() > 0)
+         {
+            sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+            {
+               return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
+            });
+         }
+         int i = 0;
+         for (i; i < figures.size(); i++)
+         {
+            if (figures[i]  -> getHeightLift() < heightLift) 
+            {
+               figures[i] -> draw()
+            else break;
+         }
+         putimage(x1, y1, m1, TRANSPARENT_PUT);
+         for (int i = 0; i < figures.size(); i++)
+         {
+            if (figures[i]  -> getHeightLift() < heightLift) figures[i] -> draw();
+            else break;
+         }
+         if (Pages :: example().getCurrentPage() != 3)
          {
             areaParams :: example().draw();
-         } setlinestyle(SOLID_LINE, 2, 2);
-         
-         if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1))) setcolor(RED);
+         }
+         setlinestyle(SOLID_LINE, 2, 2);
+         if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1), height, heightLift)) setcolor(RED);
          else setcolor(GREEN);
          rectangle(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1));
-         putimage(x1, y1, m1, TRANSPARENT_PUT);
          swapbuffers();
       }
    }
@@ -273,7 +299,7 @@ void areaDraw :: press()
 {
    int x = mousex();
    int y = mousey();
-   if (mousebuttons() == 1)
+   if (mousebuttons() == 1 && areaDraw :: example().getTool() != NULL)
    {
       try
       {
@@ -281,23 +307,36 @@ void areaDraw :: press()
       }
       catch (Error &e)
       {
-         type = e.what();
+         e.what();
+         flag = 1;
+         delay(200);
       }
+   }
+   if (mousebuttons() == 2)
+   {
+      deleteFigure(x, y);
    }
 }
 //œ–Œ¬≈– ¿ Õ¿ÀŒ∆≈Õ»ﬂ Œ¡⁄≈ “¿ Õ¿ ƒ–”√»≈
-bool areaDraw :: overlay(int a, int b, int c, int d)
+bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
 {
-   for (int i = figures.size() - 1; i >= 1; i--)
+   for (int i = figures.size() - 1; i >= 0; i--)
    {
       int x1 = figures[i] -> getX1();
       int y1 = figures[i] -> getY1();
       int x2 = figures[i] -> getX2();
       int y2 = figures[i] -> getY2();
-      if (((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
-         (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) || 
-         (y1 <= d && y2 >= d) ||
-         (y1 >= b && y2 <= d)))
+      int height = figures[i] -> getHeight();
+      int heightLift = figures[i] -> getHeightLift();
+      bool h = f >= heightLift ? (heightLift + height) >= f : (f + e) >= heightLift;
+      if (e == 0 || height == 0) h = 0;
+      cout << height << " " << heightLift << "\n";
+      cout << e << " " << f << "\n\n";
+      if (i && ((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
+         (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
+         (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)) && h)
+         return true;
+      else if (!i && (a < x1 || c > x2 || b < y1 || d > y2))
          return true;
    }
    return false;
@@ -318,7 +357,7 @@ void areaDraw :: save()
 }
 
 //ƒŒ¡¿¬»“‹ Œ¡⁄≈ “
-void areaDraw :: addFigure(figure* figure)
+void areaDraw :: addFigure(figure *figure)
 {
    figures.push_back(figure);
 }
@@ -327,7 +366,8 @@ void areaDraw :: addFigure(figure* figure)
 void areaDraw :: deleteFigure(int x, int y)
 {
    delay(150);
-   int num = Pages :: example().getPage();
+   int num = Pages :: example().getCurrentPage();
+   Pages :: example().draw();
    for (int i = figures.size() - 1; i >= 0; i--)
    {
       if (figures[i] -> in(x, y))
@@ -342,7 +382,7 @@ void areaDraw :: deleteFigure(int x, int y)
             swapbuffers();
             break;
          }
-         figures.erase(figures.begin() + i); 
+         figures.erase(figures.begin() + i);
          draw();
          if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
          //delay(600);

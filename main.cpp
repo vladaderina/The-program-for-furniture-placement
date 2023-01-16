@@ -70,7 +70,6 @@ int main()
    initwindow(1280, 720, "RoomPlanner", 0, 0, true);
    //»Õ»÷»¿À»«¿÷»ﬂ » Œ“–»—Œ¬ ¿ ›À≈Ã≈Õ“Œ¬
    mainInitialization();
-   setbkcolor(RGB(243, 243, 243));
    int x, y;
    Pages :: example().draw();
    areaParams :: example().draw();
@@ -121,7 +120,7 @@ int main()
                   }
                }
             }
-            if (num <= 2)
+            if (num <= 2 || num == 23)
             {
                for (int i = 30; i <= 33; i++)
                {
@@ -189,7 +188,7 @@ int main()
          {
             Pages :: example().draw();
             areaDraw :: example().draw();
-            if (Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) areaParams :: example().draw();
+            if ((Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) || Pages :: example().getCurrentPage() == 23) areaParams :: example().draw();
             swapbuffers();
          }
       }

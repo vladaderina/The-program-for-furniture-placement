@@ -10,300 +10,232 @@
 
 using namespace std;
 
-//  УКАЗАТЕЛЬ НА ФУНКЦИЮ
+//  указатель на функцию
 typedef void (*ptrFunction)();
+// фоны
 extern IMAGE *background[NUMBACKGROUND];
+// объекты мебели
 extern IMAGE *object[NUMOBJECT];
 extern bool flag;
 
-// БАЗОВЫЙ КЛАСС ДЛЯ ОШИБОК
+//-----------------------------------------------ОШИБКИ-----------------------------------------------//
 struct Error
 {
-   int showTime = 0;
    virtual ~Error() {} // деструктор
    virtual const void *what() const = 0; // сообщение для печати
 };
 
-struct ManyRoomsError: Error
+struct ManyRoomsError: Error // создание более 1 комнаты
 {
-   const void *what() const
-   {
-      IMAGE *image =  loadBMP("icon/back/text1.jpg");
-      putimage(63, 556, image, COPY_PUT); // сообщение для печати
-      swapbuffers();
-      putimage(63, 556, image, COPY_PUT); // сообщение для печати
-      swapbuffers();
-      return 0;
-   }
+   const void *what() const; // сообщение для печати
 };
 
-struct NoRoomError: Error
+struct NoRoomError: Error // не создано ни одной комнаты
 {
-   const void *what() const
-   {
-      IMAGE *image =  loadBMP("icon/back/text2.jpg");
-      putimage(63, 556, image, COPY_PUT); // сообщение для печати
-      swapbuffers();
-      putimage(63, 556, image, COPY_PUT); // сообщение для печати
-      swapbuffers();
-      return 0;
-   }
+   const void *what() const; // сообщение для печати
 };
 
-struct ObjectOverlayError: Error
+struct ObjectOverlayError: Error // объекты накладываются друг на друга
 {
-   const void *what() const
-   {
-      IMAGE *image =  loadBMP("icon/back/text3.jpg");
-      putimage(63, 556, image, COPY_PUT); // сообщение для печати
-      swapbuffers();
-      putimage(63, 556, image, COPY_PUT); // сообщение для печати
-      swapbuffers();
-      //delay(1300);
-      return 0;
-   }
+   const void *what() const; // сообщение для печати
 };
 
-// КЛАСС ДЛЯ СТРАНИЦ
+//-----------------------------------------------СТРАНИЦЫ-----------------------------------------------//
 class Pages 
 {
-   // НОМЕР СТРАНИЦЫ СО СПИСКОМ ВСЕЙ МЕБЕЛИ 
+   // номер страницы со списком всей мебели
    int listFurniturePage;
-   // НОМЕР СТРАНИЦЫ С ТИПАМИ ВЫБРАННОЙ МЕБЕЛИ
+   // номер страницы с типами выбранной мебели
    int listTypePage;
-   // НОМЕР ТЕКУЩЕЙ СТРАНИЦЫ
+   // номер текущей страницы
    int currentPage;
+   // конструктор
    Pages() : currentPage(0) {}
 public:
+   // экземпляр класса
    static Pages &example();
-   // ОТРИСОВКА ФОНА
+   // отрисовка фона
    void draw();
-   // СЕТТЕР ДЛЯ НОМЕРА ТЕКУЩЕЙ СТРАНИЦЫ
-   void setCurrentPage(int page)
-   {
-      currentPage = page; 
-   }
-   // ГЕТТЕР ДЛЯ НОМЕРА ТЕКУЩЕЙ СТРАНИЦЫ
-   int getCurrentPage()
-   {
-      return currentPage; 
-   }
-   // СЕТТЕР ДЛЯ НОМЕРА СТРАНИЦЫ СО СПИСКОМ ВСЕЙ МЕБЕЛИ
-   void setListFurniturePage(int page)
-   {
-      listFurniturePage = page; 
-   }
-   // ГЕТТЕР ДЛЯ НОМЕРА СТРАНИЦЫ СО СПИСКОМ ВСЕЙ МЕБЕЛИ 
-   int getListFurniturePage()
-   {
-      return listFurniturePage; 
-   }
-   // СЕТТЕР ДЛЯ НОМЕРА СТРАНИЦЫ С ТИПАМИ ВЫБРАННОЙ МЕБЕЛИ
-   void setListTypePage(int page)
-   {
-      listTypePage = page; 
-   }
-   // ГЕТТЕР ДЛЯ НОМЕРА СТРАНИЦЫ С ТИПАМИ ВЫБРАННОЙ МЕБЕЛИ
-   int getListTypePage()
-   {
-      return listTypePage; 
-   }
+   // сеттер для номера текущей страницы
+   void setCurrentPage(int page);
+   // геттер для номера текущей страницы
+   int getCurrentPage();
+   // сеттер для номера страницы со списком всей мебели
+   void setListFurniturePage(int page);
+   // геттер для номера страницы со списком всей мебели 
+   int getListFurniturePage();
+   // сеттер для номера страницы с типами выбранной мебели
+   void setListTypePage(int page);
+   // геттер для номера страницы с типами выбранной мебели
+   int getListTypePage();
 };
 
-// КЛАСС ДЛЯ ОБЪЕКТОВ, КОТОРЫЕ ОТОБРАЖАЮТСЯ НА ЭКРАНЕ
+//-----------------------------------------------ОБЪЕКТЫ НА ЭКРАНЕ-----------------------------------------------//
 class objectDisplay
 {
 public:
    int x1, y1, x2, y2;
-   //ПОЛУЧАЕМ КООРДИНАТЫ ВЕРШИН ПРЯМОУГОЛЬНИКА
+   // конструктор
    objectDisplay(int x1, int y1, int x2, int y2) : x1(x1), y1(y1), x2(x2), y2(y2) {}
-   //ВНУТРЕННИЕ КООРДИНАТЫ
+   // внутренние координаты
    bool in(int x, int y); 
-   //ВИРТУАЛЬНАЯ ФУНКЦИЯ ДЛЯ ОТРИСОВКИ ОБЪЕКТА
+   // виртуальная функция для отрисовки объекта
    virtual void draw() = 0;
-   //ГЕТТЕРЫ ДЛЯ КООРДИНАТ ВЕРХНЕГО ЛЕВОГО УГЛА, ВЫСОТЫ И ШИРИНЫ
-   int getTop() { 
-      return y1 + 1; 
-   }
-   int getLeft() { 
-      return x1 + 1; 
-   }
-   int getHeight() {
-      return y2 - y1 - 1; 
-   }
-   int getWidth() {
-      return x2 - x1 - 1; 
-   }
-   //ДЕСТРУКТОР
+   // геттеры для координат верхнего левого угла, высоты и ширины
+   int getTop();
+   int getLeft();
+   int getHeight();
+   int getWidth();
+   //деструктор
    virtual ~objectDisplay(){}
 };
 
-//КЛАСС ДЛЯ ОБЪЕКТОВ, КОТОРЫЕ РЕАГИРУЮТ НА НАЖАТИЕ
+//-----------------------------------------------ОБЪЕКТЫ С РЕАКЦИЕЙ НА НАЖАТИЕ-----------------------------------------------//
 class objectClickable: public objectDisplay
 {
 public:
-   // УСТАНАВЛИВАЕМ КООРДИНАТЫ УГЛОВ
+   // конструктор
    objectClickable(int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2) {}
-   //ФУНКЦИЯ РЕАКЦИИ НА НАЖАТИЕ
+   // функция реакции на нажатие
    virtual void press() = 0;
 };
 
-//КЛАСС ДЛЯ ВСЕХ ФИГУР
+//-----------------------------------------------ФИГУРЫ-----------------------------------------------//
 class figure: public objectDisplay
 {
 protected:
-   //ТИП ОБЪЕКТА:
-      //1 - МЕБЕЛЬ
-      //2 - СТЕНЫ
-      //3 - ОБЪЕКТЫ НА СТЕНЕ
+   //тип объекта:
+   //1 - мебель
+   //2 - стены
+   //3 - объекты на стене
    int type;
+   int height;
+   int heightLift; 
 public:
-   //ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
-   figure(int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2) {}
-   //ОТРИСОВКА ОБЪЕКТА
+   // устанавливаем координаты углов, высоту и высоту подъема
+   figure(int x1, int y1, int x2, int y2, int height, int heightLift) : objectDisplay(x1, y1, x2, y2), height(height), heightLift(heightLift) {}
+   // отрисовка объекта
    virtual void draw() = 0;
-   //ГЕТТЕРЫ ДЛЯ КООРДИНАТ УГЛОВ
+   // геттеры для координат углов
    virtual int getX1(); 
    virtual int getY1();
    virtual int getX2();
    virtual int getY2();
-   //ГЕТТЕР ДЛЯ ТИПА ФИГУРЫ
+   // геттер для высоты фигуры
+   virtual int getHeight();
+   // геттер для высоты подъема фигуры
+   virtual int getHeightLift();
+   // геттер для типа фигуры
    virtual int getType();
 };
 
-// КЛАСС ДЛЯ ОБЪЕКТОВ-МЕБЕЛИ
+//-----------------------------------------------МЕБЕЛЬ-----------------------------------------------//
 class objectFurniture : public figure
 {
 public:
-   // ВЫСОТА ОБЪЕТА
-   int height;
-   //ИЗОБРАЖЕНИЕ МЕБЕЛИ
+   // изображение мебели
    IMAGE* m;
-   //ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
-   objectFurniture(int x1, int y1, int x2, int y2, IMAGE* m) : figure(x1, y1, x2, y2), m(m) { type = 1; }
-   //ОТРИСОВКА ОБЪЕКТА 
+   // конструктор
+   objectFurniture(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) :
+                           figure(x1, y1, x2, y2, height, heightLift), m(m)
+   {
+      type = 1;
+   }
+   // отрисовка объекта
    void draw() override;
-   //ГЕТТЕРЫ ДЛЯ КООРДИНАТ УГЛОВ
-   int getX1()
-   { 
-      return x1; 
-   }
-   int getY1()
-   { 
-      return y1; 
-   }
-   int getX2(){
-      return x2; 
-   }
-   int getY2()
-   {
-      return y2; 
-   }
-   //ГЕТТЕР ДЛЯ ТИПА ФИГУРЫ
-   int getType()
-   {
-      return type;
-   }
+   // геттеры для координат углов
+   int getX1();
+   int getY1();
+   int getX2();
+   int getY2();
+   // геттеры для типа фигуры
+   int getType();
+   // геттер для высоты фигуры
+   int getHeight();
+   // геттер для высоты фигуры над полом
+   int getHeightLift();
 };
 
-//КЛАСС ДЛЯ СТЕН
+//-----------------------------------------------СТЕНЫ-----------------------------------------------//
 class objectWall : public figure
 {
-   //ШИРИНА СТЕНЫ
+   // ширина стены
    int w;
-   // КООРДИНАТЫ ЦЕНТРА КОМНАТЫ
+   // координаты центра комнаты
    int weightRoom, heightRoom;
-   // ВЫЧИСЛЕНИЕ ПАРАМЕТРОВ КОМНАТЫ
+   // вычисление параметров комнаты
    void paramRoom();
 public:
-   //КОНСТРУКТОР
-   objectWall(int x1, int y1, int x2, int y2, int w) : figure(x1, y1, x2, y2), w(w) { type = 2; }
-   //ОТРИСОВКА ОБЪЕКТА
-   void draw() override; //нарисовать фигуру
-   //ГЕТТЕРЫ ДЛЯ КООРДИНАТ УГЛОВ
-   int getX1()
-   { 
-      return x1; 
-   }
-   int getY1()
-   { 
-      return y1; 
-   }
-   int getX2()
-   {
-      return x2; 
-   }
-   int getY2()
-   {
-      return y2; 
-   }
-   //ГЕТТЕР ДЛЯ ШИРИНЫ СТЕНЫ
-   int getW()
-   {
-      return w;
-   }
-   //ГЕТТЕР ДЛЯ ТИПА ФИГУРЫ
-   int getType()
-   {
-      return type;
-   }
-   //СЕТТЕР ДЛЯ ШИРИНЫ СТЕНЫ
+   // конструктор
+   objectWall(int x1, int y1, int x2, int y2, int height, int w) : figure(x1, y1, x2, y2, height, 0), w(w) { type = 2; }
+   // отрисовка объекта 
+   void draw() override; 
+   // геттер для координат углов
+   int getX1();
+   int getY1();
+   int getX2();
+   int getY2();
+   // геттер для ширины стены
+   int getW();
+   // геттер для типа объекта
+   int getType();
+   // сеттер для ширины стены
    void setW(int w);
+   // геттер для высоты стены
+   int getHeight();
+   // геттер для высоты стены над уровнем пола
+   int getHeightLift();
 };
 
-// КЛАСС ДЛЯ ОБЪЕКТОВ, КОТОРЫЕ НАХОДЯТСЯ НА СТЕНЕ
+//-----------------------------------------------НА СТЕНЕ-----------------------------------------------//
 class objectFigureOnWall : public figure
 {
 public:
-   //НОМЕР ОДНОЙ ИЗ 4 СТЕН, НА КОТОРОЙ РАСПОЛОЖЕН ОБЪЕКТ
+   // высота объекта над уровнем пола
+   int heightLift;
+   // номер одной из 4 стен, на которой находится объект
    int numWall;
    IMAGE *objectOnWall;
-   //ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
-   objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, IMAGE *a) : figure(x1, y1, x2, y2), numWall(numWall), objectOnWall(a) { type = 3; }
-   //ОТРИСОВКА ОБЪЕКТА
+   // конструктор
+   objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, int height, int heightLift, IMAGE *a) : 
+         figure(x1, y1, x2, y2, height, heightLift), numWall(numWall), objectOnWall(a)
+         { type = 3; }
+   // отрисовка объекта
    void draw() override;
-   //ГЕТТЕР ДЛЯ ТИПА ФИГУРЫ
-   int getType()
-   {
-      return type;
-   }
-   //ГЕТТЕРЫ ДЛЯ КООРДИНАТ УГЛОВ
-   int getX1()
-   { 
-      return x1; 
-   }
-   int getY1()
-   { 
-      return y1; 
-   }
-   int getX2()
-   {
-      return x2; 
-   }
-   int getY2()
-   {
-      return y2; 
-   }
+   // геттер для типа объекта
+   int getType();
+   //геттер координат углов
+   int getX1();
+   int getY1();
+   int getX2();
+   int getY2();
+   // геттер для высоты объекта
+   int getHeight();
+   // геттер для высоты объекта над уровнем пола
+   int getHeightLift();
 };
 
-// КЛАСС ДЛЯ ПАРАМЕТРОВ РИСОВАНИЯ
+//-----------------------------------------------ПАРАМЕТРЫ-----------------------------------------------//
 class areaParams : public objectDisplay
 {
-   //ТИП ОБЪЕКТА
+   // тип объекта
    int type;
    int a, b;
-   // ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
+   // устанавливаем начальные параметры рисования
    areaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
    weightDoor(70), heightDoor(200), 
    weightWindow(100), heightWindow(110), 
    weightWall (35), heightWall(250),
-   rotationFurniture(0), heightFurniture (0)
+   rotationFurniture(0), heightFurniture (0),
+   height(0), heightLift(0)
    { obj = NULL; } 
 public:
-   //НАЗВАНИЕ ОБЪЕКТА
+   // название объекта
    string name;
-   //ВЫСОТА ОБЪЕКТА
+   // высота объекта
    int height;
+   // высота подъема объекта
+   int heightLift;
    IMAGE *obj;
    int weightDoor,
         heightDoor,
@@ -313,129 +245,89 @@ public:
         heightWall,
         rotationFurniture,
         heightFurniture;
+   // экземпляр класса
    static areaParams &example();
+   // отрисовка параметров
    void draw();
-   int getType()
-   {
-      return type;
-   }
-   void setType(int type)
-   {
-      this -> type = type;
-   }
+   // геттер типа фигуры
+   int getType();
+   // сеттер типа фигуры
+   void setType(int type);
+   // сеттер параметров
    void setParam(int a, int b);
+   // изменение параметров
    void changeParam();
 };
 
-// КЛАСС ДЛЯ РАБОЧЕЙ СРЕДЫ
+//-----------------------------------------------РАБОЧАЯ СРЕДА-----------------------------------------------//
 class areaDraw: public objectClickable 
 {
    IMAGE *back = loadBMP("icon/back/areaDraw.jpg");
-   // ПОЛУЧАЕМ КООРДИНАТЫ УГЛОВ
+   // получаем координаты углов
    areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr), numRoom(0) {} 
 protected:
-   // ЧИСЛО КОМНАТ РАСПОЛОЖЕННЫХ НА ЭКРАНЕ
+   // число комнат расположенных на экране
    int numRoom;
-   // КООРДИНАТЫ ЦЕНТРА КОМНАТЫ
+   // координаты центра комнаты
    struct center
    {
       int x, y;
    } center;
-   // КООРДИНАТЫ УГЛОВ КОМНАТЫ
+   // координаты углов комнаты
    struct coord
    {
       int x1, y1, x2, y2;
    } coord;
-   //ВЫБРАННЫЙ ИНСТРУМЕНТ
+   // выбранный инструмент
    ptrFunction tool; // текущий инструмент
 public:
-   // МАССИВ ДЛЯ ОБЪЕКТОВ РАСПОЛОЖЕННЫХ НА ЭКРАНЕ
+   // массив для объектов расположенных на экране
    vector <figure*> figures;
-   //РАБОЧАЯ СРЕДА
+   // рабочая среда
    static areaDraw &example();
-   //ЗАПИСЫВАЕМ ОБЪЕКТЫ
+   // записываем объекты
    void outputObjects();
-   //ПРОВЕРКА НАЛОЖЕНИЯ ОБЪЕКТА НА ДРУГИЕ
-   bool overlay(int a, int b, int c, int d);
-   // ПРОВЕРКА НА ГРАНИЦЫ КОМНТАНЫ 
+   // проверка наложения объекта на другие
+   bool overlay(int a, int b, int c, int d, int e, int f);
+   // проверка на границы комнаты
    bool inRoom(int x, int y);
-   //УДАЛЕНИЕ ФИГУРЫ  В ТОЧКЕ КОТОРОЙ НАХОДИТСЯ КУРСОР
+   // удаление фигуры
    void deleteFigure(int x, int y);
-   //СОХРАНЕНИЕ ФИГУРЫ
+   // сохранение объекта на поле
    void addFigure(figure* figure);
-   //ОТРИСОВКА ОБЪЕКТОВ
+   // отрисовка объектов
    void draw() override;
-   // ЗАДНИЙ ФОН
+   // задний фон
    void drawBack();
-   //ПРОЕКЦИЯ ОБЪЕКТА ПЕРЕД УСТАНОВКОЙ
+   // проекция объекта перед установкой
    void projection(int x, int y);
-   //ФУНКЦИЯ РЕАКЦИИ НА НАЖАТИЕ
+   // функция реакции на нажатие
    void press() override;
-   //СЕТТЕР ДЛЯ ИНСТРУМЕНТА РИСОВАНИЯ
-   void setTool(ptrFunction t)
-   { 
-      tool = t; 
-   }
-   //СЕТТЕР ДЛЯ КООРДИНАТ ЦЕНТРА
-   void setCenter(int xc, int yc)
-   { 
-      center.x = xc;
-      center.y = yc;
-   }
-   //СЕТТЕР ДЛЯ КОЛИЧЕСТВА КОМНАТ
-   void setNumRoom(int num)
-   { 
-      numRoom = num; 
-   }
-   //СЕТТЕР ДЛЯ КООРДИНАТ УГЛОВ КОМНАТЫ
-   void setCoord(int xt1, int yt1, int xt2, int yt2)
-   {
-      coord.x1 = xt1;
-      coord.y1 = yt1;
-      coord.x2 = xt2;
-      coord.y2 = yt2;
-   } 
-   // ГЕТТЕР ДЛЯ КООРДИНАТ УГЛОВ КОМНАТЫ
-   int getX1()
-   {
-      return coord.x1;
-   } 
-   int getY1()
-   {
-      return coord.y1;
-   }
-   int getX2()
-   {
-      return coord.x2;
-   }
-   int getY2()
-   {
-      return coord.y2;
-   }
-   //ГЕТТЕР ДЛЯ ИНСТРУМЕНТА РИСОВАНИЯ
-   ptrFunction getTool()
-   { 
-      return tool; 
-   }
-   //ГЕТТЕР ДЛЯ КООРДИНАТ ЦЕНТРА КОМНАТЫ
-   //ptrFunction getС()
-   //{ 
-   //   return tool; 
-   //}
-   //ГЕТТЕР ДЛЯ КОЛИЧЕСТВА КОМНАТ
-   int getNumRoom()
-   {
-      return numRoom;
-   }
+   // сеттер для инструмента рисования
+   void setTool(ptrFunction t);
+   // сеттер для координат центра
+   void setCenter(int xc, int yc);
+   // сеттер для количества комнат
+   void setNumRoom(int num);
+   // сеттер для координат углов комнаты
+   void setCoord(int xt1, int yt1, int xt2, int yt2);
+   // геттер для координат углов комнаты
+   int getX1();
+   int getY1();
+   int getX2();
+   int getY2();
+   // геттер для инструмента рисования
+   ptrFunction getTool();
+   // геттер для количества комнат
+   int getNumRoom();
    int getCenterY() { return center.y; }
    int getCenterX() { return center.x; }
    //СОХРАНИТЬ В ПРОЕКТ
    void save();
 };
 
-void drawimage(int x, int y, IMAGE *m, IMAGE *p);
+//расположение на стене
 IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a);
-IMAGE *createmask(IMAGE *p);
-void drawimage(int x, int y, IMAGE *m, IMAGE *p);
+//изменение размера объекта
 IMAGE * resize(IMAGE *p, int w, int h);
 #endif

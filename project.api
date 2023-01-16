@@ -34,12 +34,9 @@ buttonParam(int x, int y, int w, int h) #<button.hpp>
 buttonTools _type_ #<button.hpp>
 buttonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) #<button.hpp>
 buttons : button*[] #<main.cpp>
-createmask(IMAGE* p) -> IMAGE* #<interface.hpp>
-drawimage(int x, int y, IMAGE* m, IMAGE* p) -> void #<interface.hpp>
 figure _type_ #<interface.hpp>
-figure(int x1, int y1, int x2, int y2) #<interface.hpp>
+figure(int x1, int y1, int x2, int y2, int height, int heightLift) #<interface.hpp>
 fileEnd() -> void #<button.hpp>
-fileLoad() -> void #<button.hpp>
 fileSave() -> void #<button.hpp>
 flag : bool #<interface.hpp>
 main() -> int #<main.cpp>
@@ -53,21 +50,18 @@ objectDisplay _type_ #<interface.hpp>
 objectDisplay() -> virtual~ #<interface.hpp>
 objectDisplay(int x1, int y1, int x2, int y2) #<interface.hpp>
 objectFigureOnWall _type_ #<interface.hpp>
-objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, IMAGE* a) #<interface.hpp>
+objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, int height, int heightLift, IMAGE* a) #<interface.hpp>
 objectFurniture _type_ #<interface.hpp>
-objectFurniture(int x1, int y1, int x2, int y2, IMAGE* m) #<interface.hpp>
+objectFurniture(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) #<interface.hpp>
 objectWall _type_ #<interface.hpp>
-objectWall(int x1, int y1, int x2, int y2, int w) #<interface.hpp>
+objectWall(int x1, int y1, int x2, int y2, int height, int w) #<interface.hpp>
 positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<interface.hpp>
 ptrFunction _type_ #<interface.hpp>
 resize(IMAGE* p, int w, int h) -> IMAGE* #<interface.hpp>
 toolDelete() -> void #<button.hpp>
 toolFurniture() -> void #<button.hpp>
-toolHeightDown() -> void #<button.hpp>
-toolMove() -> void #<button.hpp>
 toolOnWall() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
-	Error::showTime : int #<interface.hpp>
 	Error=:what() -> virtual const void* #<interface.hpp>
 	Pages:%listFurniturePage : int #<interface.hpp>
 	Pages:%listTypePage : int #<interface.hpp>
@@ -87,7 +81,7 @@ toolWall() -> void #<button.hpp>
 	areaDraw:%tool : ptrFunction #<interface.hpp>
 	areaDraw::figures : vector #<interface.hpp>
 	areaDraw::outputObjects() -> void #<interface.hpp>
-	areaDraw::overlay(int a, int b, int c, int d) -> bool #<interface.hpp>
+	areaDraw::overlay(int a, int b, int c, int d, int e, int f) -> bool #<interface.hpp>
 	areaDraw::inRoom(int x, int y) -> bool #<interface.hpp>
 	areaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	areaDraw::addFigure(figure* figure) -> void #<interface.hpp>
@@ -133,6 +127,7 @@ toolWall() -> void #<button.hpp>
 	areaParams:%b : int #<interface.hpp>
 	areaParams::name : string #<interface.hpp>
 	areaParams::height : int #<interface.hpp>
+	areaParams::heightLift : int #<interface.hpp>
 	areaParams::obj : IMAGE* #<interface.hpp>
 	areaParams::weightDoor : int #<interface.hpp>
 	areaParams::heightDoor : int #<interface.hpp>
@@ -258,11 +253,15 @@ toolWall() -> void #<button.hpp>
 	buttonTools::getHeight() -> int #<button.hpp>
 	buttonTools::getWidth() -> int #<button.hpp>
 	figure:%type : int #<interface.hpp>
+	figure:%height : int #<interface.hpp>
+	figure:%heightLift : int #<interface.hpp>
 	figure::draw() -> virtual void #<interface.hpp>
 	figure::getX1() -> virtual int #<interface.hpp>
 	figure::getY1() -> virtual int #<interface.hpp>
 	figure::getX2() -> virtual int #<interface.hpp>
 	figure::getY2() -> virtual int #<interface.hpp>
+	figure::getHeight() -> virtual int #<interface.hpp>
+	figure::getHeightLift() -> virtual int #<interface.hpp>
 	figure::getType() -> virtual int #<interface.hpp>
 	figure::x1 : int #<interface.hpp>
 	figure::y1 : int #<interface.hpp>
@@ -295,6 +294,9 @@ toolWall() -> void #<button.hpp>
 	objectDisplay::getHeight() -> int #<interface.hpp>
 	objectDisplay::getWidth() -> int #<interface.hpp>
 	objectFigureOnWall:%type : int #<interface.hpp>
+	objectFigureOnWall:%height : int #<interface.hpp>
+	objectFigureOnWall:%heightLift : int #<interface.hpp>
+	objectFigureOnWall::heightLift : int #<interface.hpp>
 	objectFigureOnWall::numWall : int #<interface.hpp>
 	objectFigureOnWall::objectOnWall : IMAGE* #<interface.hpp>
 	objectFigureOnWall::draw() -> void #<interface.hpp>
@@ -303,11 +305,15 @@ toolWall() -> void #<button.hpp>
 	objectFigureOnWall::getY1() -> int #<interface.hpp>
 	objectFigureOnWall::getX2() -> int #<interface.hpp>
 	objectFigureOnWall::getY2() -> int #<interface.hpp>
+	objectFigureOnWall::getHeight() -> int #<interface.hpp>
+	objectFigureOnWall::getHeightLift() -> int #<interface.hpp>
 	objectFigureOnWall::draw() -> virtual void #<interface.hpp>
 	objectFigureOnWall::getX1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getY1() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getX2() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getY2() -> virtual int #<interface.hpp>
+	objectFigureOnWall::getHeight() -> virtual int #<interface.hpp>
+	objectFigureOnWall::getHeightLift() -> virtual int #<interface.hpp>
 	objectFigureOnWall::getType() -> virtual int #<interface.hpp>
 	objectFigureOnWall::x1 : int #<interface.hpp>
 	objectFigureOnWall::y1 : int #<interface.hpp>
@@ -316,10 +322,10 @@ toolWall() -> void #<button.hpp>
 	objectFigureOnWall::in(int x, int y) -> bool #<interface.hpp>
 	objectFigureOnWall::getTop() -> int #<interface.hpp>
 	objectFigureOnWall::getLeft() -> int #<interface.hpp>
-	objectFigureOnWall::getHeight() -> int #<interface.hpp>
 	objectFigureOnWall::getWidth() -> int #<interface.hpp>
 	objectFurniture:%type : int #<interface.hpp>
-	objectFurniture::height : int #<interface.hpp>
+	objectFurniture:%height : int #<interface.hpp>
+	objectFurniture:%heightLift : int #<interface.hpp>
 	objectFurniture::m : IMAGE* #<interface.hpp>
 	objectFurniture::draw() -> void #<interface.hpp>
 	objectFurniture::getX1() -> int #<interface.hpp>
@@ -327,11 +333,15 @@ toolWall() -> void #<button.hpp>
 	objectFurniture::getX2() -> int #<interface.hpp>
 	objectFurniture::getY2() -> int #<interface.hpp>
 	objectFurniture::getType() -> int #<interface.hpp>
+	objectFurniture::getHeight() -> int #<interface.hpp>
+	objectFurniture::getHeightLift() -> int #<interface.hpp>
 	objectFurniture::draw() -> virtual void #<interface.hpp>
 	objectFurniture::getX1() -> virtual int #<interface.hpp>
 	objectFurniture::getY1() -> virtual int #<interface.hpp>
 	objectFurniture::getX2() -> virtual int #<interface.hpp>
 	objectFurniture::getY2() -> virtual int #<interface.hpp>
+	objectFurniture::getHeight() -> virtual int #<interface.hpp>
+	objectFurniture::getHeightLift() -> virtual int #<interface.hpp>
 	objectFurniture::getType() -> virtual int #<interface.hpp>
 	objectFurniture::x1 : int #<interface.hpp>
 	objectFurniture::y1 : int #<interface.hpp>
@@ -340,13 +350,14 @@ toolWall() -> void #<button.hpp>
 	objectFurniture::in(int x, int y) -> bool #<interface.hpp>
 	objectFurniture::getTop() -> int #<interface.hpp>
 	objectFurniture::getLeft() -> int #<interface.hpp>
-	objectFurniture::getHeight() -> int #<interface.hpp>
 	objectFurniture::getWidth() -> int #<interface.hpp>
 	objectWall:%w : int #<interface.hpp>
 	objectWall:%weightRoom : int #<interface.hpp>
 	objectWall:%heightRoom : int #<interface.hpp>
 	objectWall:%paramRoom() -> void #<interface.hpp>
 	objectWall:%type : int #<interface.hpp>
+	objectWall:%height : int #<interface.hpp>
+	objectWall:%heightLift : int #<interface.hpp>
 	objectWall::draw() -> void #<interface.hpp>
 	objectWall::getX1() -> int #<interface.hpp>
 	objectWall::getY1() -> int #<interface.hpp>
@@ -355,11 +366,15 @@ toolWall() -> void #<button.hpp>
 	objectWall::getW() -> int #<interface.hpp>
 	objectWall::getType() -> int #<interface.hpp>
 	objectWall::setW(int w) -> void #<interface.hpp>
+	objectWall::getHeight() -> int #<interface.hpp>
+	objectWall::getHeightLift() -> int #<interface.hpp>
 	objectWall::draw() -> virtual void #<interface.hpp>
 	objectWall::getX1() -> virtual int #<interface.hpp>
 	objectWall::getY1() -> virtual int #<interface.hpp>
 	objectWall::getX2() -> virtual int #<interface.hpp>
 	objectWall::getY2() -> virtual int #<interface.hpp>
+	objectWall::getHeight() -> virtual int #<interface.hpp>
+	objectWall::getHeightLift() -> virtual int #<interface.hpp>
 	objectWall::getType() -> virtual int #<interface.hpp>
 	objectWall::x1 : int #<interface.hpp>
 	objectWall::y1 : int #<interface.hpp>
@@ -368,5 +383,4 @@ toolWall() -> void #<button.hpp>
 	objectWall::in(int x, int y) -> bool #<interface.hpp>
 	objectWall::getTop() -> int #<interface.hpp>
 	objectWall::getLeft() -> int #<interface.hpp>
-	objectWall::getHeight() -> int #<interface.hpp>
 	objectWall::getWidth() -> int #<interface.hpp>

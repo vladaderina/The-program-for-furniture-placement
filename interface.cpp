@@ -16,6 +16,37 @@ bool objectDisplay :: in(int x, int y)
       return false;
 }
 
+//-----------------------------------------------ОШИБКИ-----------------------------------------------//
+
+const void *ManyRoomsError :: what() const
+{
+   IMAGE *image =  loadBMP("icon/back/text1.jpg");
+   putimage(63, 556, image, COPY_PUT); 
+   swapbuffers();
+   putimage(63, 556, image, COPY_PUT); // сообщение для печати
+   swapbuffers();
+   return 0;
+}
+
+const void *NoRoomError :: what() const
+{
+   IMAGE *image =  loadBMP("icon/back/text2.jpg");
+   putimage(63, 556, image, COPY_PUT); 
+   swapbuffers();
+   putimage(63, 556, image, COPY_PUT); // сообщение для печати
+   swapbuffers();
+   return 0;
+}
+const void *ObjectOverlayError :: what() const
+{
+   IMAGE *image =  loadBMP("icon/back/text3.jpg");
+   putimage(63, 556, image, COPY_PUT);
+   swapbuffers();
+   putimage(63, 556, image, COPY_PUT); // сообщение для печати
+   swapbuffers();
+   //delay(1300);
+   return 0;
+}
 //-----------------------------------------------СТРАНИЦЫ-----------------------------------------------//
 Pages &Pages :: example()
 {
@@ -26,12 +57,88 @@ void Pages :: draw()
 {
    putimage(0, 0, background[Pages :: example().getCurrentPage()], COPY_PUT);
 }
+void Pages :: setCurrentPage(int page)
+{
+   currentPage = page; 
+}
+// геттер для номера текущей страницы
+int Pages :: getCurrentPage()
+{
+   return currentPage; 
+}
+// сеттер для номера страницы со списком всей мебели
+void Pages :: setListFurniturePage(int page)
+{
+   listFurniturePage = page; 
+}
+// геттер для номера страницы со списком всей мебели 
+int Pages :: getListFurniturePage()
+{
+   return listFurniturePage; 
+}
+// сеттер для номера страницы с типами выбранной мебели
+void Pages :: setListTypePage(int page)
+{
+   listTypePage = page; 
+}
+// геттер для номера страницы с типами выбранной мебели
+int Pages :: getListTypePage()
+{
+   return listTypePage; 
+}
+
+//-----------------------------------------------ОБЪЕКТЫ НА ЭКРАНЕ-----------------------------------------------//
+ int objectDisplay :: getTop() 
+{ 
+   return y1 + 1; 
+}
+int objectDisplay :: getLeft()
+{ 
+   return x1 + 1; 
+}
+int objectDisplay :: getHeight()
+{
+   return y2 - y1 - 1; 
+}
+int objectDisplay :: getWidth()
+{
+   return x2 - x1 - 1; 
+}
 
 //-----------------------------------------------МЕБЕЛЬ-----------------------------------------------//
 //ОТРИСОВКА
 void objectFurniture :: draw()
 {
    putimage(x1, y1, m, TRANSPARENT_PUT);
+}
+int objectFurniture :: getX1()
+{ 
+   return x1; 
+}
+int objectFurniture :: getY1()
+{ 
+   return y1; 
+}
+int objectFurniture :: getX2(){
+   return x2; 
+}
+int objectFurniture :: getY2()
+{
+   return y2; 
+}
+// геттеры для типа фигуры
+int objectFurniture :: getType()
+{
+   return type;
+}
+// геттер для высоты фигуры
+int objectFurniture :: getHeight()
+{
+   return height;
+}
+int objectFurniture :: getHeightLift()
+{
+   return heightLift;
 }
 //-----------------------------------------------СТЕНЫ-----------------------------------------------//
 //ОТРИСОВКА
@@ -50,13 +157,53 @@ void objectWall :: paramRoom()
    weightRoom = x2 - x1;
    heightRoom = y2 - y1;
 }
+// геттер для координат углов
+int objectWall :: getX1()
+{ 
+   return x1; 
+}
+int objectWall :: getY1()
+{ 
+   return y1; 
+}
+int objectWall :: getX2()
+{
+   return x2; 
+}
+int objectWall :: getY2()
+{
+   return y2; 
+}
+// геттер для ширины стены
+int objectWall :: getW()
+{
+   return w;
+}
+// геттер для типа объекта
+int objectWall :: getType()
+{
+   return type;
+}
+// геттер для высоты стены
+int objectWall :: getHeight()
+{
+   return height;
+}   
+// геттер для высоты стены над уровнем пола
+int objectWall :: getHeightLift()
+{
+   return 0;
+}
 //-----------------------------------------------НА-СТЕНЕ-----------------------------------------------//
 //ОТРИСОВКА
 void objectFigureOnWall :: draw()
 {
    setcolor(RGB(243, 243, 243));
+   cout << numWall << " ";
    if (numWall == 1)
+   {
       line(x1, y1, x1 + imagewidth(objectOnWall), y1);
+   }
    else if (numWall == 2)
       line(x1 + imagewidth(objectOnWall), y1, x1 + imagewidth(objectOnWall), y1+ imageheight(objectOnWall));
    else if (numWall == 3)
@@ -64,6 +211,38 @@ void objectFigureOnWall :: draw()
    else if (numWall == 4)
       line(x1, y1, x1, y1+ imageheight(objectOnWall));
    putimage(x1, y1, objectOnWall, TRANSPARENT_PUT);
+}
+// геттер для типа объекта
+int objectFigureOnWall :: getType()
+{
+   return type;
+}
+//геттер координат углов
+int objectFigureOnWall :: getX1()
+{ 
+   return x1; 
+}
+int objectFigureOnWall :: getY1()
+{ 
+   return y1; 
+}
+int objectFigureOnWall :: getX2()
+{
+   return x2; 
+}
+int objectFigureOnWall :: getY2()
+{
+   return y2; 
+}
+// геттер для высоты объекта
+int objectFigureOnWall :: getHeight()
+{
+   return height;
+}
+// геттер для высоты объекта над уровнем пола
+int objectFigureOnWall :: getHeightLift()
+{
+   return heightLift;
 }
 //-----------------------------------------------ПАРАМЕТРЫ-----------------------------------------------//
 areaParams &areaParams :: example()
@@ -80,6 +259,7 @@ void areaParams :: draw()
    settextjustify(CENTER_TEXT, CENTER_TEXT);
    settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
    setusercharsize(9, 20, 9, 10);
+   setbkcolor(RGB(243, 243, 243));
    if (num == 0)
    {
       sprintf(str_h, "%d", weightWall);
@@ -96,12 +276,22 @@ void areaParams :: draw()
       sprintf(str_h, "%d", weightDoor);
       sprintf(str_w, "%d", heightDoor);
    }
-   else
+   else if (num == 2)
    {
       sprintf(str_h, "%d", weightWindow);
       sprintf(str_w, "%d", heightWindow);
    }
-
+   else if (num == 23)
+   {
+      settextjustify(LEFT_TEXT, CENTER_TEXT);
+      sprintf(str_h, "%d", rotationFurniture);
+      sprintf(str_w, "%d", heightFurniture);
+      setcolor(WHITE);
+      bar(120, 123, 400, 180);
+      setcolor(BLACK);
+      const char * c = areaParams :: example().name.c_str();
+      outtextxy(120, 123, c);
+   }
    setcolor(COLOR(0, 0, 0));
    outtextxy(230, 241, str_h);
    outtextxy(230, 324, str_w);
@@ -121,6 +311,7 @@ void areaParams :: changeParam()
       {
          weightWall += a * 5;
          heightWall += b * 10;
+         heightLift = 0;
       }
    }
    else if (num == 1)
@@ -134,6 +325,7 @@ void areaParams :: changeParam()
       {
          weightDoor += a * 10;
          heightDoor += b * 5;
+         heightLift = 0;
          obj = object[((90 - weightDoor) / 10) % 3];
       }
    }
@@ -148,6 +340,7 @@ void areaParams :: changeParam()
       {
          weightWindow += a * 75;
          heightWindow += b * 5;
+         heightLift = 170;
          obj = object[(250 - weightWindow) / 75 + 3];
       }
    }
@@ -160,9 +353,10 @@ void areaParams :: changeParam()
             (a < 0 && rotationFurniture == 360) ||
             (b < 0 && heightFurniture == heightWall))
       {
-         weightWindow += a * 90;
-         heightWindow += b * 10;
-         obj = object[(250 - weightWindow) / 75 + 3];
+         rotationFurniture += a * 90;
+         heightFurniture += b * 10;
+         heightLift = heightFurniture;
+         if (a) obj = imageturn(obj, 90, NO_COLOR);
       }
    }
    draw();
@@ -173,6 +367,14 @@ void areaParams :: setParam(int a, int b)
 {
    this -> a = a;
    this -> b = b;
+}
+int areaParams :: getType()
+{
+   return type;
+}
+void areaParams :: setType(int type)
+{
+   this -> type = type;
 }
 //-----------------------------------------------РАБОЧАЯ СРЕДА-----------------------------------------------//
 //РАБОЧАЯ СРЕДА
@@ -187,6 +389,18 @@ void areaDraw :: draw()
    //Pages :: example().draw();
    areaDraw :: example().drawBack();
    //ФИГУРЫ
+   if (figures.size() > 0)
+   {
+      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+      {
+         return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
+      });
+      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+      {
+         return (figure1 -> getHeight() < figure2 -> getHeight()); 
+      });
+   }
+
    for (int i = 0; i < figures.size(); i++)
       figures[i] -> draw();
 }
@@ -213,7 +427,7 @@ bool areaDraw :: inRoom(int x, int y)
 //ПРОЕКЦИЯ ОБЪЕКТА ПЕРЕД УСТАНОВКОЙ
 void areaDraw :: projection(int x, int y)
 {
-      if (numRoom)
+   if (numRoom)
    {
       IMAGE *a;
       a = areaParams :: example().obj;
@@ -231,16 +445,37 @@ void areaDraw :: projection(int x, int y)
          x1 = x;
          y1 = y;
          areaDraw :: example().drawBack(); //Pages :: example().draw();
-         draw();
+         int height = areaParams :: example().height;
+         int heightLift = areaParams :: example().heightLift;
+         
+         if (figures.size() > 0)
+         {
+            sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+            {
+               return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
+            });
+         }
+         int i = 0;
+         for (i; i < figures.size(); i++)
+         {
+            if (figures[i]  -> getHeightLift() <= heightLift) 
+               if (height != 0)
+                  figures[i] -> draw();
+               else break;
+         }
+         putimage(x1, y1, m1, TRANSPARENT_PUT);
+         for (i; i < figures.size(); i++)
+         {
+            figures[i] -> draw();
+         }
          if (Pages :: example().getCurrentPage() != 3)
          {
             areaParams :: example().draw();
          }
          setlinestyle(SOLID_LINE, 2, 2);
-         if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1))) setcolor(RED);
+         if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1), height, heightLift)) setcolor(RED);
          else setcolor(GREEN);
          rectangle(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1));
-         putimage(x1, y1, m1, TRANSPARENT_PUT);
          swapbuffers();
       }
    }
@@ -269,7 +504,7 @@ void areaDraw :: press()
    }
 }
 //ПРОВЕРКА НАЛОЖЕНИЯ ОБЪЕКТА НА ДРУГИЕ
-bool areaDraw :: overlay(int a, int b, int c, int d)
+bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
 {
    for (int i = figures.size() - 1; i >= 0; i--)
    {
@@ -277,9 +512,15 @@ bool areaDraw :: overlay(int a, int b, int c, int d)
       int y1 = figures[i] -> getY1();
       int x2 = figures[i] -> getX2();
       int y2 = figures[i] -> getY2();
+      int height = figures[i] -> getHeight();
+      int heightLift = figures[i] -> getHeightLift();
+      bool h = f >= heightLift ? (heightLift + height) > f : (f + e) > heightLift;
+      if (e == 0 || height == 0) h = 0;
+      cout << height << " " << heightLift << "\n";
+      cout << e << " " << f << "\n\n";
       if (i && ((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
          (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
-         (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)))
+         (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)) && h)
          return true;
       else if (!i && (a < x1 || c > x2 || b < y1 || d > y2))
          return true;
@@ -335,4 +576,54 @@ void areaDraw :: deleteFigure(int x, int y)
          break;
       }
    }
+}
+void areaDraw :: setTool(ptrFunction t)
+{ 
+   tool = t; 
+}
+// сеттер для координат центра
+void areaDraw :: setCenter(int xc, int yc)
+{ 
+   center.x = xc;
+   center.y = yc;
+}
+// сеттер для количества комнат
+void areaDraw :: setNumRoom(int num)
+{ 
+   numRoom = num; 
+}
+// сеттер для координат углов комнаты
+void areaDraw :: setCoord(int xt1, int yt1, int xt2, int yt2)
+{
+   coord.x1 = xt1;
+   coord.y1 = yt1;
+   coord.x2 = xt2;
+   coord.y2 = yt2;
+} 
+// геттер для координат углов комнаты
+int areaDraw :: getX1()
+{
+   return coord.x1;
+} 
+int areaDraw :: getY1()
+{
+   return coord.y1;
+}
+int areaDraw :: getX2()
+{
+   return coord.x2;
+}
+int areaDraw :: getY2()
+{
+   return coord.y2;
+}
+// геттер для инструмента рисования
+ptrFunction areaDraw :: getTool()
+{ 
+   return tool; 
+}
+// геттер для количества комнат
+int areaDraw :: getNumRoom()
+{
+   return numRoom;
 }
