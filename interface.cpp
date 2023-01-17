@@ -88,43 +88,28 @@ int Pages :: getListTypePage()
 }
 
 //-----------------------------------------------ОБЪЕКТЫ НА ЭКРАНЕ-----------------------------------------------//
- int objectDisplay :: getTop() 
+// геттеры для координат углов
+int objectDisplay :: getX1()
 { 
-   return y1 + 1; 
+   return x1; 
 }
-int objectDisplay :: getLeft()
+int objectDisplay :: getY1()
 { 
-   return x1 + 1; 
+   return y1; 
 }
-int objectDisplay :: getHeight()
+int objectDisplay :: getX2()
 {
-   return y2 - y1 - 1; 
+   return x2; 
 }
-int objectDisplay :: getWidth()
+int objectDisplay :: getY2()
 {
-   return x2 - x1 - 1; 
+   return y2; 
 }
-
 //-----------------------------------------------МЕБЕЛЬ-----------------------------------------------//
 //ОТРИСОВКА
 void objectFurniture :: draw()
 {
    putimage(x1, y1, m, TRANSPARENT_PUT);
-}
-int objectFurniture :: getX1()
-{ 
-   return x1; 
-}
-int objectFurniture :: getY1()
-{ 
-   return y1; 
-}
-int objectFurniture :: getX2(){
-   return x2; 
-}
-int objectFurniture :: getY2()
-{
-   return y2; 
 }
 // геттеры для типа фигуры
 int objectFurniture :: getType()
@@ -157,23 +142,6 @@ void objectWall :: paramRoom()
    weightRoom = x2 - x1;
    heightRoom = y2 - y1;
 }
-// геттер для координат углов
-int objectWall :: getX1()
-{ 
-   return x1; 
-}
-int objectWall :: getY1()
-{ 
-   return y1; 
-}
-int objectWall :: getX2()
-{
-   return x2; 
-}
-int objectWall :: getY2()
-{
-   return y2; 
-}
 // геттер для ширины стены
 int objectWall :: getW()
 {
@@ -199,7 +167,6 @@ int objectWall :: getHeightLift()
 void objectFigureOnWall :: draw()
 {
    setcolor(RGB(243, 243, 243));
-   cout << numWall << " ";
    if (numWall == 1)
    {
       line(x1, y1, x1 + imagewidth(objectOnWall), y1);
@@ -216,23 +183,6 @@ void objectFigureOnWall :: draw()
 int objectFigureOnWall :: getType()
 {
    return type;
-}
-//геттер координат углов
-int objectFigureOnWall :: getX1()
-{ 
-   return x1; 
-}
-int objectFigureOnWall :: getY1()
-{ 
-   return y1; 
-}
-int objectFigureOnWall :: getX2()
-{
-   return x2; 
-}
-int objectFigureOnWall :: getY2()
-{
-   return y2; 
 }
 // геттер для высоты объекта
 int objectFigureOnWall :: getHeight()
@@ -387,9 +337,9 @@ areaDraw &areaDraw :: example()
 void areaDraw :: draw()
 {
    //Pages :: example().draw();
-   areaDraw :: example().drawBack();
+   //areaDraw :: example().drawBack();
    //ФИГУРЫ
-   if (figures.size() > 0)
+   /*if (figures.size() > 0)
    {
       sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
       {
@@ -399,7 +349,7 @@ void areaDraw :: draw()
       {
          return (figure1 -> getHeight() < figure2 -> getHeight()); 
       });
-   }
+   }*/
 
    for (int i = 0; i < figures.size(); i++)
       figures[i] -> draw();
@@ -448,20 +398,31 @@ void areaDraw :: projection(int x, int y)
          int height = areaParams :: example().height;
          int heightLift = areaParams :: example().heightLift;
          
-         if (figures.size() > 0)
+         /*if (figures.size() > 0)
          {
             sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
             {
                return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
             });
-         }
+            sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+            {
+               return (figure1 -> getHeight() < figure2 -> getHeight()); 
+            });
+         }*/
          int i = 0;
          for (i; i < figures.size(); i++)
          {
-            if (figures[i]  -> getHeightLift() <= heightLift) 
+            if (figures[i]  -> getHeightLift() <= heightLift)
+            {
                if (height != 0)
                   figures[i] -> draw();
                else break;
+            }
+            else 
+            {
+               cout << figures[i]  -> getHeightLift();
+               break;
+            }
          }
          putimage(x1, y1, m1, TRANSPARENT_PUT);
          for (i; i < figures.size(); i++)
@@ -515,9 +476,14 @@ bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
       int height = figures[i] -> getHeight();
       int heightLift = figures[i] -> getHeightLift();
       bool h = f >= heightLift ? (heightLift + height) > f : (f + e) > heightLift;
-      if (e == 0 || height == 0) h = 0;
-      cout << height << " " << heightLift << "\n";
-      cout << e << " " << f << "\n\n";
+      if (e == 0 || height == 0)
+      {
+         h = 0;
+         return false;
+      }
+      //cout << height << " " << heightLift << "\n";
+      //cout << e << " " << f << "\n\n";
+      //if (i) cout << i;
       if (i && ((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
          (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
          (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)) && h)
@@ -558,19 +524,23 @@ void areaDraw :: deleteFigure(int x, int y)
    {
       if (figures[i] -> in(x, y))
       {
+         if ((num >= 1 && num <= 3) || num == 23) areaParams :: example().draw();
          if (figures[i] -> getType() == 2)
          {
             numRoom = 0;
             figures.erase(figures.begin(), figures.end());
+            for (int j = 0; j < figures.size(); j++)
+            {
+               delete figures[j];
+            }
             draw();
-            if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
             areaDraw :: example().setCoord(0, 0, 0, 0);
             swapbuffers();
             break;
          }
          figures.erase(figures.begin() + i);
+         delete figures[i];
          draw();
-         if (num != 1 && num != 2 && num != 3) areaParams :: example().draw();
          //delay(600);
          swapbuffers();
          break;

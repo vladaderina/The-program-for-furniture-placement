@@ -30,6 +30,7 @@ void buttonBack :: press()
    else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
    areaParams :: example().rotationFurniture = 0;
    areaParams :: example().heightFurniture = 0;
+   areaDraw :: example().setTool(NULL);
    Pages :: example().draw();
    areaDraw :: example().draw();
    swapbuffers();
@@ -56,10 +57,7 @@ void buttonTools :: press()
    Pages :: example().draw();
    areaDraw :: example().draw();
    areaParams :: example().setType(1);
-   if (page != 3)
-   {
-      areaParams :: example().draw();
-   }
+   areaParams :: example().draw();
    if (page == 1)
    {
       areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
@@ -110,6 +108,8 @@ void buttonFurniture :: press()
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
+   swapbuffers();
+   Pages :: example().draw();
    areaDraw :: example().draw();
    areaParams :: example().obj = loadBMP(obj.c_str());
    areaParams :: example().setType(2);
@@ -149,7 +149,7 @@ void toolFurniture()
    else if (areaDraw :: example().inRoom(x1, y1))
    {
       figure *rect = new objectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
-      areaParams :: example().height, areaParams :: example().heightFurniture, m);
+                                                            height, heightLift, m);
       areaDraw :: example().addFigure(rect);
       areaDraw :: example().draw();
       /*for (int i = 0; i < areaDraw :: example().figures.size(); i++)
@@ -299,12 +299,15 @@ void toolOnWall()
    IMAGE *m = positionOnWall(x1, y1, numWall, a);
    int height = areaParams :: example().height;
    int heightLift = areaParams :: example().heightLift;
+   cout << "\n\n" << heightLift << "\n\n";
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
                areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(x1, y1))
+   else if (areaDraw :: example().inRoom(mousex(), mousey()))
    {
-      figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), numWall, areaParams :: example().height, areaParams :: example().heightLift, m);
+      figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
+      numWall, height, heightLift, m);
+      cout << "\n\n" << rect -> getHeightLift() << "\n\n";
       areaDraw :: example().addFigure(rect);
       areaDraw :: example().draw();
       areaDraw :: example().projection(x1, y1);

@@ -81,11 +81,11 @@ public:
    bool in(int x, int y); 
    // виртуальная функция для отрисовки объекта
    virtual void draw() = 0;
-   // геттеры для координат верхнего левого угла, высоты и ширины
-   int getTop();
-   int getLeft();
-   int getHeight();
-   int getWidth();
+   // геттеры для координат углов
+   int getX1();
+   int getY1();
+   int getX2();
+   int getY2();
    //деструктор
    virtual ~objectDisplay(){}
 };
@@ -116,11 +116,6 @@ public:
    figure(int x1, int y1, int x2, int y2, int height, int heightLift) : objectDisplay(x1, y1, x2, y2), height(height), heightLift(heightLift) {}
    // отрисовка объекта
    virtual void draw() = 0;
-   // геттеры для координат углов
-   virtual int getX1(); 
-   virtual int getY1();
-   virtual int getX2();
-   virtual int getY2();
    // геттер для высоты фигуры
    virtual int getHeight();
    // геттер для высоты подъема фигуры
@@ -143,11 +138,6 @@ public:
    }
    // отрисовка объекта
    void draw() override;
-   // геттеры для координат углов
-   int getX1();
-   int getY1();
-   int getX2();
-   int getY2();
    // геттеры для типа фигуры
    int getType();
    // геттер для высоты фигуры
@@ -170,11 +160,6 @@ public:
    objectWall(int x1, int y1, int x2, int y2, int height, int w) : figure(x1, y1, x2, y2, height, 0), w(w) { type = 2; }
    // отрисовка объекта 
    void draw() override; 
-   // геттер для координат углов
-   int getX1();
-   int getY1();
-   int getX2();
-   int getY2();
    // геттер для ширины стены
    int getW();
    // геттер для типа объекта
@@ -191,8 +176,6 @@ public:
 class objectFigureOnWall : public figure
 {
 public:
-   // высота объекта над уровнем пола
-   int heightLift;
    // номер одной из 4 стен, на которой находится объект
    int numWall;
    IMAGE *objectOnWall;
@@ -204,11 +187,6 @@ public:
    void draw() override;
    // геттер для типа объекта
    int getType();
-   //геттер координат углов
-   int getX1();
-   int getY1();
-   int getX2();
-   int getY2();
    // геттер для высоты объекта
    int getHeight();
    // геттер для высоты объекта над уровнем пола
