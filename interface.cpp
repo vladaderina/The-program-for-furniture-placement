@@ -336,20 +336,14 @@ areaDraw &areaDraw :: example()
 //ÎÒÐÈÑÎÂÊÀ
 void areaDraw :: draw()
 {
-   //Pages :: example().draw();
-   //areaDraw :: example().drawBack();
    //ÔÈÃÓÐÛ
-   /*if (figures.size() > 0)
+   if (figures.size() > 0)
    {
       sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
       {
          return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
       });
-      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
-      {
-         return (figure1 -> getHeight() < figure2 -> getHeight()); 
-      });
-   }*/
+   }
 
    for (int i = 0; i < figures.size(); i++)
       figures[i] -> draw();
@@ -390,25 +384,20 @@ void areaDraw :: projection(int x, int y)
          
          if (type == 1) m1 = positionOnWall(x, y, numWall, a);
          else m1 = a;
-         
-         imageputpixel(m1, 0, 0, WHITE);
          x1 = x;
          y1 = y;
+         imageputpixel(m1, 0, 0, WHITE);
          areaDraw :: example().drawBack(); //Pages :: example().draw();
          int height = areaParams :: example().height;
          int heightLift = areaParams :: example().heightLift;
          
-         /*if (figures.size() > 0)
+         if (figures.size() > 0)
          {
             sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
             {
                return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
             });
-            sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
-            {
-               return (figure1 -> getHeight() < figure2 -> getHeight()); 
-            });
-         }*/
+         }
          int i = 0;
          for (i; i < figures.size(); i++)
          {
@@ -424,6 +413,8 @@ void areaDraw :: projection(int x, int y)
                break;
             }
          }
+         if (x1 + imagewidth(m1) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m1);
+         if (y1 + imageheight(m1) > areaDraw :: example().getY2()) y1 = areaDraw :: example().getY2() - imageheight(m1);
          putimage(x1, y1, m1, TRANSPARENT_PUT);
          for (i; i < figures.size(); i++)
          {
@@ -467,6 +458,13 @@ void areaDraw :: press()
 //ÏÐÎÂÅÐÊÀ ÍÀËÎÆÅÍÈß ÎÁÚÅÊÒÀ ÍÀ ÄÐÓÃÈÅ
 bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
 {
+   if (figures.size() > 0)
+   {
+      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
+      {
+         return (figure1 -> getHeight() < figure2 -> getHeight()); 
+      });
+   }
    for (int i = figures.size() - 1; i >= 0; i--)
    {
       int x1 = figures[i] -> getX1();
@@ -476,7 +474,7 @@ bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
       int height = figures[i] -> getHeight();
       int heightLift = figures[i] -> getHeightLift();
       bool h = f >= heightLift ? (heightLift + height) > f : (f + e) > heightLift;
-      if (e == 0 || height == 0)
+      if (e == 0)
       {
          h = 0;
          return false;
@@ -524,7 +522,7 @@ void areaDraw :: deleteFigure(int x, int y)
    {
       if (figures[i] -> in(x, y))
       {
-         if ((num >= 1 && num <= 3) || num == 23) areaParams :: example().draw();
+         if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
          if (figures[i] -> getType() == 2)
          {
             numRoom = 0;
@@ -538,6 +536,7 @@ void areaDraw :: deleteFigure(int x, int y)
             swapbuffers();
             break;
          }
+         if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
          figures.erase(figures.begin() + i);
          delete figures[i];
          draw();

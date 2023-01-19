@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#define NUMBACKGROUND 24
+#define NUMBACKGROUND 25
 #define  NUMOBJECT 6
 
 using namespace std;
@@ -259,7 +259,7 @@ protected:
    // выбранный инструмент
    ptrFunction tool; // текущий инструмент
 public:
-   // массив для объектов расположенных на экране
+   // вектор объектов расположенных на экране
    vector <figure*> figures;
    // рабочая среда
    static areaDraw &example();

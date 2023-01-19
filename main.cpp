@@ -29,35 +29,36 @@ void mainInitialization()
    buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
    
    //  ÕŒœ » Ã≈¡≈À»
-   buttons[4] = new buttonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
-   buttons[5] = new buttonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
-   buttons[6] = new buttonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
-   buttons[7] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
+   buttons[5] = new buttonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
+   buttons[6] = new buttonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
+   buttons[7] = new buttonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
+   buttons[8] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
    
    //  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
-   buttons[8] = new buttonFile(0, 630, fileEnd);
-   buttons[9] = new buttonFile(0, 510, fileSave);
+   buttons[9] = new buttonFile(0, 630, fileEnd);
+   buttons[10] = new buttonFile(0, 510, fileSave);
    
    //  ÕŒœ » ƒÀﬂ œ≈–≈ Àﬁ◊≈Õ»ﬂ —“–¿Õ»÷
    buttons[3] = new buttonPage(0, 300, 73, 373, 3);
+   buttons[4] = new buttonPage(0, 565, 73, 635, 24);
    int y;
-   for(int i = 10; i <= 18; i++)
+   for(int i = 11; i <= 19; i++)
    {
-      y = 190 + 50 * ((i - 10) % 15) + 26 * ((i - 10) / 3);
-      buttons[i] = new buttonPage(90, y, 400, y + 35, i - 5);
-      buttons[i + 9] = new buttonPage(90, y, 400, y + 35, i + 4);
+      y = 190 + 50 * ((i - 11) % 15) + 26 * ((i - 11) / 3);
+      buttons[i] = new buttonPage(90, y, 400, y + 35, i - 6);
+      buttons[i + 9] = new buttonPage(90, y, 400, y + 35, i + 3);
    }
-   buttons[28] = new buttonPage(70, 130, 400, 160, 3);
-   buttons[29] = new buttonPage(70, 685, 400, 720, 4);
+   buttons[29] = new buttonPage(70, 130, 400, 160, 3);
+   buttons[30] = new buttonPage(70, 685, 400, 720, 4);
    
    //  ÕŒœ » œ¿–¿Ã≈“–Œ¬
-   buttons[30] = new buttonParam(85, 215, 1, 0);
-   buttons[31] = new buttonParam(85, 295, 0, 1);
-   buttons[32] = new buttonParam(290, 215, -1, 0);
-   buttons[33] = new buttonParam(290, 290, 0, -1);
+   buttons[31] = new buttonParam(85, 215, 1, 0);
+   buttons[32] = new buttonParam(85, 295, 0, 1);
+   buttons[33] = new buttonParam(290, 215, -1, 0);
+   buttons[34] = new buttonParam(290, 290, 0, -1);
    
    // ÕŒœ ¿ ¬Œ«¬–¿“¿ Õ¿«¿ƒ
-   buttons[34] = new buttonBack(70, 90, 240, 140);
+   buttons[35] = new buttonBack(70, 90, 240, 140);
    
    //”—“¿Õ¿¬À»¬¿≈Ã —“¿Õƒ¿–“Õ€… »Õ—“–”Ã≈Õ“
    areaDraw :: example().setTool(toolWall);
@@ -101,7 +102,7 @@ int main()
          else
          {
             int num = Pages :: example().getCurrentPage();
-            for (int i = 0; i <= 3; i++)
+            for (int i = 0; i <= 4; i++)
             {
                if (buttons[i] -> in(x, y)) 
                {
@@ -111,7 +112,7 @@ int main()
             }
             if (num >= 5 && num <= 22)
             {
-               for (int i = 4; i <= 7; i++)
+               for (int i = 5; i <= 8; i++)
                {
                   if (buttons[i] -> in(x, y)) 
                   {
@@ -122,7 +123,7 @@ int main()
             }
             if (num <= 2 || num == 23)
             {
-               for (int i = 30; i <= 33; i++)
+               for (int i = 31; i <= 34; i++)
                {
                   if (buttons[i] -> in(x, y))
                   {
@@ -133,7 +134,7 @@ int main()
             }
             if (num == 3 || num == 4)
             {
-               for (int i = 28; i <= 29; i++)
+               for (int i = 29; i <= 30; i++)
                {
                   if (buttons[i] -> in(x, y))
                   {
@@ -143,7 +144,7 @@ int main()
             }
             if (num == 3)
             {
-               for (int i = 10; i <= 18; i++)
+               for (int i = 11; i <= 19; i++)
                {
                   if (buttons[i] -> in(x, y))
                   {
@@ -153,7 +154,7 @@ int main()
             }
             if (num == 4)
             {
-               for (int i = 19; i <= 27; i++)
+               for (int i = 20; i <= 28; i++)
                {
                   if (buttons[i] -> in(x, y))
                   {
@@ -163,17 +164,17 @@ int main()
             }
             if (num >= 5 && num <= 23)
             {
-               if (buttons[34] -> in(x, y)) 
+               if (buttons[35] -> in(x, y)) 
                {
-                  buttons[34] -> press();
+                  buttons[35] -> press();
                }
             }
-            for (int i = 8; i <= 9; i++)
+            for (int i = 9; i <= 10; i++)
             {
                if (buttons[i] -> in(x, y)) 
                {
                   buttons[i] -> press();
-                  if (i == 4) return 0;
+                  if (i == 9) return 0;
                }
             }
          }

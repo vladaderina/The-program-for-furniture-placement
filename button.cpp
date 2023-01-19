@@ -113,6 +113,7 @@ void buttonFurniture :: press()
    areaDraw :: example().draw();
    areaParams :: example().obj = loadBMP(obj.c_str());
    areaParams :: example().setType(2);
+   areaParams :: example().heightLift = 0;
    areaDraw :: example().setTool(tool);
    setbkcolor(WHITE);
    setcolor(BLACK);
@@ -146,8 +147,10 @@ void toolFurniture()
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
                areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(x1, y1))
+   else if (areaDraw :: example().inRoom(mousex(), mousey()))
    {
+      if (x1 + imagewidth(m) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m);
+      if (y1 + imageheight(m) > areaDraw :: example().getY2()) y1 = areaDraw :: example().getY2() - imageheight(m);
       figure *rect = new objectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
                                                             height, heightLift, m);
       areaDraw :: example().addFigure(rect);

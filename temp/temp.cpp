@@ -2,27 +2,42 @@
 
 
 
-// ÎÒÐÈÑÎÂÊÀ ÊÍÎÏÊÈ
-void button :: draw()
-{
-   
-}
-
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÐÀÁÎÒÛ Ñ ÔÀÉËÎÌ
+///----------------------------ÊËÀÑÑ ÄËß ÊÍÎÏÎÊ ÑÎÕÐÀÍÅÍÈß È ÂÛÕÎÄÀ-------------------------------------//
 void buttonFile :: press()
 {
    // ÄÅÉÑÒÂÈÅ
    action();
 }
 
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ Ñ ÏÀÐÀÌÅÒÐÀÌÈ
+//-----------------------------------------------ÊËÀÑÑ ÄËß ÊÍÎÏÎÊ ÈÇÌÅÍÅÍÈß ÏÀÐÀÌÅÒÐÎÂ----------------------------------------------//
 void buttonParam :: press()
 {
    areaParams :: example().setParam(w, h);
    areaParams :: example().changeParam();
 }
 
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÏÅÐÅÊËÞ×ÅÍÈß ÑÒÐÀÍÈÖÛ
+//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÄËß ÂÎÇÂÐÀÒÀ ÍÀ ÏÐÅÄÛÄÓÙÓÞ ÑÒÐÀÍÈÖÓ-----------------------------------------------//
+void buttonBack :: press()
+{
+   int m = Pages :: example().getListFurniturePage();
+   int n = Pages :: example().getListTypePage();
+   int p = Pages :: example().getCurrentPage();
+   if (p == 23) 
+   {
+      Pages :: example().setCurrentPage(n);
+      areaParams :: example().obj = NULL;
+   }
+   else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
+   areaParams :: example().rotationFurniture = 0;
+   areaParams :: example().heightFurniture = 0;
+   areaDraw :: example().setTool(NULL);
+   Pages :: example().draw();
+   areaDraw :: example().draw();
+   swapbuffers();
+   delay(200);
+}
+
+//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÄËß ÏÅÐÅÕÎÄÀ ÍÀ ÑÒÐÀÍÈÖÓ-----------------------------------------------//
 void buttonPage :: press()
 {
    int p = Pages :: example().getCurrentPage();
@@ -34,8 +49,7 @@ void buttonPage :: press()
    swapbuffers();
    delay(200);
 }
-
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÈÍÑÒÐÓÌÅÍÒÀÐÈß
+//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÈÍÑÒÐÓÌÅÒÀÐÈß-----------------------------------------------//
 void buttonTools :: press()
 {
    int p = Pages :: example().getCurrentPage();
@@ -43,10 +57,7 @@ void buttonTools :: press()
    Pages :: example().draw();
    areaDraw :: example().draw();
    areaParams :: example().setType(1);
-   if (page != 3)
-   {
-      areaParams :: example().draw();
-   }
+   areaParams :: example().draw();
    if (page == 1)
    {
       areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
@@ -64,7 +75,7 @@ void buttonTools :: press()
    swapbuffers();
 }
 
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÌÅÁÅËÈ
+//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÌÅÁÅËÈ-----------------------------------------------//
 void buttonFurniture :: press()
 {
    int p = Pages :: example().getCurrentPage();
@@ -97,6 +108,8 @@ void buttonFurniture :: press()
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
+   swapbuffers();
+   Pages :: example().draw();
    areaDraw :: example().draw();
    areaParams :: example().obj = loadBMP(obj.c_str());
    areaParams :: example().setType(2);
@@ -111,23 +124,8 @@ void buttonFurniture :: press()
    swapbuffers();
 }
 
-// ÐÅÀÊÖÈß ÍÀ ÍÀÆÀÒÈÅ ÊÍÎÏÊÈ ÍÀÇÀÄ
-void buttonBack :: press()
-{
-   int m = Pages :: example().getListFurniturePage();
-   int n = Pages :: example().getListTypePage();
-   int p = Pages :: example().getCurrentPage();
-   if (p == 23) Pages :: example().setCurrentPage(n);
-   else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
-   areaParams :: example().rotationFurniture = 0;
-   areaParams :: example().heightFurniture = 0;
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   swapbuffers();
-   delay(200);
-}
-
-// ÓÄÀËÈÒÜ
+//-----------------------------------------------ÔÓÍÊÖÈÈ-----------------------------------------------//
+//-----------------------------------------------ÓÄÀËÈÒÜ-----------------------------------------------//
 void toolDelete()
 {
    // ÊÓÐÑÎÐ
@@ -137,7 +135,7 @@ void toolDelete()
    areaDraw :: example().deleteFigure(x, y);
 }
  
-// ÌÅÁÅËÜ
+//-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
 void toolFurniture()
 {
    int x1 = mousex();
@@ -150,7 +148,4 @@ void toolFurniture()
                areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
    else if (areaDraw :: example().inRoom(x1, y1))
    {
-      figure *rect = new objectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
-      areaParams :: example().height, areaParams :: example().heightFurniture, m);
-      areaDraw :: example().addFigure(rect);
-      areaDraw :: _abracadabra_cast(example());
+      if (x1 + imagewidth(m) > areaDraw :: _abracadabra_cast(example());

@@ -2,8 +2,8 @@
 #define button_H
 #include <graphics.h>
 #include "interface.hpp"
-#define NUMBUTTONS 35
-#define NUMBACKGROUND 24
+#define NUMBUTTONS 36
+#define NUMBACKGROUND 25
 
 //----------------------------------------------- À¿—— ƒÀﬂ  ÕŒœŒ -----------------------------------------------//
 class button: public objectClickable
