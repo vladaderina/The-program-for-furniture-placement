@@ -1,151 +1,220 @@
 
 
+IMAGE *background[NUMBACKGROUND];
+IMAGE *object[NUMOBJECT];
+bool flag = 0;
 
-
-///----------------------------ÊËÀÑÑ ÄËß ÊÍÎÏÎÊ ÑÎÕÐÀÍÅÍÈß È ÂÛÕÎÄÀ-------------------------------------//
-void buttonFile :: press()
+bool objectDisplay :: in(int x, int y)
 {
-   // ÄÅÉÑÒÂÈÅ
-   action();
+   if (x1 > x2)
+      swap(x1,x2);
+   if (y1 > y2)
+      swap(y1,y2);
+   if (x > x1 && x < x2 && y > y1 && y < y2)
+      return true;
+   else
+      return false;
 }
 
-//-----------------------------------------------ÊËÀÑÑ ÄËß ÊÍÎÏÎÊ ÈÇÌÅÍÅÍÈß ÏÀÐÀÌÅÒÐÎÂ----------------------------------------------//
-void buttonParam :: press()
-{
-   areaParams :: example().setParam(w, h);
-   areaParams :: example().changeParam();
-}
+//-----------------------------------------------ÎØÈÁÊÈ-----------------------------------------------//
 
-//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÄËß ÂÎÇÂÐÀÒÀ ÍÀ ÏÐÅÄÛÄÓÙÓÞ ÑÒÐÀÍÈÖÓ-----------------------------------------------//
-void buttonBack :: press()
+const void *ManyRoomsError :: what() const
 {
-   int m = Pages :: example().getListFurniturePage();
-   int n = Pages :: example().getListTypePage();
-   int p = Pages :: example().getCurrentPage();
-   if (p == 23) 
-   {
-      Pages :: example().setCurrentPage(n);
-      areaParams :: example().obj = NULL;
-   }
-   else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
-   areaParams :: example().rotationFurniture = 0;
-   areaParams :: example().heightFurniture = 0;
-   areaDraw :: example().setTool(NULL);
-   Pages :: example().draw();
-   areaDraw :: example().draw();
+   IMAGE *image =  loadBMP("icon/back/text1.jpg");
+   putimage(63, 556, image, COPY_PUT); 
    swapbuffers();
-   delay(200);
+   putimage(63, 556, image, COPY_PUT); // ñîîáùåíèå äëÿ ïå÷àòè
+   swapbuffers();
+   return 0;
 }
 
-//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÄËß ÏÅÐÅÕÎÄÀ ÍÀ ÑÒÐÀÍÈÖÓ-----------------------------------------------//
-void buttonPage :: press()
+const void *NoRoomError :: what() const
 {
-   int p = Pages :: example().getCurrentPage();
-   if (p == 3 || p == 4) Pages :: example().setListFurniturePage(p);
-   Pages :: example().setCurrentPage(page);
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaDraw :: example().setTool(NULL);
+   IMAGE *image =  loadBMP("icon/back/text2.jpg");
+   putimage(63, 556, image, COPY_PUT); 
    swapbuffers();
-   delay(200);
+   putimage(63, 556, image, COPY_PUT); // ñîîáùåíèå äëÿ ïå÷àòè
+   swapbuffers();
+   return 0;
 }
-//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÈÍÑÒÐÓÌÅÒÀÐÈß-----------------------------------------------//
-void buttonTools :: press()
+const void *ObjectOverlayError :: what() const
 {
-   int p = Pages :: example().getCurrentPage();
-   Pages :: example().setCurrentPage(page);
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().setType(1);
-   areaParams :: example().draw();
-   if (page == 1)
-   {
-      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
-      areaParams :: example().heightLift = 0;
-      areaParams :: example().height = areaParams :: example().heightDoor;
-   }
-   else if (page == 2)
-   {
-      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
-      areaParams :: example().heightLift = 150;
-      areaParams :: example().height = areaParams :: example().heightWindow;
-   }
-   else areaParams :: example().obj = NULL;
-   areaDraw :: example().setTool(tool);
+   IMAGE *image =  loadBMP("icon/back/text3.jpg");
+   putimage(63, 556, image, COPY_PUT);
    swapbuffers();
+   putimage(63, 556, image, COPY_PUT); // ñîîáùåíèå äëÿ ïå÷àòè
+   swapbuffers();
+   //delay(1300);
+   return 0;
+}
+//-----------------------------------------------ÑÒÐÀÍÈÖÛ-----------------------------------------------//
+Pages &Pages :: example()
+{
+   static Pages pg;
+   return pg;
+}
+void Pages :: draw()
+{
+   putimage(0, 0, background[Pages :: example().getCurrentPage()], COPY_PUT);
+}
+void Pages :: setCurrentPage(int page)
+{
+   currentPage = page; 
+}
+// ãåòòåð äëÿ íîìåðà òåêóùåé ñòðàíèöû
+int Pages :: getCurrentPage()
+{
+   return currentPage; 
+}
+// ñåòòåð äëÿ íîìåðà ñòðàíèöû ñî ñïèñêîì âñåé ìåáåëè
+void Pages :: setListFurniturePage(int page)
+{
+   listFurniturePage = page; 
+}
+// ãåòòåð äëÿ íîìåðà ñòðàíèöû ñî ñïèñêîì âñåé ìåáåëè 
+int Pages :: getListFurniturePage()
+{
+   return listFurniturePage; 
+}
+// ñåòòåð äëÿ íîìåðà ñòðàíèöû ñ òèïàìè âûáðàííîé ìåáåëè
+void Pages :: setListTypePage(int page)
+{
+   listTypePage = page; 
+}
+// ãåòòåð äëÿ íîìåðà ñòðàíèöû ñ òèïàìè âûáðàííîé ìåáåëè
+int Pages :: getListTypePage()
+{
+   return listTypePage; 
 }
 
-//-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÌÅÁÅËÈ-----------------------------------------------//
-void buttonFurniture :: press()
+//-----------------------------------------------ÎÁÚÅÊÒÛ ÍÀ ÝÊÐÀÍÅ-----------------------------------------------//
+// ãåòòåðû äëÿ êîîðäèíàò óãëîâ
+int objectDisplay :: getX1()
+{ 
+   return x1; 
+}
+int objectDisplay :: getY1()
+{ 
+   return y1; 
+}
+int objectDisplay :: getX2()
 {
-   int p = Pages :: example().getCurrentPage();
-   string param = "object/"+ to_string(p - 4) + "/param.cfg";
-   ifstream file(param);
-   int m;
-   string s;
-   int k;
-   int j = 0;
-   while (getline(file, s))
+   return x2; 
+}
+int objectDisplay :: getY2()
+{
+   return y2; 
+}
+//-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
+//ÎÒÐÈÑÎÂÊÀ
+void objectFurniture :: draw()
+{
+   putimage(x1, y1, m, TRANSPARENT_PUT);
+}
+// ãåòòåðû äëÿ òèïà ôèãóðû
+int objectFurniture :: getType()
+{
+   return type;
+}
+// ãåòòåð äëÿ âûñîòû ôèãóðû
+int objectFurniture :: getHeight()
+{
+   return height;
+}
+int objectFurniture :: getHeightLift()
+{
+   return heightLift;
+}
+//-----------------------------------------------ÑÒÅÍÛ-----------------------------------------------//
+//ÎÒÐÈÑÎÂÊÀ
+void objectWall :: draw()
+{
+   setlinestyle(SOLID_LINE, w / 3, w / 3);
+   setcolor(RGB(153, 153, 153));
+   rectangle(x1, y1, x2, y2);
+}
+void objectWall :: setW(int widthWall)
+{
+   w = widthWall;
+}
+void objectWall :: paramRoom()
+{
+   weightRoom = x2 - x1;
+   heightRoom = y2 - y1;
+}
+// ãåòòåð äëÿ øèðèíû ñòåíû
+int objectWall :: getW()
+{
+   return w;
+}
+// ãåòòåð äëÿ òèïà îáúåêòà
+int objectWall :: getType()
+{
+   return type;
+}
+// ãåòòåð äëÿ âûñîòû ñòåíû
+int objectWall :: getHeight()
+{
+   return height;
+}   
+// ãåòòåð äëÿ âûñîòû ñòåíû íàä óðîâíåì ïîëà
+int objectWall :: getHeightLift()
+{
+   return 0;
+}
+//-----------------------------------------------ÍÀ-ÑÒÅÍÅ-----------------------------------------------//
+//ÎÒÐÈÑÎÂÊÀ
+void objectFigureOnWall :: draw()
+{
+   setcolor(RGB(243, 243, 243));
+   if (numWall == 1)
    {
-      j++;
-      if (j == num)
-      {
-         areaParams :: example().name.clear();
-         int i = 0;
-         while (s[i] != ':')
-         {
-            areaParams :: example().name += s[i];
-            i++;
-         }
-         k = i + 2;
-         istringstream s1(s.substr(k));
-         s1 >> areaParams :: example().height;
-      }
+      line(x1, y1, x1 + imagewidth(m), y1);
    }
-   file.close();
-   
-   string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
-   Pages :: example().setListTypePage(p);
-   Pages :: example().setCurrentPage(page);
-   Pages :: example().draw();
-   swapbuffers();
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().obj = loadBMP(obj.c_str());
-   areaParams :: example().setType(2);
-   areaDraw :: example().setTool(tool);
-   setbkcolor(WHITE);
-   setcolor(BLACK);
-   settextjustify(LEFT_TEXT, CENTER_TEXT);
+   else if (numWall == 2)
+      line(x1 + imagewidth(m), y1, x1 + imagewidth(m), y1+ imageheight(m));
+   else if (numWall == 3)
+      line(x1, y1 + imageheight(m), x1 + imagewidth(m), y1 + imageheight(m));
+   else if (numWall == 4)
+      line(x1, y1, x1, y1+ imageheight(m));
+   putimage(x1, y1, m, TRANSPARENT_PUT);
+}
+// ãåòòåð äëÿ òèïà îáúåêòà
+int objectFigureOnWall :: getType()
+{
+   return type;
+}
+// ãåòòåð äëÿ âûñîòû îáúåêòà
+int objectFigureOnWall :: getHeight()
+{
+   return height;
+}
+// ãåòòåð äëÿ âûñîòû îáúåêòà íàä óðîâíåì ïîëà
+int objectFigureOnWall :: getHeightLift()
+{
+   return heightLift;
+}
+//-----------------------------------------------ÏÀÐÀÌÅÒÐÛ-----------------------------------------------//
+areaParams &areaParams :: example()
+{
+   static areaParams pa(70, 60, 400, 720);
+   return pa;
+}
+void areaParams :: draw()
+{
+   char str_w[10], str_h[10];
+   char str_w_room[10], str_h_room[10];
+   int num = Pages :: example().getCurrentPage();
+   setcolor(RGB(0, 0, 0));
+   settextjustify(CENTER_TEXT, CENTER_TEXT);
    settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
    setusercharsize(9, 20, 9, 10);
-   const char * c = areaParams :: example().name.c_str();
-   outtextxy(120, 123, c);
-   swapbuffers();
-}
-
-//-----------------------------------------------ÔÓÍÊÖÈÈ-----------------------------------------------//
-//-----------------------------------------------ÓÄÀËÈÒÜ-----------------------------------------------//
-void toolDelete()
-{
-   // ÊÓÐÑÎÐ
-   int x = mousex();
-   int y = mousey();
-   // ÓÄÀËÅÍÈÅ ÔÈÃÓÐÛ, ÊÎÒÎÐÎÉ ÏÐÈÍÀÄËÅÆÈÒ ÒÎ×ÊÀ Â ÊÎÒÎÐÎÉ ÍÀÕÎÄÈÒÑß ÊÓÐÑÎÐ
-   areaDraw :: example().deleteFigure(x, y);
-}
- 
-//-----------------------------------------------ÌÅÁÅËÜ-----------------------------------------------//
-void toolFurniture()
-{
-   int x1 = mousex();
-   int y1 = mousey();
-   IMAGE *m = areaParams :: example().obj;
-   int height = areaParams :: example().height;
-   int heightLift = areaParams :: example().heightFurniture;
-   if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
-               areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(x1, y1))
+   setbkcolor(RGB(243, 243, 243));
+   if (num == 0)
    {
-      if (x1 + imagewidth(m) > areaDraw :: _abracadabra_cast(example());
+      sprintf(str_h, "%d", weightWall);
+      sprintf(str_w, "%d", heightWall);
+      sprintf(str_h_room, "%d", 2 * (areaDraw :: example().getY2() - areaDraw :: example().getY1()) / 3);
+      sprintf(str_w_room, "%d", 2 * (areaDraw :: example().getX2() - areaDraw :: example().getX1()) / 3);
+      setcolor(RGB(153, 153, 153));
+      if (areaDraw :: _abracadabra_cast(example());
