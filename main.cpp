@@ -24,8 +24,8 @@ void mainInitialization()
    }
 
    // ймнойх хмярпслемрюпхъ
-   buttons[0] = new buttonTools(0, 73, 73, 176, 0, toolWall);
-   buttons[1] = new buttonTools(0, 148, 73, 221, 1, toolOnWall);
+   buttons[0] = new buttonTools(0, 73, 73, 149, 0, toolWall);
+   buttons[1] = new buttonTools(0, 150, 73, 222, 1, toolOnWall);
    buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
    
    // ймнойх леаекх
