@@ -338,14 +338,6 @@ areaDraw &areaDraw :: example()
 //ÎÒĞÈÑÎÂÊÀ
 void areaDraw :: draw()
 {
-   //ÔÈÃÓĞÛ
-   if (figures.size() > 0)
-   {
-      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
-      {
-         return (figure1 -> getHeightLift() < figure2 -> getHeightLift());
-      });
-   }
    for (int i = 0; i < figures.size(); i++)
       figures[i] -> draw();
 }
@@ -391,14 +383,6 @@ void areaDraw :: projection(int x, int y)
          drawBack(); //Pages :: example().draw();
          int height = areaParams :: example().height;
          int heightLift = areaParams :: example().heightLift;
-         
-         if (figures.size() > 0)
-         {
-            sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
-            {
-               return (figure1 -> getHeightLift() < figure2 -> getHeightLift()); 
-            });
-         }
          int i = 0;
          for (i; i < figures.size(); i++)
          {
@@ -455,13 +439,6 @@ void areaDraw :: press()
 //ÏĞÎÂÅĞÊÀ ÍÀËÎÆÅÍÈß ÎÁÚÅÊÒÀ ÍÀ ÄĞÓÃÈÅ
 bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
 {
-   if (figures.size() > 0)
-   {
-      sort(figures.begin() + 1, figures.end(), [] (figure* figure1, figure* figure2) 
-      {
-         return (figure1 -> getHeight() < figure2 -> getHeight()); 
-      });
-   }
    for (int i = figures.size() - 1; i >= 0; i--)
    {
       int x1 = figures[i] -> getX1();
@@ -503,7 +480,26 @@ void areaDraw :: save()
 //ÄÎÁÀÂÈÒÜ ÎÁÚÅÊÒ
 void areaDraw :: addFigure(figure *figure)
 {
-   figures.push_back(figure);
+   bool flag = 0;
+   if (figures.size() > 1)
+   {
+      for (int i = 1; i < figures.size(); i++)
+      {
+         if (figures[i] -> getHeightLift() + figures[i] -> getHeight() > 
+             figure -> getHeightLift() + figure -> getHeight()) 
+         {
+            flag = 1;
+            auto iter = figures.begin() + i;
+            figures.insert(iter, figure);
+            break;
+         }
+      }
+      if (!flag) figures.push_back(figure);
+   }
+   else 
+   {
+      figures.push_back(figure);
+   }
 }
 
 //ÓÄÀËÈÒÜ ÎÁÚÅÊÒ

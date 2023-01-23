@@ -155,8 +155,6 @@ void toolFurniture()
                                                             height, heightLift, m);
       areaDraw :: example().addFigure(rect);
       areaDraw :: example().draw();
-      /*for (int i = 0; i < areaDraw :: example().figures.size(); i++)
-         areaDraw :: example().figures[i] -> draw();*/
       areaDraw :: example().projection(x1, y1);
    }
    swapbuffers();
