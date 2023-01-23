@@ -25,7 +25,6 @@ const void *ManyRoomsError :: what() const
    swapbuffers();
    putimage(63, 556, image, COPY_PUT); // сообщение для печати
    swapbuffers();
-   freeimage(image);
    return 0;
 }
 
@@ -36,7 +35,6 @@ const void *NoRoomError :: what() const
    swapbuffers();
    putimage(63, 556, image, COPY_PUT); // сообщение для печати
    swapbuffers();
-   freeimage(image);
    return 0;
 }
 const void *ObjectOverlayError :: what() const
@@ -46,7 +44,7 @@ const void *ObjectOverlayError :: what() const
    swapbuffers();
    putimage(63, 556, image, COPY_PUT); // сообщение для печати
    swapbuffers();
-   freeimage(image);
+   //delay(1300);
    return 0;
 }
 //-----------------------------------------------СТРАНИЦЫ-----------------------------------------------//
@@ -171,15 +169,15 @@ void objectFigureOnWall :: draw()
    setcolor(RGB(243, 243, 243));
    if (numWall == 1)
    {
-      line(x1, y1, x1 + imagewidth(m), y1);
+      line(x1, y1, x1 + imagewidth(objectOnWall), y1);
    }
    else if (numWall == 2)
-      line(x1 + imagewidth(m), y1, x1 + imagewidth(m), y1+ imageheight(m));
+      line(x1 + imagewidth(objectOnWall), y1, x1 + imagewidth(objectOnWall), y1+ imageheight(objectOnWall));
    else if (numWall == 3)
-      line(x1, y1 + imageheight(m), x1 + imagewidth(m), y1 + imageheight(m));
+      line(x1, y1 + imageheight(objectOnWall), x1 + imagewidth(objectOnWall), y1 + imageheight(objectOnWall));
    else if (numWall == 4)
-      line(x1, y1, x1, y1+ imageheight(m));
-   putimage(x1, y1, m, TRANSPARENT_PUT);
+      line(x1, y1, x1, y1+ imageheight(objectOnWall));
+   putimage(x1, y1, objectOnWall, TRANSPARENT_PUT);
 }
 // геттер для типа объекта
 int objectFigureOnWall :: getType()
@@ -219,11 +217,8 @@ void areaParams :: draw()
       sprintf(str_h_room, "%d", 2 * (areaDraw :: example().getY2() - areaDraw :: example().getY1()) / 3);
       sprintf(str_w_room, "%d", 2 * (areaDraw :: example().getX2() - areaDraw :: example().getX1()) / 3);
       setcolor(RGB(153, 153, 153));
-      if (areaDraw :: example().numRoom)
-      {
-         outtextxy(230, 407, str_w_room);
-         outtextxy(230, 489, str_h_room);
-      }
+      outtextxy(230, 407, str_w_room);
+      outtextxy(230, 489, str_h_room);
       setcolor(RGB(0, 0, 0));
    }
    else if (num == 1)
@@ -392,7 +387,7 @@ void areaDraw :: projection(int x, int y)
          x1 = x;
          y1 = y;
          imageputpixel(m1, 0, 0, WHITE);
-         drawBack();
+         areaDraw :: example().drawBack(); //Pages :: example().draw();
          int height = areaParams :: example().height;
          int heightLift = areaParams :: example().heightLift;
          
@@ -412,10 +407,14 @@ void areaDraw :: projection(int x, int y)
                   figures[i] -> draw();
                else break;
             }
-            else break;
+            else 
+            {
+               cout << figures[i]  -> getHeightLift();
+               break;
+            }
          }
-         if (x1 + imagewidth(m1) > getX2()) x1 = getX2() - imagewidth(m1);
-         if (y1 + imageheight(m1) > getY2()) y1 = getY2() - imageheight(m1);
+         if (x1 + imagewidth(m1) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m1);
+         if (y1 + imageheight(m1) > areaDraw :: example().getY2()) y1 = areaDraw :: example().getY2() - imageheight(m1);
          putimage(x1, y1, m1, TRANSPARENT_PUT);
          for (i; i < figures.size(); i++)
          {
@@ -480,6 +479,9 @@ bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
          h = 0;
          return false;
       }
+      //cout << height << " " << heightLift << "\n";
+      //cout << e << " " << f << "\n\n";
+      //if (i) cout << i;
       if (i && ((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
          (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
          (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)) && h)
@@ -520,24 +522,22 @@ void areaDraw :: deleteFigure(int x, int y)
    {
       if (figures[i] -> in(x, y))
       {
+         if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
          if (figures[i] -> getType() == 2)
          {
             numRoom = 0;
             figures.erase(figures.begin(), figures.end());
             for (int j = 0; j < figures.size(); j++)
             {
-               freeimage(figures[j] -> m);
                delete figures[j];
             }
             draw();
-            setCoord(0, 0, 0, 0);
-            if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
+            areaDraw :: example().setCoord(0, 0, 0, 0);
             swapbuffers();
             break;
          }
          if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
          figures.erase(figures.begin() + i);
-         freeimage(figures[i] -> m);
          delete figures[i];
          draw();
          //delay(600);

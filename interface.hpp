@@ -110,12 +110,10 @@ protected:
    //3 - объекты на стене
    int type;
    int height;
-   int heightLift;
+   int heightLift; 
 public:
-   // изображение объекта
-   IMAGE* m;
    // устанавливаем координаты углов, высоту и высоту подъема
-   figure(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) : objectDisplay(x1, y1, x2, y2), height(height), heightLift(heightLift), m(m) {}
+   figure(int x1, int y1, int x2, int y2, int height, int heightLift) : objectDisplay(x1, y1, x2, y2), height(height), heightLift(heightLift) {}
    // отрисовка объекта
    virtual void draw() = 0;
    // геттер для высоты фигуры
@@ -130,9 +128,11 @@ public:
 class objectFurniture : public figure
 {
 public:
+   // изображение мебели
+   IMAGE* m;
    // конструктор
    objectFurniture(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) :
-                           figure(x1, y1, x2, y2, height, heightLift, m)
+                           figure(x1, y1, x2, y2, height, heightLift), m(m)
    {
       type = 1;
    }
@@ -157,10 +157,7 @@ class objectWall : public figure
    void paramRoom();
 public:
    // конструктор
-   objectWall(int x1, int y1, int x2, int y2, int height, int w) : figure(x1, y1, x2, y2, height, 0, NULL), w(w)
-   { 
-      type = 2;
-   }
+   objectWall(int x1, int y1, int x2, int y2, int height, int w) : figure(x1, y1, x2, y2, height, 0), w(w) { type = 2; }
    // отрисовка объекта 
    void draw() override; 
    // геттер для ширины стены
@@ -181,9 +178,10 @@ class objectFigureOnWall : public figure
 public:
    // номер одной из 4 стен, на которой находится объект
    int numWall;
+   IMAGE *objectOnWall;
    // конструктор
    objectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, int height, int heightLift, IMAGE *a) : 
-         figure(x1, y1, x2, y2, height, heightLift, a), numWall(numWall)
+         figure(x1, y1, x2, y2, height, heightLift), numWall(numWall), objectOnWall(a)
          { type = 3; }
    // отрисовка объекта
    void draw() override;
@@ -246,6 +244,8 @@ class areaDraw: public objectClickable
    // получаем координаты углов
    areaDraw(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2), tool(nullptr), numRoom(0) {} 
 protected:
+   // число комнат расположенных на экране
+   int numRoom;
    // координаты центра комнаты
    struct center
    {
@@ -259,8 +259,6 @@ protected:
    // выбранный инструмент
    ptrFunction tool; // текущий инструмент
 public:
-   // число комнат расположенных на экране
-   int numRoom;
    // вектор объектов расположенных на экране
    vector <figure*> figures;
    // рабочая среда

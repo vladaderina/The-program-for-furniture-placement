@@ -245,6 +245,9 @@ void toolWall()
 //-----------------------------------------------–¿—œŒÀŒ∆≈Õ»≈ Œ¡⁄≈ “¿ Õ¿ —“≈Õ≈-----------------------------------------------//
 IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 {
+   IMAGE *b = imageturn(a, 90, WHITE);
+   IMAGE *c = imageturn(a, 180, WHITE);
+   IMAGE *d = imageturn(a, 270, WHITE);
    int centerY = areaDraw :: example().getCenterY();
    int centerX = areaDraw :: example().getCenterX();
    int xt1 = areaDraw :: example().getX1();
@@ -265,7 +268,6 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
             x1 <= xt2 && x1 >= centerX &&
             double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
    {
-      IMAGE *d = imageturn(a, 270, WHITE);
       x1 = xt2 - imagewidth(d);
       if (y1 > yt2 - imageheight(d)) y1 = yt2 - imageheight(d);
       numWall = 2;
@@ -275,7 +277,6 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
             y1 <= yt2 && y1 >= centerY &&
             double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
    {
-      IMAGE *c = imageturn(a, 180, WHITE);
       y1 = yt2 - imageheight(c);
       if (x1 > xt2 - imagewidth(c)) x1 = xt2 - imagewidth(c);
       numWall = 3;
@@ -283,7 +284,6 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
    }
    else
    {
-      IMAGE *b = imageturn(a, 90, WHITE);
       x1 = xt1;
       if (y1 > yt2 - imageheight(b)) y1 = yt2 - imageheight(b);
       numWall = 4;
@@ -310,6 +310,7 @@ void toolOnWall()
    {
       figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
       numWall, height, heightLift, m);
+      cout << "\n\n" << rect -> getHeightLift() << "\n\n";
       areaDraw :: example().addFigure(rect);
       areaDraw :: example().draw();
       areaDraw :: example().projection(x1, y1);
