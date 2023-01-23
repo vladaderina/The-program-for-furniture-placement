@@ -380,17 +380,16 @@ void areaDraw :: projection(int x, int y)
          x1 = x;
          y1 = y;
          imageputpixel(m1, 0, 0, WHITE);
-         drawBack(); //Pages :: example().draw();
+         drawBack();
          int height = areaParams :: example().height;
          int heightLift = areaParams :: example().heightLift;
-         int i = 0;
+         figures[0] -> draw();
+         int i = 1;
          for (i; i < figures.size(); i++)
          {
-            if (figures[i]  -> getHeightLift() <= heightLift)
+            if (figures[i]  -> getHeightLift() + figures[i]  -> getHeight() <= heightLift + height)
             {
-               if (height != 0)
-                  figures[i] -> draw();
-               else break;
+               figures[i] -> draw();
             }
             else break;
          }

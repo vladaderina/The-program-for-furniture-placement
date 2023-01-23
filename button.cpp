@@ -144,6 +144,8 @@ void toolFurniture()
    IMAGE *m = areaParams :: example().obj;
    int height = areaParams :: example().height;
    int heightLift = areaParams :: example().heightFurniture;
+   if (x1 + imagewidth(m) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m);
+   if (y1 + imageheight(m) > areaDraw :: example().getY2()) y1 = areaDraw :: example().getY2() - imageheight(m);
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
                areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
@@ -300,7 +302,6 @@ void toolOnWall()
    IMAGE *m = positionOnWall(x1, y1, numWall, a);
    int height = areaParams :: example().height;
    int heightLift = areaParams :: example().heightLift;
-   cout << "\n\n" << heightLift << "\n\n";
    if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
    else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
                areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
