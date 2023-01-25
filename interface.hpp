@@ -133,10 +133,7 @@ class objectFurniture : public figure
 public:
    // конструктор
    objectFurniture(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) :
-                           figure(x1, y1, x2, y2, height, heightLift, m)
-   {
-      type = 1;
-   }
+                           figure(x1, y1, x2, y2, height, heightLift, m) {}
    // отрисовка объекта
    void draw() override;
    // геттеры для типа фигуры

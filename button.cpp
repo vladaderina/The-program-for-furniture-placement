@@ -105,14 +105,13 @@ void buttonFurniture :: press()
    file.close();
    
    string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
+   areaParams :: example().obj = loadBMP(obj.c_str())
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
    swapbuffers();
    Pages :: example().draw();
    areaDraw :: example().draw();
-   areaParams :: example().obj = loadBMP(obj.c_str());
-   areaParams :: example().setType(2);
    areaParams :: example().heightLift = 0;
    areaDraw :: example().setTool(tool);
    setbkcolor(WHITE);
@@ -122,6 +121,7 @@ void buttonFurniture :: press()
    setusercharsize(9, 20, 9, 10);
    const char * c = areaParams :: example().name.c_str();
    outtextxy(120, 123, c);
+   cout << 11;
    swapbuffers();
 }
 
@@ -141,7 +141,11 @@ void toolFurniture()
 {
    int x1 = mousex();
    int y1 = mousey();
-   IMAGE *m = areaParams :: example().obj;
+   IMAGE *a = areaParams :: example().obj;
+   IMAGE *m;
+   int numWall;
+   if (areaParams :: example().getType() == 1) m = positionOnWall(x1, y1, numWall, a);
+   else m = a;
    int height = areaParams :: example().height;
    int heightLift = areaParams :: example().heightFurniture;
    if (x1 + imagewidth(m) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m);

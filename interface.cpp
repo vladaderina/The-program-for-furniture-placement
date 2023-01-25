@@ -252,6 +252,7 @@ void areaParams :: draw()
 void areaParams :: changeParam()
 {
    int num = Pages :: example().getCurrentPage();
+   int num2 = Pages :: example().getListTypePage();
    if (num == 0)
    {
       if ((weightWall > 35 && weightWall < 65) ||
@@ -296,7 +297,7 @@ void areaParams :: changeParam()
          obj = object[(250 - weightWindow) / 75 + 3];
       }
    }
-   else if (num == 23)
+   else if (num == 23 && num2 != 12)
    {
       if ((rotationFurniture > 0 && rotationFurniture < 360) ||
             (heightFurniture > 0 && heightFurniture < heightWall) ||
@@ -309,6 +310,21 @@ void areaParams :: changeParam()
          heightFurniture += b * 10;
          heightLift = heightFurniture;
          if (a) obj = imageturn(obj, 90, NO_COLOR);
+      }
+   }
+   else if (num == 23 && num2 == 12)
+   {
+      if ((rotationFurniture > 0 && rotationFurniture < 360) ||
+            (heightFurniture > 0 && heightFurniture < heightWall) ||
+            (a > 0 && rotationFurniture == 0) ||
+            (b > 0 && heightFurniture == 0) ||
+            (a < 0 && rotationFurniture == 360) ||
+            (b < 0 && heightFurniture == heightWall))
+      {
+         rotationFurniture += a * 180;
+         heightFurniture += b * 10;
+         heightLift = heightFurniture;
+         if (a) obj = imageturn(obj, 180, NO_COLOR);
       }
    }
    draw();
@@ -339,7 +355,10 @@ areaDraw &areaDraw :: example()
 void areaDraw :: draw()
 {
    for (int i = 0; i < figures.size(); i++)
+   {
+      cout << i << " " << figures.size() << "\n";
       figures[i] -> draw();
+   }
 }
 // ÇÀÄÍÈÉ ÔÎÍ
 void areaDraw :: drawBack()

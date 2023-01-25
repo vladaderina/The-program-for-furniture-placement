@@ -39,8 +39,8 @@ figure(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) #<i
 fileEnd() -> void #<button.hpp>
 fileSave() -> void #<button.hpp>
 flag : bool #<interface.hpp>
+init() -> void #<main.cpp>
 main() -> int #<main.cpp>
-mainInitialization() -> void #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
 modeStretch(int& x1, int& y1, int& x2, int& y2, void(* shape)(int x1, int y1, int x2, int y2)) -> bool #<button.cpp>
 object : IMAGE*[] #<interface.hpp>
