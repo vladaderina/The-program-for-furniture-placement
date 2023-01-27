@@ -2,10 +2,11 @@
 #include "interface.hpp"
 #include "button.hpp"
 
-//КНОПКИ УПРАВЛЕНИЯ
-button *buttons[NUMBUTTONS];
-//ИНИЦИАЛИЗАЦИЯ
-void mainInitialization()
+// кнопки управления
+Button *buttons[NUMBUTTONS];
+
+//-----------------------------------------------ИНИЦИАЛИЗАЦИЯ-----------------------------------------------//
+void init()
 {
    for (int i = 1; i <=  NUMBACKGROUND; i++)
    {
@@ -23,22 +24,22 @@ void mainInitialization()
       object[i - 1] = loadBMP(obj.c_str());
    }
 
-   // КНОПКИ ИНСТРУМЕНТАРИЯ
-   buttons[0] = new buttonTools(0, 73, 73, 176, 0, toolWall);
-   buttons[1] = new buttonTools(0, 148, 73, 221, 1, toolOnWall);
+   // кнопки инструментария
+   buttons[0] = new buttonTools(0, 73, 73, 149, 0, toolWall);
+   buttons[1] = new buttonTools(0, 150, 73, 222, 1, toolOnWall);
    buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
    
-   // КНОПКИ МЕБЕЛИ
+   // кнопки мебели
    buttons[5] = new buttonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
    buttons[6] = new buttonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
    buttons[7] = new buttonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
    buttons[8] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
    
-   // КНОПКИ РАБОТЫ С ФАЙЛОМ
-   buttons[9] = new buttonFile(0, 630, fileEnd);
-   buttons[10] = new buttonFile(0, 510, fileSave);
+   // кнопки сохранить и выйти
+   buttons[9] = new ButtonCommand(0, 630, fileEnd);
+   buttons[10] = new ButtonCommand(0, 510, fileSave);
    
-   // КНОПКИ ДЛЯ ПЕРЕКЛЮЧЕНИЯ СТРАНИЦ
+   // кнопки переключения страниц
    buttons[3] = new buttonPage(0, 300, 73, 373, 3);
    buttons[4] = new buttonPage(0, 565, 73, 635, 24);
    int y;
@@ -51,39 +52,40 @@ void mainInitialization()
    buttons[29] = new buttonPage(70, 130, 400, 160, 3);
    buttons[30] = new buttonPage(70, 685, 400, 720, 4);
    
-   // КНОПКИ ПАРАМЕТРОВ
+   // кнопки параметров
    buttons[31] = new buttonParam(85, 215, 1, 0);
    buttons[32] = new buttonParam(85, 295, 0, 1);
    buttons[33] = new buttonParam(290, 215, -1, 0);
    buttons[34] = new buttonParam(290, 290, 0, -1);
    
-   //КНОПКА ВОЗВРАТА НАЗАД
+   // кнопка возврата назад
    buttons[35] = new buttonBack(70, 90, 240, 140);
    
-   //УСТАНАВЛИВАЕМ СТАНДАРТНЫЙ ИНСТРУМЕНТ
-   areaDraw :: example().setTool(toolWall);
+   // установка инструмента по умолчанию
+   
+   AreaDraw :: example().setTool(toolWall);
 }
 
-//ОСНОВНАЯ ФУНКЦИЯ
+//-----------------------------------------------ОСНОВНАЯ ФУНКЦИЯ-----------------------------------------------//
 int main()
 {
    setlocale(LC_ALL, "rus");
    initwindow(1280, 720, "RoomPlanner", 0, 0, true);
-   //ИНИЦИАЛИЗАЦИЯ И ОТРИСОВКА ЭЛЕМЕНТОВ
-   mainInitialization();
+   // инициализация элементов
+   init();
    int x, y;
    Pages :: example().draw();
-   areaParams :: example().draw();
+   AreaParams :: example().draw();
    swapbuffers();
    Pages :: example().draw();
-   areaParams :: example().draw();
+   AreaParams :: example().draw();
    swapbuffers();
    while(1)
    {
-      //КОРДИНАТЫ КУРСОРА
+      // координаты курсора
       x = mousex();
       y = mousey();
-      //ОТСЛЕЖИВАЕМ НАЖАТИЕ
+      // отслеживаем нажатие
       if(mousebuttons())
       {
          if (flag) 
@@ -95,9 +97,9 @@ int main()
             swapbuffers();
             flag = 0;
          }
-         if (areaDraw :: example().in(x, y))
+         if (AreaDraw :: example().in(x, y))
          {
-            areaDraw :: example().press();
+            AreaDraw :: example().press();
          }
          else
          {
@@ -148,6 +150,8 @@ int main()
                {
                   if (buttons[i] -> in(x, y))
                   {
+                     if (i == 18) AreaParams :: example().setType(1);
+                     else AreaParams :: example().setType(2);
                      buttons[i] -> press();
                   }
                }
@@ -179,17 +183,17 @@ int main()
             }
          }
       }
-      if (areaDraw :: example().getTool() != NULL)
+      if (AreaDraw :: example().getTool() != NULL)
       {
-         if (areaDraw :: example().getNumRoom() && areaDraw :: example().inRoom(x, y))
+         if (AreaDraw :: example().getNumRoom() && AreaDraw :: example().inRoom(x, y))
          {
-            areaDraw :: example().projection(x, y);
+            AreaDraw :: example().projection(x, y);
          }
-         else if (areaDraw :: example().getNumRoom() && Pages :: example().getCurrentPage() != 0)
+         else if (AreaDraw :: example().getNumRoom() && Pages :: example().getCurrentPage() != 0)
          {
             Pages :: example().draw();
-            areaDraw :: example().draw();
-            if ((Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) || Pages :: example().getCurrentPage() == 23) areaParams :: example().draw();
+            AreaDraw :: example().draw();
+            if ((Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) || Pages :: example().getCurrentPage() == 23) AreaParams :: example().draw();
             swapbuffers();
          }
       }

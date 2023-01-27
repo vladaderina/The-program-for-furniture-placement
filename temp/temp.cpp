@@ -2,150 +2,150 @@
 
 
 
-///---------------------------- À¿—— ƒÀﬂ  ÕŒœŒ  —Œ’–¿Õ≈Õ»ﬂ » ¬€’Œƒ¿-------------------------------------//
-void buttonFile :: press()
+// ÕŒœ » ”œ–¿¬À≈Õ»ﬂ
+button *buttons[NUMBUTTONS];
+//»Õ»÷»¿À»«¿÷»ﬂ
+void mainInitialization()
 {
-   // ƒ≈…—“¬»≈
-   action();
-}
-
-//----------------------------------------------- À¿—— ƒÀﬂ  ÕŒœŒ  »«Ã≈Õ≈Õ»ﬂ œ¿–¿Ã≈“–Œ¬----------------------------------------------//
-void buttonParam :: press()
-{
-   areaParams :: example().setParam(w, h);
-   areaParams :: example().changeParam();
-}
-
-//----------------------------------------------- À¿——  ÕŒœŒ  ƒÀﬂ ¬Œ«¬–¿“¿ Õ¿ œ–≈ƒ€ƒ”Ÿ”ﬁ —“–¿Õ»÷”-----------------------------------------------//
-void buttonBack :: press()
-{
-   int m = Pages :: example().getListFurniturePage();
-   int n = Pages :: example().getListTypePage();
-   int p = Pages :: example().getCurrentPage();
-   if (p == 23) 
+   for (int i = 1; i <=  NUMBACKGROUND; i++)
    {
-      Pages :: example().setCurrentPage(n);
-      areaParams :: example().obj = NULL;
+      string back = "icon/back/" + to_string(i) + ".jpg";
+      background[i - 1] = loadBMP(back.c_str());
    }
-   else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
-   areaParams :: example().rotationFurniture = 0;
-   areaParams :: example().heightFurniture = 0;
-   areaDraw :: example().setTool(NULL);
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   swapbuffers();
-   delay(200);
-}
+   for (int i = 1; i <= 3; i++)
+   {
+      string obj = "object/door/" + to_string(i) + ".bmp";
+      object[i - 1] = loadBMP(obj.c_str());
+   }
+   for (int i = 4; i <= 6; i++)
+   {
+      string obj = "object/window/" + to_string(i - 3) + ".bmp";
+      object[i - 1] = loadBMP(obj.c_str());
+   }
 
-//----------------------------------------------- À¿——  ÕŒœŒ  ƒÀﬂ œ≈–≈’Œƒ¿ Õ¿ —“–¿Õ»÷”-----------------------------------------------//
-void buttonPage :: press()
-{
-   int p = Pages :: example().getCurrentPage();
-   if (p == 3 || p == 4) Pages :: example().setListFurniturePage(p);
-   Pages :: example().setCurrentPage(page);
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaDraw :: example().setTool(NULL);
-   swapbuffers();
-   delay(200);
-}
-//----------------------------------------------- À¿——  ÕŒœŒ  »Õ—“–”Ã≈“¿–»ﬂ-----------------------------------------------//
-void buttonTools :: press()
-{
-   int p = Pages :: example().getCurrentPage();
-   Pages :: example().setCurrentPage(page);
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().setType(1);
-   areaParams :: example().draw();
-   if (page == 1)
-   {
-      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
-      areaParams :: example().heightLift = 0;
-      areaParams :: example().height = areaParams :: example().heightDoor;
-   }
-   else if (page == 2)
-   {
-      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
-      areaParams :: example().heightLift = 150;
-      areaParams :: example().height = areaParams :: example().heightWindow;
-   }
-   else areaParams :: example().obj = NULL;
-   areaDraw :: example().setTool(tool);
-   swapbuffers();
-}
-
-//----------------------------------------------- À¿——  ÕŒœŒ  Ã≈¡≈À»-----------------------------------------------//
-void buttonFurniture :: press()
-{
-   int p = Pages :: example().getCurrentPage();
-   string param = "object/"+ to_string(p - 4) + "/param.cfg";
-   ifstream file(param);
-   int m;
-   string s;
-   int k;
-   int j = 0;
-   while (getline(file, s))
-   {
-      j++;
-      if (j == num)
-      {
-         areaParams :: example().name.clear();
-         int i = 0;
-         while (s[i] != ':')
-         {
-            areaParams :: example().name += s[i];
-            i++;
-         }
-         k = i + 2;
-         istringstream s1(s.substr(k));
-         s1 >> areaParams :: example().height;
-      }
-   }
-   file.close();
+   //  ÕŒœ » »Õ—“–”Ã≈Õ“¿–»ﬂ
+   buttons[0] = new buttonTools(0, 73, 73, 149, 0, toolWall);
+   buttons[1] = new buttonTools(0, 150, 73, 222, 1, toolOnWall);
+   buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
    
-   string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
-   Pages :: example().setListTypePage(p);
-   Pages :: example().setCurrentPage(page);
-   Pages :: example().draw();
-   swapbuffers();
-   Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().obj = loadBMP(obj.c_str());
-   areaParams :: example().setType(2);
-   areaDraw :: example().setTool(tool);
-   setbkcolor(WHITE);
-   setcolor(BLACK);
-   settextjustify(LEFT_TEXT, CENTER_TEXT);
-   settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
-   setusercharsize(9, 20, 9, 10);
-   const char * c = areaParams :: example().name.c_str();
-   outtextxy(120, 123, c);
-   swapbuffers();
+   //  ÕŒœ » Ã≈¡≈À»
+   buttons[5] = new buttonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
+   buttons[6] = new buttonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
+   buttons[7] = new buttonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
+   buttons[8] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
+   
+   //  ÕŒœ » –¿¡Œ“€ — ‘¿…ÀŒÃ
+   buttons[9] = new buttonFile(0, 630, fileEnd);
+   buttons[10] = new buttonFile(0, 510, fileSave);
+   
+   //  ÕŒœ » ƒÀﬂ œ≈–≈ Àﬁ◊≈Õ»ﬂ —“–¿Õ»÷
+   buttons[3] = new buttonPage(0, 300, 73, 373, 3);
+   buttons[4] = new buttonPage(0, 565, 73, 635, 24);
+   int y;
+   for(int i = 11; i <= 19; i++)
+   {
+      y = 190 + 50 * ((i - 11) % 15) + 26 * ((i - 11) / 3);
+      buttons[i] = new buttonPage(90, y, 400, y + 35, i - 6);
+      buttons[i + 9] = new buttonPage(90, y, 400, y + 35, i + 3);
+   }
+   buttons[29] = new buttonPage(70, 130, 400, 160, 3);
+   buttons[30] = new buttonPage(70, 685, 400, 720, 4);
+   
+   //  ÕŒœ » œ¿–¿Ã≈“–Œ¬
+   buttons[31] = new buttonParam(85, 215, 1, 0);
+   buttons[32] = new buttonParam(85, 295, 0, 1);
+   buttons[33] = new buttonParam(290, 215, -1, 0);
+   buttons[34] = new buttonParam(290, 290, 0, -1);
+   
+   // ÕŒœ ¿ ¬Œ«¬–¿“¿ Õ¿«¿ƒ
+   buttons[35] = new buttonBack(70, 90, 240, 140);
+   
+   //”—“¿Õ¿¬À»¬¿≈Ã —“¿Õƒ¿–“Õ€… »Õ—“–”Ã≈Õ“
+   areaDraw :: example().setTool(toolWall);
 }
 
-//-----------------------------------------------‘”Õ ÷»»-----------------------------------------------//
-//-----------------------------------------------”ƒ¿À»“‹-----------------------------------------------//
-void toolDelete()
+//Œ—ÕŒ¬Õ¿ﬂ ‘”Õ ÷»ﬂ
+int main()
 {
-   //  ”–—Œ–
-   int x = mousex();
-   int y = mousey();
-   // ”ƒ¿À≈Õ»≈ ‘»√”–€,  Œ“Œ–Œ… œ–»Õ¿ƒÀ≈∆»“ “Œ◊ ¿ ¬  Œ“Œ–Œ… Õ¿’Œƒ»“—ﬂ  ”–—Œ–
-   areaDraw :: example().deleteFigure(x, y);
-}
- 
-//-----------------------------------------------Ã≈¡≈À‹-----------------------------------------------//
-void toolFurniture()
-{
-   int x1 = mousex();
-   int y1 = mousey();
-   IMAGE *m = areaParams :: example().obj;
-   int height = areaParams :: example().height;
-   int heightLift = areaParams :: example().heightFurniture;
-   if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
-               areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(x1, y1))
+   setlocale(LC_ALL, "rus");
+   initwindow(1280, 720, "RoomPlanner", 0, 0, true);
+   //»Õ»÷»¿À»«¿÷»ﬂ » Œ“–»—Œ¬ ¿ ›À≈Ã≈Õ“Œ¬
+   mainInitialization();
+   int x, y;
+   Pages :: example().draw();
+   areaParams :: example().draw();
+   swapbuffers();
+   Pages :: example().draw();
+   areaParams :: example().draw();
+   swapbuffers();
+   while(1)
    {
-      if (x1 + imagewidth(m) > areaDraw :: _abracadabra_cast(example());
+      // Œ–ƒ»Õ¿“€  ”–—Œ–¿
+      x = mousex();
+      y = mousey();
+      //Œ“—À≈∆»¬¿≈Ã Õ¿∆¿“»≈
+      if(mousebuttons())
+      {
+         if (flag) 
+         {
+            IMAGE* p = loadBMP("icon/back/clean.jpg");
+            putimage(63, 556, p, COPY_PUT);
+            swapbuffers();
+            putimage(63, 556, p, COPY_PUT);
+            swapbuffers();
+            flag = 0;
+         }
+         if (areaDraw :: example().in(x, y))
+         {
+            areaDraw :: example().press();
+         }
+         else
+         {
+            int num = Pages :: example().getCurrentPage();
+            for (int i = 0; i <= 4; i++)
+            {
+               if (buttons[i] -> in(x, y)) 
+               {
+                  buttons[i] -> press();
+                  break;
+               }
+            }
+            if (num >= 5 && num <= 22)
+            {
+               for (int i = 5; i <= 8; i++)
+               {
+                  if (buttons[i] -> in(x, y)) 
+                  {
+                     buttons[i] -> press();
+                     break;
+                  }
+               }
+            }
+            if (num <= 2 || num == 23)
+            {
+               for (int i = 31; i <= 34; i++)
+               {
+                  if (buttons[i] -> in(x, y))
+                  {
+                     delay(200);
+                     buttons[i] -> press();
+                  }
+               }
+            }
+            if (num == 3 || num == 4)
+            {
+               for (int i = 29; i <= 30; i++)
+               {
+                  if (buttons[i] -> in(x, y))
+                  {
+                     buttons[i] -> press();
+                  }
+               }
+            }
+            if (num == 3)
+            {
+               for (int i = 11; i <= 19; i++)
+               {
+                  if (buttons[i] -> in(x, y))
+                  {
+                     if (i == 18) areaParams :: _abracadabra_cast(example());
