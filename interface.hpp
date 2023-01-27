@@ -201,11 +201,6 @@ class AreaParams : public ObjectDisplay
    rotationFurniture(0), heightLiftFurniture (0),
    height(0), heightLift(0)
    { obj = NULL; } 
-   // запрещение создания копий и присваивания
-   AreaParams (const AreaParams &) = delete;
-   AreaParams & operator = (const AreaParams &) = delete;
-   // запрещение уничтожения объекта
-   ~AreaParams() {}
 public:
       // тип объекта
    int type;

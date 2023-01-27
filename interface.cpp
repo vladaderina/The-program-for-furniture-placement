@@ -375,8 +375,8 @@ void AreaDraw :: projection(int x, int y)
          int height = AreaParams :: example().height;
          int heightLift = AreaParams :: example().heightLift;
          figures[0] -> draw();
-         int i = 1;
-         for (i; i < figures.size(); i++)
+         int i;
+         for (i = 1; i < figures.size(); i++)
          {
             if (figures[i]  -> getHeightLift() + figures[i]  -> getHeight() <= heightLift + height)
                figures[i] -> draw();
@@ -464,7 +464,7 @@ void AreaDraw :: save()
 //днаюбхрэ назейр
 void AreaDraw :: addFigure(Figure* Figure)
 {
-   bool flag = 0;
+   bool flag1 = 0;
    if (figures.size() > 1)
    {
       for (int i = 1; i < figures.size(); i++)
@@ -472,13 +472,13 @@ void AreaDraw :: addFigure(Figure* Figure)
          if (figures[i] -> getHeightLift() + figures[i] -> getHeight() > 
              Figure -> getHeightLift() + Figure -> getHeight()) 
          {
-            flag = 1;
+            flag1 = 1;
             auto iter = figures.begin() + i;
             figures.insert(iter, Figure);
             break;
          }
       }
-      if (!flag) figures.push_back(Figure);
+      if (!flag1) figures.push_back(Figure);
    }
    else 
    {
@@ -502,17 +502,18 @@ void AreaDraw :: deleteFigure(int x, int y)
             figures.erase(figures.begin(), figures.end());
             for (int j = 0; j < figures.size(); j++)
             {
-               //freeimage(figures[j] -> m);
                delete figures[j];
             }
-            draw();
             setCoord(0, 0, 0, 0);
-            if ((num >= 0 && num <= 2) || num == 23) AreaParams :: example().draw();
-            swapbuffers();
+            for (int i = 0; i < 2; i++)
+            {
+               Pages :: example().draw();
+               if ((num >= 0 && num <= 2) || num == 23) AreaParams :: example().draw();
+               swapbuffers();
+            }
             break;
          }
          figures.erase(figures.begin() + i);
-         //freeimage(figures[i] -> m);
          delete figures[i];
          draw();
          if ((num >= 0 && num <= 2) || num == 23) AreaParams :: example().draw();

@@ -133,7 +133,6 @@ void ButtonFurniture :: press()
    setusercharsize(9, 20, 9, 10);
    const char * c = AreaParams :: example().name.c_str();
    outtextxy(120, 123, c);
-   cout << 11;
    swapbuffers();
 }
 
