@@ -3,7 +3,7 @@
 #include "button.hpp"
 
 // кнопки управлени€
-button *buttons[NUMBUTTONS];
+Button *buttons[NUMBUTTONS];
 
 //-----------------------------------------------»Ќ»÷»јЋ»«ј÷»я-----------------------------------------------//
 void init()
@@ -36,8 +36,8 @@ void init()
    buttons[8] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
    
    // кнопки сохранить и выйти
-   buttons[9] = new buttonFile(0, 630, fileEnd);
-   buttons[10] = new buttonFile(0, 510, fileSave);
+   buttons[9] = new ButtonCommand(0, 630, fileEnd);
+   buttons[10] = new ButtonCommand(0, 510, fileSave);
    
    // кнопки переключени€ страниц
    buttons[3] = new buttonPage(0, 300, 73, 373, 3);
@@ -62,7 +62,8 @@ void init()
    buttons[35] = new buttonBack(70, 90, 240, 140);
    
    // установка инструмента по умолчанию
-   areaDraw :: example().setTool(toolWall);
+   
+   AreaDraw :: example().setTool(toolWall);
 }
 
 //-----------------------------------------------ќ—Ќќ¬Ќјя ‘”Ќ ÷»я-----------------------------------------------//
@@ -74,10 +75,10 @@ int main()
    init();
    int x, y;
    Pages :: example().draw();
-   areaParams :: example().draw();
+   AreaParams :: example().draw();
    swapbuffers();
    Pages :: example().draw();
-   areaParams :: example().draw();
+   AreaParams :: example().draw();
    swapbuffers();
    while(1)
    {
@@ -96,9 +97,9 @@ int main()
             swapbuffers();
             flag = 0;
          }
-         if (areaDraw :: example().in(x, y))
+         if (AreaDraw :: example().in(x, y))
          {
-            areaDraw :: example().press();
+            AreaDraw :: example().press();
          }
          else
          {
@@ -149,8 +150,8 @@ int main()
                {
                   if (buttons[i] -> in(x, y))
                   {
-                     if (i == 18) areaParams :: example().setType(1);
-                     else areaParams :: example().setType(2);
+                     if (i == 18) AreaParams :: example().setType(1);
+                     else AreaParams :: example().setType(2);
                      buttons[i] -> press();
                   }
                }
@@ -182,17 +183,17 @@ int main()
             }
          }
       }
-      if (areaDraw :: example().getTool() != NULL)
+      if (AreaDraw :: example().getTool() != NULL)
       {
-         if (areaDraw :: example().getNumRoom() && areaDraw :: example().inRoom(x, y))
+         if (AreaDraw :: example().getNumRoom() && AreaDraw :: example().inRoom(x, y))
          {
-            areaDraw :: example().projection(x, y);
+            AreaDraw :: example().projection(x, y);
          }
-         else if (areaDraw :: example().getNumRoom() && Pages :: example().getCurrentPage() != 0)
+         else if (AreaDraw :: example().getNumRoom() && Pages :: example().getCurrentPage() != 0)
          {
             Pages :: example().draw();
-            areaDraw :: example().draw();
-            if ((Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) || Pages :: example().getCurrentPage() == 23) areaParams :: example().draw();
+            AreaDraw :: example().draw();
+            if ((Pages :: example().getCurrentPage() >= 0 && Pages :: example().getCurrentPage() <= 2) || Pages :: example().getCurrentPage() == 23) AreaParams :: example().draw();
             swapbuffers();
          }
       }

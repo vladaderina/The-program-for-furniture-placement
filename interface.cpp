@@ -106,64 +106,64 @@ int objectDisplay :: getY2()
 }
 //-----------------------------------------------МЕБЕЛЬ-----------------------------------------------//
 //ОТРИСОВКА
-void objectFurniture :: draw()
+void ObjectFurniture :: draw()
 {
    putimage(x1, y1, m, TRANSPARENT_PUT);
 }
 // геттеры для типа фигуры
-int objectFurniture :: getType()
+int ObjectFurniture :: getType()
 {
    return type;
 }
 // геттер для высоты фигуры
-int objectFurniture :: getHeight()
+int ObjectFurniture :: getHeight()
 {
    return height;
 }
-int objectFurniture :: getHeightLift()
+int ObjectFurniture :: getHeightLift()
 {
    return heightLift;
 }
 //-----------------------------------------------СТЕНЫ-----------------------------------------------//
 //ОТРИСОВКА
-void objectWall :: draw()
+void ObjectWall :: draw()
 {
    setlinestyle(SOLID_LINE, w / 3, w / 3);
    setcolor(RGB(153, 153, 153));
    rectangle(x1, y1, x2, y2);
 }
-void objectWall :: setW(int widthWall)
+void ObjectWall :: setW(int widthWall)
 {
    w = widthWall;
 }
-void objectWall :: paramRoom()
+void ObjectWall :: paramRoom()
 {
    weightRoom = x2 - x1;
    heightRoom = y2 - y1;
 }
 // геттер для ширины стены
-int objectWall :: getW()
+int ObjectWall :: getW()
 {
    return w;
 }
 // геттер для типа объекта
-int objectWall :: getType()
+int ObjectWall :: getType()
 {
    return type;
 }
 // геттер для высоты стены
-int objectWall :: getHeight()
+int ObjectWall :: getHeight()
 {
    return height;
 }   
 // геттер для высоты стены над уровнем пола
-int objectWall :: getHeightLift()
+int ObjectWall :: getHeightLift()
 {
    return 0;
 }
 //-----------------------------------------------НА-СТЕНЕ-----------------------------------------------//
 //ОТРИСОВКА
-void objectFigureOnWall :: draw()
+void ObjectFigureOnWall :: draw()
 {
    setcolor(RGB(243, 243, 243));
    if (numWall == 1)
@@ -179,27 +179,27 @@ void objectFigureOnWall :: draw()
    putimage(x1, y1, m, TRANSPARENT_PUT);
 }
 // геттер для типа объекта
-int objectFigureOnWall :: getType()
+int ObjectFigureOnWall :: getType()
 {
    return type;
 }
 // геттер для высоты объекта
-int objectFigureOnWall :: getHeight()
+int ObjectFigureOnWall :: getHeight()
 {
    return height;
 }
 // геттер для высоты объекта над уровнем пола
-int objectFigureOnWall :: getHeightLift()
+int ObjectFigureOnWall :: getHeightLift()
 {
    return heightLift;
 }
 //-----------------------------------------------ПАРАМЕТРЫ-----------------------------------------------//
-areaParams &areaParams :: example()
+AreaParams &AreaParams :: example()
 {
-   static areaParams pa(70, 60, 400, 720);
+   static AreaParams pa(70, 60, 400, 720);
    return pa;
 }
-void areaParams :: draw()
+void AreaParams :: draw()
 {
    char str_w[10], str_h[10];
    char str_w_room[10], str_h_room[10];
@@ -213,10 +213,10 @@ void areaParams :: draw()
    {
       sprintf(str_h, "%d", weightWall);
       sprintf(str_w, "%d", heightWall);
-      sprintf(str_h_room, "%d", 2 * (areaDraw :: example().getY2() - areaDraw :: example().getY1()) / 3);
-      sprintf(str_w_room, "%d", 2 * (areaDraw :: example().getX2() - areaDraw :: example().getX1()) / 3);
+      sprintf(str_h_room, "%d", 2 * (AreaDraw :: example().getY2() - AreaDraw :: example().getY1()) / 3);
+      sprintf(str_w_room, "%d", 2 * (AreaDraw :: example().getX2() - AreaDraw :: example().getX1()) / 3);
       setcolor(RGB(153, 153, 153));
-      if (areaDraw :: example().numRoom)
+      if (AreaDraw :: example().numRoom)
       {
          outtextxy(230, 407, str_w_room);
          outtextxy(230, 489, str_h_room);
@@ -241,7 +241,7 @@ void areaParams :: draw()
       setcolor(WHITE);
       bar(120, 123, 400, 180);
       setcolor(BLACK);
-      const char * c = areaParams :: example().name.c_str();
+      const char * c = AreaParams :: example().name.c_str();
       outtextxy(120, 123, c);
    }
    setcolor(COLOR(0, 0, 0));
@@ -249,7 +249,7 @@ void areaParams :: draw()
    outtextxy(230, 324, str_w);
 }
 
-void areaParams :: changeParam()
+void AreaParams :: changeParam()
 {
    int num = Pages :: example().getCurrentPage();
    int num2 = Pages :: example().getListTypePage();
@@ -331,28 +331,28 @@ void areaParams :: changeParam()
    swapbuffers();
 }
 
-void areaParams :: setParam(int a, int b)
+void AreaParams :: setParam(int a, int b)
 {
    this -> a = a;
    this -> b = b;
 }
-int areaParams :: getType()
+int AreaParams :: getType()
 {
    return type;
 }
-void areaParams :: setType(int type)
+void AreaParams :: setType(int type)
 {
    this -> type = type;
 }
 //-----------------------------------------------РАБОЧАЯ СРЕДА-----------------------------------------------//
 //РАБОЧАЯ СРЕДА
-areaDraw &areaDraw :: example()
+AreaDraw &AreaDraw :: example()
 {
-   static areaDraw pa(400, 60, 1280, 720);
+   static AreaDraw pa(400, 60, 1280, 720);
    return pa;
 }
 //ОТРИСОВКА
-void areaDraw :: draw()
+void AreaDraw :: draw()
 {
    for (int i = 0; i < figures.size(); i++)
    {
@@ -361,13 +361,13 @@ void areaDraw :: draw()
    }
 }
 // ЗАДНИЙ ФОН
-void areaDraw :: drawBack()
+void AreaDraw :: drawBack()
 {
    putimage(1280 - imagewidth(back), 720 - imageheight(back), back, COPY_PUT);
 }
 
 // ПРОВЕРКА НА ГРАНИЦЫ КОМНТАНЫ
-bool areaDraw :: inRoom(int x, int y)
+bool AreaDraw :: inRoom(int x, int y)
 {
    if (coord.x1 > coord.x2)
       swap(coord.x1, coord.x2);
@@ -381,13 +381,13 @@ bool areaDraw :: inRoom(int x, int y)
 }
 
 //ПРОЕКЦИЯ ОБЪЕКТА ПЕРЕД УСТАНОВКОЙ
-void areaDraw :: projection(int x, int y)
+void AreaDraw :: projection(int x, int y)
 {
    if (numRoom)
    {
       IMAGE *a;
-      a = areaParams :: example().obj;
-      int  type = areaParams :: example().getType();
+      a = AreaParams :: example().obj;
+      int  type = AreaParams :: example().getType();
       if (a != NULL)
       {
          int numWall;
@@ -400,8 +400,8 @@ void areaDraw :: projection(int x, int y)
          y1 = y;
          imageputpixel(m1, 0, 0, WHITE);
          drawBack();
-         int height = areaParams :: example().height;
-         int heightLift = areaParams :: example().heightLift;
+         int height = AreaParams :: example().height;
+         int heightLift = AreaParams :: example().heightLift;
          figures[0] -> draw();
          int i = 1;
          for (i; i < figures.size(); i++)
@@ -421,7 +421,7 @@ void areaDraw :: projection(int x, int y)
          }
          if (Pages :: example().getCurrentPage() != 3)
          {
-            areaParams :: example().draw();
+            AreaParams :: example().draw();
          }
          setlinestyle(SOLID_LINE, 2, 2);
          if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1), height, heightLift)) setcolor(RED);
@@ -432,11 +432,11 @@ void areaDraw :: projection(int x, int y)
    }
 }
 //РЕАКЦИЯ НА НАЖАТИЕ
-void areaDraw :: press()
+void AreaDraw :: press()
 {
    int x = mousex();
    int y = mousey();
-   if (mousebuttons() == 1 && areaDraw :: example().getTool() != NULL)
+   if (mousebuttons() == 1 && AreaDraw :: example().getTool() != NULL)
    {
       try
       {
@@ -455,7 +455,7 @@ void areaDraw :: press()
    }
 }
 //ПРОВЕРКА НАЛОЖЕНИЯ ОБЪЕКТА НА ДРУГИЕ
-bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
+bool AreaDraw :: overlay(int a, int b, int c, int d, int e, int f)
 {
    for (int i = figures.size() - 1; i >= 0; i--)
    {
@@ -481,7 +481,7 @@ bool areaDraw :: overlay(int a, int b, int c, int d, int e, int f)
    return false;
 }
 //СОХРАНИТЬ
-void areaDraw :: save()
+void AreaDraw :: save()
 {
    int width, height;
    IMAGE *output;
@@ -496,7 +496,7 @@ void areaDraw :: save()
 }
 
 //ДОБАВИТЬ ОБЪЕКТ
-void areaDraw :: addFigure(figure *figure)
+void AreaDraw :: addFigure(Figure* Figure)
 {
    bool flag = 0;
    if (figures.size() > 1)
@@ -504,24 +504,24 @@ void areaDraw :: addFigure(figure *figure)
       for (int i = 1; i < figures.size(); i++)
       {
          if (figures[i] -> getHeightLift() + figures[i] -> getHeight() > 
-             figure -> getHeightLift() + figure -> getHeight()) 
+             Figure -> getHeightLift() + Figure -> getHeight()) 
          {
             flag = 1;
             auto iter = figures.begin() + i;
-            figures.insert(iter, figure);
+            figures.insert(iter, Figure);
             break;
          }
       }
-      if (!flag) figures.push_back(figure);
+      if (!flag) figures.push_back(Figure);
    }
    else 
    {
-      figures.push_back(figure);
+      figures.push_back(Figure);
    }
 }
 
 //УДАЛИТЬ ОБЪЕКТ
-void areaDraw :: deleteFigure(int x, int y)
+void AreaDraw :: deleteFigure(int x, int y)
 {
    delay(150);
    int num = Pages :: example().getCurrentPage();
@@ -541,7 +541,7 @@ void areaDraw :: deleteFigure(int x, int y)
             }
             draw();
             setCoord(0, 0, 0, 0);
-            if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
+            if ((num >= 0 && num <= 2) || num == 23) AreaParams :: example().draw();
             swapbuffers();
             break;
          }
@@ -549,29 +549,29 @@ void areaDraw :: deleteFigure(int x, int y)
          //freeimage(figures[i] -> m);
          delete figures[i];
          draw();
-         if ((num >= 0 && num <= 2) || num == 23) areaParams :: example().draw();
+         if ((num >= 0 && num <= 2) || num == 23) AreaParams :: example().draw();
          swapbuffers();
          break;
       }
    }
 }
-void areaDraw :: setTool(ptrFunction t)
+void AreaDraw :: setTool(ptrFunction t)
 { 
    tool = t; 
 }
 // сеттер для координат центра
-void areaDraw :: setCenter(int xc, int yc)
+void AreaDraw :: setCenter(int xc, int yc)
 { 
    center.x = xc;
    center.y = yc;
 }
 // сеттер для количества комнат
-void areaDraw :: setNumRoom(int num)
+void AreaDraw :: setNumRoom(int num)
 { 
    numRoom = num; 
 }
 // сеттер для координат углов комнаты
-void areaDraw :: setCoord(int xt1, int yt1, int xt2, int yt2)
+void AreaDraw :: setCoord(int xt1, int yt1, int xt2, int yt2)
 {
    coord.x1 = xt1;
    coord.y1 = yt1;
@@ -579,29 +579,29 @@ void areaDraw :: setCoord(int xt1, int yt1, int xt2, int yt2)
    coord.y2 = yt2;
 } 
 // геттер для координат углов комнаты
-int areaDraw :: getX1()
+int AreaDraw :: getX1()
 {
    return coord.x1;
 } 
-int areaDraw :: getY1()
+int AreaDraw :: getY1()
 {
    return coord.y1;
 }
-int areaDraw :: getX2()
+int AreaDraw :: getX2()
 {
    return coord.x2;
 }
-int areaDraw :: getY2()
+int AreaDraw :: getY2()
 {
    return coord.y2;
 }
 // геттер для инструмента рисования
-ptrFunction areaDraw :: getTool()
+ptrFunction AreaDraw :: getTool()
 { 
    return tool; 
 }
 // геттер для количества комнат
-int areaDraw :: getNumRoom()
+int AreaDraw :: getNumRoom()
 {
    return numRoom;
 }

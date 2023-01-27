@@ -6,58 +6,58 @@
 #define NUMBACKGROUND 25
 
 //-----------------------------------------------КЛАСС ДЛЯ КНОПОК-----------------------------------------------//
-class button: public objectClickable
+class Button: public ObjectClickable
 {
 public:
    // конструктор
-   button(int x1, int y1, int x2, int y2) : objectClickable(x1, y1, x2, y2) {}
+   Button(int x1, int y1, int x2, int y2) : ObjectClickable(x1, y1, x2, y2) {}
    // нарисовать объект
    void draw(){};
 };
 
 //-----------------------------------------------КЛАСС ДЛЯ КНОПОК СОХРАНЕНИЯ И ВЫХОДА-----------------------------------------------//
-class buttonFile: public button
+class ButtonCommand: public Button
 {
    // действие
    ptrFunction action; 
 public:
    // конструктор
-   buttonFile(int x, int y, ptrFunction a) : button(x, y, x + 73, y + 73), action(a) {}
+   ButtonCommand(int x, int y, ptrFunction a) : Button(x, y, x + 73, y + 73), action(a) {}
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС ДЛЯ КНОПОК ИЗМЕНЕНИЯ ПАРАМЕТРОВ-----------------------------------------------//
-class buttonParam: public button
+class buttonParam: public Button
 {
    int w, h;
 public:
    // конструктор
    buttonParam(int x, int y, int w, int h) : 
-                        button(x, y, x + 75, y + 35), w(w), h(h) {}
+                        Button(x, y, x + 75, y + 35), w(w), h(h) {}
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС КНОПОК ДЛЯ ВОЗВРАТА НА ПРЕДЫДУЩУЮ СТРАНИЦУ-----------------------------------------------//
-class buttonBack: public button
+class buttonBack: public Button
 {
 public:
    // конструктор
-   buttonBack(int x1, int y1, int x2, int y2) : button(x1, y1, x2, y2) {};
+   buttonBack(int x1, int y1, int x2, int y2) : Button(x1, y1, x2, y2) {};
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС КНОПОК ДЛЯ ПЕРЕХОДА НА СТРАНИЦУ-----------------------------------------------//
-class buttonPage: public button
+class buttonPage: public Button
 {
 protected:
    // номер страницы
    int page;
 public:
    // конструктор
-   buttonPage(int x1, int y1, int x2, int y2, int page) : button(x1, y1, x2, y2), page(page) {}
+   buttonPage(int x1, int y1, int x2, int y2, int page) : Button(x1, y1, x2, y2), page(page) {}
    // реакция на нажатие
    void press();
 };

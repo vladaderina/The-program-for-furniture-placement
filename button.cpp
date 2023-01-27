@@ -3,7 +3,7 @@
 #include <clocale>
 
 ///---------------------------- À¿—— ƒÀﬂ  ÕŒœŒ  —Œ’–¿Õ≈Õ»ﬂ » ¬€’Œƒ¿-------------------------------------//
-void buttonFile :: press()
+void ButtonCommand :: press()
 {
    // ƒ≈…—“¬»≈
    action();
@@ -12,8 +12,8 @@ void buttonFile :: press()
 //----------------------------------------------- À¿—— ƒÀﬂ  ÕŒœŒ  »«Ã≈Õ≈Õ»ﬂ œ¿–¿Ã≈“–Œ¬----------------------------------------------//
 void buttonParam :: press()
 {
-   areaParams :: example().setParam(w, h);
-   areaParams :: example().changeParam();
+   AreaParams :: example().setParam(w, h);
+   AreaParams :: example().changeParam();
 }
 
 //----------------------------------------------- À¿——  ÕŒœŒ  ƒÀﬂ ¬Œ«¬–¿“¿ Õ¿ œ–≈ƒ€ƒ”Ÿ”ﬁ —“–¿Õ»÷”-----------------------------------------------//
@@ -25,14 +25,14 @@ void buttonBack :: press()
    if (p == 23) 
    {
       Pages :: example().setCurrentPage(n);
-      areaParams :: example().obj = NULL;
+      AreaParams :: example().obj = NULL;
    }
    else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
-   areaParams :: example().rotationFurniture = 0;
-   areaParams :: example().heightFurniture = 0;
-   areaDraw :: example().setTool(NULL);
+   AreaParams :: example().rotationFurniture = 0;
+   AreaParams :: example().heightFurniture = 0;
+   AreaDraw :: example().setTool(NULL);
    Pages :: example().draw();
-   areaDraw :: example().draw();
+   AreaDraw :: example().draw();
    swapbuffers();
    delay(200);
 }
@@ -44,8 +44,8 @@ void buttonPage :: press()
    if (p == 3 || p == 4) Pages :: example().setListFurniturePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaDraw :: example().setTool(NULL);
+   AreaDraw :: example().draw();
+   AreaDraw :: example().setTool(NULL);
    swapbuffers();
    delay(200);
 }
@@ -55,23 +55,23 @@ void buttonTools :: press()
    int p = Pages :: example().getCurrentPage();
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().setType(1);
-   areaParams :: example().draw();
+   AreaDraw :: example().draw();
+   AreaParams :: example().setType(1);
+   AreaParams :: example().draw();
    if (page == 1)
    {
-      areaParams :: example().obj = object[((90 - areaParams :: example().weightDoor) / 10) % 3];
-      areaParams :: example().heightLift = 0;
-      areaParams :: example().height = areaParams :: example().heightDoor;
+      AreaParams :: example().obj = object[((90 - AreaParams :: example().weightDoor) / 10) % 3];
+      AreaParams :: example().heightLift = 0;
+      AreaParams :: example().height = AreaParams :: example().heightDoor;
    }
    else if (page == 2)
    {
-      areaParams :: example().obj = object[((250 - areaParams :: example().weightWindow) / 75) + 3];
-      areaParams :: example().heightLift = 150;
-      areaParams :: example().height = areaParams :: example().heightWindow;
+      AreaParams :: example().obj = object[((250 - AreaParams :: example().weightWindow) / 75) + 3];
+      AreaParams :: example().heightLift = 150;
+      AreaParams :: example().height = AreaParams :: example().heightWindow;
    }
-   else areaParams :: example().obj = NULL;
-   areaDraw :: example().setTool(tool);
+   else AreaParams :: example().obj = NULL;
+   AreaDraw :: example().setTool(tool);
    swapbuffers();
 }
 
@@ -90,36 +90,36 @@ void buttonFurniture :: press()
       j++;
       if (j == num)
       {
-         areaParams :: example().name.clear();
+         AreaParams :: example().name.clear();
          int i = 0;
          while (s[i] != ':')
          {
-            areaParams :: example().name += s[i];
+            AreaParams :: example().name += s[i];
             i++;
          }
          k = i + 2;
          istringstream s1(s.substr(k));
-         s1 >> areaParams :: example().height;
+         s1 >> AreaParams :: example().height;
       }
    }
    file.close();
    
    string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
-   areaParams :: example().obj = loadBMP(obj.c_str());
+   AreaParams :: example().obj = loadBMP(obj.c_str());
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
    swapbuffers();
    Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().heightLift = 0;
-   areaDraw :: example().setTool(tool);
+   AreaDraw :: example().draw();
+   AreaParams :: example().heightLift = 0;
+   AreaDraw :: example().setTool(tool);
    setbkcolor(WHITE);
    setcolor(BLACK);
    settextjustify(LEFT_TEXT, CENTER_TEXT);
    settextstyle(1, HORIZ_DIR,  USER_CHAR_SIZE);
    setusercharsize(9, 20, 9, 10);
-   const char * c = areaParams :: example().name.c_str();
+   const char * c = AreaParams :: example().name.c_str();
    outtextxy(120, 123, c);
    cout << 11;
    swapbuffers();
@@ -133,7 +133,7 @@ void toolDelete()
    int x = mousex();
    int y = mousey();
    // ”ƒ¿À≈Õ»≈ ‘»√”–€,  Œ“Œ–Œ… œ–»Õ¿ƒÀ≈∆»“ “Œ◊ ¿ ¬  Œ“Œ–Œ… Õ¿’Œƒ»“—ﬂ  ”–—Œ–
-   areaDraw :: example().deleteFigure(x, y);
+   AreaDraw :: example().deleteFigure(x, y);
 }
  
 //-----------------------------------------------Ã≈¡≈À‹-----------------------------------------------//
@@ -141,27 +141,28 @@ void toolFurniture()
 {
    int x1 = mousex();
    int y1 = mousey();
-   IMAGE *a = areaParams :: example().obj;
+   IMAGE *a = AreaParams :: example().obj;
    IMAGE *m;
    int numWall;
-   if (areaParams :: example().getType() == 1) m = positionOnWall(x1, y1, numWall, a);
+   if (AreaParams :: example().getType() == 1) m = positionOnWall(x1, y1, numWall, a);
    else m = a;
-   int height = areaParams :: example().height;
-   int heightLift = areaParams :: example().heightFurniture;
-   if (x1 + imagewidth(m) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m);
-   if (y1 + imageheight(m) > areaDraw :: example().getY2()) y1 = areaDraw :: example().getY2() - imageheight(m);
-   if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
-               areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()))
+   int height = AreaParams :: example().height;
+   int heightLift = AreaParams :: example().heightFurniture;
+   if (x1 + imagewidth(m) > AreaDraw :: example().getX2()) x1 = AreaDraw :: example().getX2() - imagewidth(m);
+   if (y1 + imageheight(m) > AreaDraw :: example().getY2()) y1 = AreaDraw :: example().getY2() - imageheight(m);
+   if (!AreaDraw :: example().getNumRoom()) throw NoRoomError();
+   else if (AreaDraw :: example().inRoom(mousex(), mousey()) && 
+               AreaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
+   else if (AreaDraw :: example().inRoom(mousex(), mousey()))
    {
-      if (x1 + imagewidth(m) > areaDraw :: example().getX2()) x1 = areaDraw :: example().getX2() - imagewidth(m);
-      if (y1 + imageheight(m) > areaDraw :: example().getY2()) y1 = areaDraw :: example().getY2() - imageheight(m);
-      figure *rect = new objectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
+      if (x1 + imagewidth(m) > AreaDraw :: example().getX2()) x1 = AreaDraw :: example().getX2() - imagewidth(m);
+      if (y1 + imageheight(m) > AreaDraw :: example().getY2()) y1 = AreaDraw :: example().getY2() - imageheight(m);
+      
+      Figure *rect = new ObjectFurniture(x1, y1, x1 + imagewidth(m), y1 + imageheight(m),
                                                             height, heightLift, m);
-      areaDraw :: example().addFigure(rect);
-      areaDraw :: example().draw();
-      areaDraw :: example().projection(x1, y1);
+      AreaDraw :: example().addFigure(rect);
+      AreaDraw :: example().draw();
+      AreaDraw :: example().projection(x1, y1);
    }
    swapbuffers();
    delay(200);
@@ -171,11 +172,11 @@ void toolFurniture()
 void modeFigure(int x1, int y1, int x2, int y2)
 {
    char str_w[10], str_h[10];
-   int w = areaParams :: example().weightWall;
+   int w = AreaParams :: example().weightWall;
    setlinestyle(SOLID_LINE, w / 3, w / 3);
    Pages :: example().draw();
-   areaDraw :: example().draw();
-   areaParams :: example().draw();
+   AreaDraw :: example().draw();
+   AreaParams :: example().draw();
    int wight = 2 * (x2 - x1) / 3;
    int height = 2 * (y2 - y1) / 3;
    sprintf(str_w, "%d", wight);
@@ -205,7 +206,7 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
       }
       int cursorX = mousex();
       int cursorY = mousey();
-      if (!areaDraw :: example().in(cursorX, cursorY))
+      if (!AreaDraw :: example().in(cursorX, cursorY))
       {
          shape(x1, y1, x2, y2);
          return 0;
@@ -225,22 +226,22 @@ bool modeStretch(int &x1, int &y1, int &x2, int &y2, void (*shape)(int x1, int y
 //-----------------------------------------------—“≈Õ¿-----------------------------------------------//
 void toolWall()
 {
-   areaParams :: example().obj = NULL;
-   if (areaDraw :: example().getNumRoom() != 0) throw ManyRoomsError();
+   AreaParams :: example().obj = NULL;
+   if (AreaDraw :: example().getNumRoom() != 0) throw ManyRoomsError();
    else
    {
-      int x1, y1, x2, y2, w = areaParams :: example().weightWall;
+      int x1, y1, x2, y2, w = AreaParams :: example().weightWall;
       if (modeStretch(x1, y1, x2, y2, modeFigure))
-      {
-         figure *rect = new objectWall(x1, y1, x2, y2, areaParams :: example().heightWall, w);
+      { 
+         Figure *rect = new ObjectWall(x1, y1, x2, y2, AreaParams :: example().heightWall, w);
          rect -> draw();
-         areaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
-         areaDraw :: example().setCoord(x1, y1, x2, y2);
-         areaDraw :: example().addFigure(rect);
-         areaDraw :: example().draw();
+         AreaDraw :: example().setCenter(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
+         AreaDraw :: example().setCoord(x1, y1, x2, y2);
+         AreaDraw :: example().addFigure(rect);
+         AreaDraw :: example().draw();
          swapbuffers();
-         areaDraw :: example().draw();
-         areaDraw :: example().setNumRoom(1);
+         AreaDraw :: example().draw();
+         AreaDraw :: example().setNumRoom(1);
       }
    }
    swapbuffers();
@@ -249,12 +250,12 @@ void toolWall()
 //-----------------------------------------------–¿—œŒÀŒ∆≈Õ»≈ Œ¡⁄≈ “¿ Õ¿ —“≈Õ≈-----------------------------------------------//
 IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
 {
-   int centerY = areaDraw :: example().getCenterY();
-   int centerX = areaDraw :: example().getCenterX();
-   int xt1 = areaDraw :: example().getX1();
-   int yt1 = areaDraw :: example().getY1();
-   int xt2 = areaDraw :: example().getX2();
-   int yt2 = areaDraw :: example().getY2();
+   int centerY = AreaDraw :: example().getCenterY();
+   int centerX = AreaDraw :: example().getCenterX();
+   int xt1 = AreaDraw :: example().getX1();
+   int yt1 = AreaDraw :: example().getY1();
+   int xt2 = AreaDraw :: example().getX2();
+   int yt2 = AreaDraw :: example().getY2();
 
    if (double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
          y1 >= yt1 && y1 <= centerY &&
@@ -302,20 +303,20 @@ void toolOnWall()
    x1 = mousex();
    y1 = mousey();
    IMAGE *a;
-   a = areaParams :: example().obj;
+   a = AreaParams :: example().obj;
    IMAGE *m = positionOnWall(x1, y1, numWall, a);
-   int height = areaParams :: example().height;
-   int heightLift = areaParams :: example().heightLift;
-   if (!areaDraw :: example().getNumRoom()) throw NoRoomError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()) && 
-               areaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
-   else if (areaDraw :: example().inRoom(mousex(), mousey()))
+   int height = AreaParams :: example().height;
+   int heightLift = AreaParams :: example().heightLift;
+   if (!AreaDraw :: example().getNumRoom()) throw NoRoomError();
+   else if (AreaDraw :: example().inRoom(mousex(), mousey()) && 
+               AreaDraw :: example().overlay(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), height, heightLift)) throw ObjectOverlayError();
+   else if (AreaDraw :: example().inRoom(mousex(), mousey()))
    {
-      figure *rect = new objectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m), 
+      Figure *rect = new ObjectFigureOnWall(x1, y1, x1 + imagewidth(m), y1 + imageheight(m),
       numWall, height, heightLift, m);
-      areaDraw :: example().addFigure(rect);
-      areaDraw :: example().draw();
-      areaDraw :: example().projection(x1, y1);
+      AreaDraw :: example().addFigure(rect);
+      AreaDraw :: example().draw();
+      AreaDraw :: example().projection(x1, y1);
    }
    swapbuffers();
    delay(200);
@@ -324,7 +325,7 @@ void toolOnWall()
 //-----------------------------------------------—Œ’–¿Õ»“‹-----------------------------------------------//
 void fileSave()
 {
-   areaDraw::example().save();
+   AreaDraw::example().save();
 }
 //-----------------------------------------------¬€…“»-----------------------------------------------//
 void fileEnd()
