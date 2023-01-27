@@ -361,20 +361,16 @@ void AreaDraw :: projection(int x, int y)
 {
    if (numRoom)
    {
-      IMAGE *a;
-      a = AreaParams :: example().obj;
+      IMAGE *obj = AreaParams :: example().obj;
       int type = AreaParams :: example().type;
-      if (a != NULL)
+      if (obj != NULL)
       {
          int numWall;
-         IMAGE *m1;
          int x1, y1;
-         
-         if (type == 1) m1 = positionOnWall(x, y, numWall, a);
-         else m1 = a;
+         if (type == 1) obj = positionOnWall(x, y, numWall, obj);
          x1 = x;
          y1 = y;
-         imageputpixel(m1, 0, 0, WHITE);
+         imageputpixel(obj, 0, 0, WHITE);
          drawBack();
          int height = AreaParams :: example().height;
          int heightLift = AreaParams :: example().heightLift;
@@ -383,26 +379,20 @@ void AreaDraw :: projection(int x, int y)
          for (i; i < figures.size(); i++)
          {
             if (figures[i]  -> getHeightLift() + figures[i]  -> getHeight() <= heightLift + height)
-            {
                figures[i] -> draw();
-            }
             else break;
          }
-         if (x1 + imagewidth(m1) > getX2()) x1 = getX2() - imagewidth(m1);
-         if (y1 + imageheight(m1) > getY2()) y1 = getY2() - imageheight(m1);
-         putimage(x1, y1, m1, TRANSPARENT_PUT);
+         if (x1 + imagewidth(obj) > getX2()) x1 = getX2() - imagewidth(obj);
+         if (y1 + imageheight(obj) > getY2()) y1 = getY2() - imageheight(obj);
+         putimage(x1, y1, obj, TRANSPARENT_PUT);
          for (i; i < figures.size(); i++)
-         {
             figures[i] -> draw();
-         }
-         if (Pages :: example().getCurrentPage() != 3)
-         {
+         //if (Pages :: example().getCurrentPage() != 3)
             AreaParams :: example().draw();
-         }
          setlinestyle(SOLID_LINE, 2, 2);
-         if (overlay(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1), height, heightLift)) setcolor(RED);
+         if (overlay(x1, y1, x1 + imagewidth(obj), y1 + imageheight(obj), height, heightLift)) setcolor(RED);
          else setcolor(GREEN);
-         rectangle(x1, y1, x1 + imagewidth(m1), y1 + imageheight(m1));
+         rectangle(x1, y1, x1 + imagewidth(obj), y1 + imageheight(obj));
          swapbuffers();
       }
    }

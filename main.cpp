@@ -82,6 +82,8 @@ int main()
    swapbuffers();
    while(1)
    {
+      cleardevice();
+      Pages :: example().draw();
       // координаты курсора
       x = mousex();
       y = mousey();
