@@ -25,41 +25,41 @@ void init()
    }
 
    // кнопки инструментария
-   buttons[0] = new buttonTools(0, 73, 73, 149, 0, toolWall);
-   buttons[1] = new buttonTools(0, 150, 73, 222, 1, toolOnWall);
-   buttons[2] = new buttonTools(0, 223, 73, 296, 2, toolOnWall);
+   buttons[0] = new ButtonTools(0, 73, 73, 149, 0, toolWall);
+   buttons[1] = new ButtonTools(0, 150, 73, 222, 1, toolOnWall);
+   buttons[2] = new ButtonTools(0, 223, 73, 296, 2, toolOnWall);
    
    // кнопки мебели
-   buttons[5] = new buttonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
-   buttons[6] = new buttonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
-   buttons[7] = new buttonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
-   buttons[8] = new buttonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
+   buttons[5] = new ButtonFurniture(70, 170, 240, 285, 23, 1, toolFurniture);
+   buttons[6] = new ButtonFurniture(240, 170, 400, 285, 23, 2, toolFurniture);
+   buttons[7] = new ButtonFurniture(70, 285, 235, 420, 23, 3, toolFurniture);
+   buttons[8] = new ButtonFurniture(240, 285, 400, 420, 23, 4, toolFurniture);
    
    // кнопки сохранить и выйти
    buttons[9] = new ButtonCommand(0, 630, fileEnd);
    buttons[10] = new ButtonCommand(0, 510, fileSave);
    
    // кнопки переключения страниц
-   buttons[3] = new buttonPage(0, 300, 73, 373, 3);
-   buttons[4] = new buttonPage(0, 565, 73, 635, 24);
+   buttons[3] = new ButtonNextPage(0, 300, 73, 373, 3);
+   buttons[4] = new ButtonNextPage(0, 565, 73, 635, 24);
    int y;
    for(int i = 11; i <= 19; i++)
    {
       y = 190 + 50 * ((i - 11) % 15) + 26 * ((i - 11) / 3);
-      buttons[i] = new buttonPage(90, y, 400, y + 35, i - 6);
-      buttons[i + 9] = new buttonPage(90, y, 400, y + 35, i + 3);
+      buttons[i] = new ButtonNextPage(90, y, 400, y + 35, i - 6);
+      buttons[i + 9] = new ButtonNextPage(90, y, 400, y + 35, i + 3);
    }
-   buttons[29] = new buttonPage(70, 130, 400, 160, 3);
-   buttons[30] = new buttonPage(70, 685, 400, 720, 4);
+   buttons[29] = new ButtonNextPage(70, 130, 400, 160, 3);
+   buttons[30] = new ButtonNextPage(70, 685, 400, 720, 4);
    
    // кнопки параметров
-   buttons[31] = new buttonParam(85, 215, 1, 0);
-   buttons[32] = new buttonParam(85, 295, 0, 1);
-   buttons[33] = new buttonParam(290, 215, -1, 0);
-   buttons[34] = new buttonParam(290, 290, 0, -1);
+   buttons[31] = new ButtonParam(85, 215, 1, 0);
+   buttons[32] = new ButtonParam(85, 295, 0, 1);
+   buttons[33] = new ButtonParam(290, 215, -1, 0);
+   buttons[34] = new ButtonParam(290, 290, 0, -1);
    
    // кнопка возврата назад
-   buttons[35] = new buttonBack(70, 90, 240, 140);
+   buttons[35] = new ButtonPreviousPage(70, 90, 240, 140);
    
    // установка инструмента по умолчанию
    
@@ -150,8 +150,8 @@ int main()
                {
                   if (buttons[i] -> in(x, y))
                   {
-                     if (i == 18) AreaParams :: example().setType(1);
-                     else AreaParams :: example().setType(2);
+                     if (i == 18) AreaParams :: example().type = 1;
+                     else AreaParams :: example().type = 2;
                      buttons[i] -> press();
                   }
                }

@@ -7,11 +7,22 @@
 AreaDraw _type_ #<interface.hpp>
 AreaDraw(int x1, int y1, int x2, int y2) #<interface.hpp>
 AreaParams _type_ #<interface.hpp>
+AreaParams(const AreaParams&) #<interface.hpp>
 AreaParams(int x1, int y1, int x2, int y2) #<interface.hpp>
 Button _type_ #<button.hpp>
 Button(int x1, int y1, int x2, int y2) #<button.hpp>
 ButtonCommand _type_ #<button.hpp>
 ButtonCommand(int x, int y, ptrFunction a) #<button.hpp>
+ButtonFurniture _type_ #<button.hpp>
+ButtonFurniture(int x1, int y1, int x2, int y2, int page, int num, ptrFunction t) #<button.hpp>
+ButtonNextPage _type_ #<button.hpp>
+ButtonNextPage(int x1, int y1, int x2, int y2, int page) #<button.hpp>
+ButtonParam _type_ #<button.hpp>
+ButtonParam(int x, int y, int p1, int p2) #<button.hpp>
+ButtonPreviousPage _type_ #<button.hpp>
+ButtonPreviousPage(int x1, int y1, int x2, int y2) #<button.hpp>
+ButtonTools _type_ #<button.hpp>
+ButtonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) #<button.hpp>
 Error : struct ManyRoomsError: #<interface.hpp>
 Error : struct NoRoomError: #<interface.hpp>
 Error : struct ObjectOverlayError: #<interface.hpp>
@@ -24,6 +35,9 @@ NUMBUTTONS #<button.hpp>
 NUMOBJECT #<interface.hpp>
 ObjectClickable _type_ #<interface.hpp>
 ObjectClickable(int x1, int y1, int x2, int y2) #<interface.hpp>
+ObjectDisplay _type_ #<interface.hpp>
+ObjectDisplay() -> virtual~ #<interface.hpp>
+ObjectDisplay(int x1, int y1, int x2, int y2) #<interface.hpp>
 ObjectFigureOnWall _type_ #<interface.hpp>
 ObjectFigureOnWall(int x1, int y1, int x2, int y2, int numWall, int height, int heightLift, IMAGE* a) #<interface.hpp>
 ObjectFurniture _type_ #<interface.hpp>
@@ -33,16 +47,6 @@ ObjectWall(int x1, int y1, int x2, int y2, int height, int w) #<interface.hpp>
 Pages _type_ #<interface.hpp>
 Pages() #<interface.hpp>
 background : IMAGE*[] #<interface.hpp>
-buttonBack _type_ #<button.hpp>
-buttonBack(int x1, int y1, int x2, int y2) #<button.hpp>
-buttonFurniture _type_ #<button.hpp>
-buttonFurniture(int x1, int y1, int x2, int y2, int page, int num, ptrFunction t) #<button.hpp>
-buttonPage _type_ #<button.hpp>
-buttonPage(int x1, int y1, int x2, int y2, int page) #<button.hpp>
-buttonParam _type_ #<button.hpp>
-buttonParam(int x, int y, int w, int h) #<button.hpp>
-buttonTools _type_ #<button.hpp>
-buttonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) #<button.hpp>
 buttons : Button*[] #<main.cpp>
 fileEnd() -> void #<button.hpp>
 fileSave() -> void #<button.hpp>
@@ -52,9 +56,6 @@ main() -> int #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
 modeStretch(int& x1, int& y1, int& x2, int& y2, void(* shape)(int x1, int y1, int x2, int y2)) -> bool #<button.cpp>
 object : IMAGE*[] #<interface.hpp>
-objectDisplay _type_ #<interface.hpp>
-objectDisplay() -> virtual~ #<interface.hpp>
-objectDisplay(int x1, int y1, int x2, int y2) #<interface.hpp>
 positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<interface.hpp>
 ptrFunction _type_ #<interface.hpp>
 resize(IMAGE* p, int w, int h) -> IMAGE* #<interface.hpp>
@@ -63,13 +64,12 @@ toolFurniture() -> void #<button.hpp>
 toolOnWall() -> void #<button.hpp>
 toolWall() -> void #<button.hpp>
 	AreaDraw:%back : IMAGE* #<interface.hpp>
+	AreaDraw:%tool : ptrFunction #<interface.hpp>
 	AreaDraw:%center : center #<interface.hpp>
 	AreaDraw:%coord : coord #<interface.hpp>
-	AreaDraw:%tool : ptrFunction #<interface.hpp>
 	AreaDraw::numRoom : int #<interface.hpp>
 	AreaDraw::figures : vector #<interface.hpp>
-	AreaDraw::outputObjects() -> void #<interface.hpp>
-	AreaDraw::overlay(int a, int b, int c, int d, int e, int f) -> bool #<interface.hpp>
+	AreaDraw::overlay(int x1, int y1, int x2, int y2, int h, int hl) -> bool #<interface.hpp>
 	AreaDraw::inRoom(int x, int y) -> bool #<interface.hpp>
 	AreaDraw::deleteFigure(int x, int y) -> void #<interface.hpp>
 	AreaDraw::addFigure(Figure* Figure) -> void #<interface.hpp>
@@ -106,9 +106,8 @@ toolWall() -> void #<button.hpp>
 	AreaDraw:coord::y1 : int #<interface.hpp>
 	AreaDraw:coord::x2 : int #<interface.hpp>
 	AreaDraw:coord::y2 : int #<interface.hpp>
-	AreaParams:%type : int #<interface.hpp>
-	AreaParams:%a : int #<interface.hpp>
-	AreaParams:%b : int #<interface.hpp>
+	AreaParams:%operator=(const AreaParams&) -> AreaParams& #<interface.hpp>
+	AreaParams::type : int #<interface.hpp>
 	AreaParams::name : string #<interface.hpp>
 	AreaParams::height : int #<interface.hpp>
 	AreaParams::heightLift : int #<interface.hpp>
@@ -120,12 +119,13 @@ toolWall() -> void #<button.hpp>
 	AreaParams::weightWall : int #<interface.hpp>
 	AreaParams::heightWall : int #<interface.hpp>
 	AreaParams::rotationFurniture : int #<interface.hpp>
-	AreaParams::heightFurniture : int #<interface.hpp>
+	AreaParams::heightLiftFurniture : int #<interface.hpp>
 	AreaParams::draw() -> void #<interface.hpp>
-	AreaParams::getType() -> int #<interface.hpp>
-	AreaParams::setType(int type) -> void #<interface.hpp>
-	AreaParams::setParam(int a, int b) -> void #<interface.hpp>
-	AreaParams::changeParam() -> void #<interface.hpp>
+	AreaParams::changeWallParam(int w, int h) -> void #<interface.hpp>
+	AreaParams::changeDoorParam(int w, int h) -> void #<interface.hpp>
+	AreaParams::changeWindowParam(int w, int h) -> void #<interface.hpp>
+	AreaParams::changeFurnitureParam(int r, int hl) -> void #<interface.hpp>
+	AreaParams::changeFurnitureOnWallParam(int r, int hl) -> void #<interface.hpp>
 	AreaParams::x1 : int #<interface.hpp>
 	AreaParams::y1 : int #<interface.hpp>
 	AreaParams::x2 : int #<interface.hpp>
@@ -163,11 +163,84 @@ toolWall() -> void #<button.hpp>
 	ButtonCommand::getY1() -> int #<button.hpp>
 	ButtonCommand::getX2() -> int #<button.hpp>
 	ButtonCommand::getY2() -> int #<button.hpp>
+	ButtonFurniture:%num : int #<button.hpp>
+	ButtonFurniture:%tool : ptrFunction #<button.hpp>
+	ButtonFurniture:%page : int #<button.hpp>
+	ButtonFurniture::press() -> void #<button.hpp>
+	ButtonFurniture::draw() -> void #<button.hpp>
+	ButtonFurniture::press() -> virtual void #<button.hpp>
+	ButtonFurniture::x1 : int #<button.hpp>
+	ButtonFurniture::y1 : int #<button.hpp>
+	ButtonFurniture::x2 : int #<button.hpp>
+	ButtonFurniture::y2 : int #<button.hpp>
+	ButtonFurniture::in(int x, int y) -> bool #<button.hpp>
+	ButtonFurniture::draw() -> virtual void #<button.hpp>
+	ButtonFurniture::getX1() -> int #<button.hpp>
+	ButtonFurniture::getY1() -> int #<button.hpp>
+	ButtonFurniture::getX2() -> int #<button.hpp>
+	ButtonFurniture::getY2() -> int #<button.hpp>
+	ButtonNextPage:%page : int #<button.hpp>
+	ButtonNextPage::press() -> void #<button.hpp>
+	ButtonNextPage::draw() -> void #<button.hpp>
+	ButtonNextPage::press() -> virtual void #<button.hpp>
+	ButtonNextPage::x1 : int #<button.hpp>
+	ButtonNextPage::y1 : int #<button.hpp>
+	ButtonNextPage::x2 : int #<button.hpp>
+	ButtonNextPage::y2 : int #<button.hpp>
+	ButtonNextPage::in(int x, int y) -> bool #<button.hpp>
+	ButtonNextPage::draw() -> virtual void #<button.hpp>
+	ButtonNextPage::getX1() -> int #<button.hpp>
+	ButtonNextPage::getY1() -> int #<button.hpp>
+	ButtonNextPage::getX2() -> int #<button.hpp>
+	ButtonNextPage::getY2() -> int #<button.hpp>
+	ButtonParam:%p1 : int #<button.hpp>
+	ButtonParam:%p2 : int #<button.hpp>
+	ButtonParam::press() -> void #<button.hpp>
+	ButtonParam::draw() -> void #<button.hpp>
+	ButtonParam::press() -> virtual void #<button.hpp>
+	ButtonParam::x1 : int #<button.hpp>
+	ButtonParam::y1 : int #<button.hpp>
+	ButtonParam::x2 : int #<button.hpp>
+	ButtonParam::y2 : int #<button.hpp>
+	ButtonParam::in(int x, int y) -> bool #<button.hpp>
+	ButtonParam::draw() -> virtual void #<button.hpp>
+	ButtonParam::getX1() -> int #<button.hpp>
+	ButtonParam::getY1() -> int #<button.hpp>
+	ButtonParam::getX2() -> int #<button.hpp>
+	ButtonParam::getY2() -> int #<button.hpp>
+	ButtonPreviousPage::press() -> void #<button.hpp>
+	ButtonPreviousPage::draw() -> void #<button.hpp>
+	ButtonPreviousPage::press() -> virtual void #<button.hpp>
+	ButtonPreviousPage::x1 : int #<button.hpp>
+	ButtonPreviousPage::y1 : int #<button.hpp>
+	ButtonPreviousPage::x2 : int #<button.hpp>
+	ButtonPreviousPage::y2 : int #<button.hpp>
+	ButtonPreviousPage::in(int x, int y) -> bool #<button.hpp>
+	ButtonPreviousPage::draw() -> virtual void #<button.hpp>
+	ButtonPreviousPage::getX1() -> int #<button.hpp>
+	ButtonPreviousPage::getY1() -> int #<button.hpp>
+	ButtonPreviousPage::getX2() -> int #<button.hpp>
+	ButtonPreviousPage::getY2() -> int #<button.hpp>
+	ButtonTools:%tool : ptrFunction #<button.hpp>
+	ButtonTools:%page : int #<button.hpp>
+	ButtonTools::press() -> void #<button.hpp>
+	ButtonTools::draw() -> void #<button.hpp>
+	ButtonTools::press() -> virtual void #<button.hpp>
+	ButtonTools::x1 : int #<button.hpp>
+	ButtonTools::y1 : int #<button.hpp>
+	ButtonTools::x2 : int #<button.hpp>
+	ButtonTools::y2 : int #<button.hpp>
+	ButtonTools::in(int x, int y) -> bool #<button.hpp>
+	ButtonTools::draw() -> virtual void #<button.hpp>
+	ButtonTools::getX1() -> int #<button.hpp>
+	ButtonTools::getY1() -> int #<button.hpp>
+	ButtonTools::getX2() -> int #<button.hpp>
+	ButtonTools::getY2() -> int #<button.hpp>
 	Error=:what() -> virtual const void* #<interface.hpp>
 	Figure:%type : int #<interface.hpp>
 	Figure:%height : int #<interface.hpp>
 	Figure:%heightLift : int #<interface.hpp>
-	Figure::m : IMAGE* #<interface.hpp>
+	Figure:%m : IMAGE* #<interface.hpp>
 	Figure::draw() -> virtual void #<interface.hpp>
 	Figure::getHeight() -> virtual int #<interface.hpp>
 	Figure::getHeightLift() -> virtual int #<interface.hpp>
@@ -192,15 +265,25 @@ toolWall() -> void #<button.hpp>
 	ObjectClickable::getY1() -> int #<interface.hpp>
 	ObjectClickable::getX2() -> int #<interface.hpp>
 	ObjectClickable::getY2() -> int #<interface.hpp>
+	ObjectDisplay::x1 : int #<interface.hpp>
+	ObjectDisplay::y1 : int #<interface.hpp>
+	ObjectDisplay::x2 : int #<interface.hpp>
+	ObjectDisplay::y2 : int #<interface.hpp>
+	ObjectDisplay::in(int x, int y) -> bool #<interface.hpp>
+	ObjectDisplay::draw() -> virtual void #<interface.hpp>
+	ObjectDisplay::getX1() -> int #<interface.hpp>
+	ObjectDisplay::getY1() -> int #<interface.hpp>
+	ObjectDisplay::getX2() -> int #<interface.hpp>
+	ObjectDisplay::getY2() -> int #<interface.hpp>
 	ObjectFigureOnWall:%type : int #<interface.hpp>
 	ObjectFigureOnWall:%height : int #<interface.hpp>
 	ObjectFigureOnWall:%heightLift : int #<interface.hpp>
+	ObjectFigureOnWall:%m : IMAGE* #<interface.hpp>
 	ObjectFigureOnWall::numWall : int #<interface.hpp>
 	ObjectFigureOnWall::draw() -> void #<interface.hpp>
 	ObjectFigureOnWall::getType() -> int #<interface.hpp>
 	ObjectFigureOnWall::getHeight() -> int #<interface.hpp>
 	ObjectFigureOnWall::getHeightLift() -> int #<interface.hpp>
-	ObjectFigureOnWall::m : IMAGE* #<interface.hpp>
 	ObjectFigureOnWall::draw() -> virtual void #<interface.hpp>
 	ObjectFigureOnWall::getHeight() -> virtual int #<interface.hpp>
 	ObjectFigureOnWall::getHeightLift() -> virtual int #<interface.hpp>
@@ -217,11 +300,11 @@ toolWall() -> void #<button.hpp>
 	ObjectFurniture:%type : int #<interface.hpp>
 	ObjectFurniture:%height : int #<interface.hpp>
 	ObjectFurniture:%heightLift : int #<interface.hpp>
+	ObjectFurniture:%m : IMAGE* #<interface.hpp>
 	ObjectFurniture::draw() -> void #<interface.hpp>
 	ObjectFurniture::getType() -> int #<interface.hpp>
 	ObjectFurniture::getHeight() -> int #<interface.hpp>
 	ObjectFurniture::getHeightLift() -> int #<interface.hpp>
-	ObjectFurniture::m : IMAGE* #<interface.hpp>
 	ObjectFurniture::draw() -> virtual void #<interface.hpp>
 	ObjectFurniture::getHeight() -> virtual int #<interface.hpp>
 	ObjectFurniture::getHeightLift() -> virtual int #<interface.hpp>
@@ -242,13 +325,13 @@ toolWall() -> void #<button.hpp>
 	ObjectWall:%type : int #<interface.hpp>
 	ObjectWall:%height : int #<interface.hpp>
 	ObjectWall:%heightLift : int #<interface.hpp>
+	ObjectWall:%m : IMAGE* #<interface.hpp>
 	ObjectWall::draw() -> void #<interface.hpp>
 	ObjectWall::getW() -> int #<interface.hpp>
 	ObjectWall::getType() -> int #<interface.hpp>
 	ObjectWall::setW(int w) -> void #<interface.hpp>
 	ObjectWall::getHeight() -> int #<interface.hpp>
 	ObjectWall::getHeightLift() -> int #<interface.hpp>
-	ObjectWall::m : IMAGE* #<interface.hpp>
 	ObjectWall::draw() -> virtual void #<interface.hpp>
 	ObjectWall::getHeight() -> virtual int #<interface.hpp>
 	ObjectWall::getHeightLift() -> virtual int #<interface.hpp>
@@ -273,86 +356,3 @@ toolWall() -> void #<button.hpp>
 	Pages::setListTypePage(int page) -> void #<interface.hpp>
 	Pages::getListTypePage() -> int #<interface.hpp>
 	Pages$:example() -> Pages& #<interface.hpp>
-	buttonBack::press() -> void #<button.hpp>
-	buttonBack::draw() -> void #<button.hpp>
-	buttonBack::press() -> virtual void #<button.hpp>
-	buttonBack::x1 : int #<button.hpp>
-	buttonBack::y1 : int #<button.hpp>
-	buttonBack::x2 : int #<button.hpp>
-	buttonBack::y2 : int #<button.hpp>
-	buttonBack::in(int x, int y) -> bool #<button.hpp>
-	buttonBack::draw() -> virtual void #<button.hpp>
-	buttonBack::getX1() -> int #<button.hpp>
-	buttonBack::getY1() -> int #<button.hpp>
-	buttonBack::getX2() -> int #<button.hpp>
-	buttonBack::getY2() -> int #<button.hpp>
-	buttonFurniture:%num : int #<button.hpp>
-	buttonFurniture:%tool : ptrFunction #<button.hpp>
-	buttonFurniture:%page : int #<button.hpp>
-	buttonFurniture::press() -> void #<button.hpp>
-	buttonFurniture::draw() -> void #<button.hpp>
-	buttonFurniture::press() -> virtual void #<button.hpp>
-	buttonFurniture::x1 : int #<button.hpp>
-	buttonFurniture::y1 : int #<button.hpp>
-	buttonFurniture::x2 : int #<button.hpp>
-	buttonFurniture::y2 : int #<button.hpp>
-	buttonFurniture::in(int x, int y) -> bool #<button.hpp>
-	buttonFurniture::draw() -> virtual void #<button.hpp>
-	buttonFurniture::getX1() -> int #<button.hpp>
-	buttonFurniture::getY1() -> int #<button.hpp>
-	buttonFurniture::getX2() -> int #<button.hpp>
-	buttonFurniture::getY2() -> int #<button.hpp>
-	buttonPage:%page : int #<button.hpp>
-	buttonPage::press() -> void #<button.hpp>
-	buttonPage::draw() -> void #<button.hpp>
-	buttonPage::press() -> virtual void #<button.hpp>
-	buttonPage::x1 : int #<button.hpp>
-	buttonPage::y1 : int #<button.hpp>
-	buttonPage::x2 : int #<button.hpp>
-	buttonPage::y2 : int #<button.hpp>
-	buttonPage::in(int x, int y) -> bool #<button.hpp>
-	buttonPage::draw() -> virtual void #<button.hpp>
-	buttonPage::getX1() -> int #<button.hpp>
-	buttonPage::getY1() -> int #<button.hpp>
-	buttonPage::getX2() -> int #<button.hpp>
-	buttonPage::getY2() -> int #<button.hpp>
-	buttonParam:%w : int #<button.hpp>
-	buttonParam:%h : int #<button.hpp>
-	buttonParam::press() -> void #<button.hpp>
-	buttonParam::draw() -> void #<button.hpp>
-	buttonParam::press() -> virtual void #<button.hpp>
-	buttonParam::x1 : int #<button.hpp>
-	buttonParam::y1 : int #<button.hpp>
-	buttonParam::x2 : int #<button.hpp>
-	buttonParam::y2 : int #<button.hpp>
-	buttonParam::in(int x, int y) -> bool #<button.hpp>
-	buttonParam::draw() -> virtual void #<button.hpp>
-	buttonParam::getX1() -> int #<button.hpp>
-	buttonParam::getY1() -> int #<button.hpp>
-	buttonParam::getX2() -> int #<button.hpp>
-	buttonParam::getY2() -> int #<button.hpp>
-	buttonTools:%tool : ptrFunction #<button.hpp>
-	buttonTools:%page : int #<button.hpp>
-	buttonTools::press() -> void #<button.hpp>
-	buttonTools::draw() -> void #<button.hpp>
-	buttonTools::press() -> virtual void #<button.hpp>
-	buttonTools::x1 : int #<button.hpp>
-	buttonTools::y1 : int #<button.hpp>
-	buttonTools::x2 : int #<button.hpp>
-	buttonTools::y2 : int #<button.hpp>
-	buttonTools::in(int x, int y) -> bool #<button.hpp>
-	buttonTools::draw() -> virtual void #<button.hpp>
-	buttonTools::getX1() -> int #<button.hpp>
-	buttonTools::getY1() -> int #<button.hpp>
-	buttonTools::getX2() -> int #<button.hpp>
-	buttonTools::getY2() -> int #<button.hpp>
-	objectDisplay::x1 : int #<interface.hpp>
-	objectDisplay::y1 : int #<interface.hpp>
-	objectDisplay::x2 : int #<interface.hpp>
-	objectDisplay::y2 : int #<interface.hpp>
-	objectDisplay::in(int x, int y) -> bool #<interface.hpp>
-	objectDisplay::draw() -> virtual void #<interface.hpp>
-	objectDisplay::getX1() -> int #<interface.hpp>
-	objectDisplay::getY1() -> int #<interface.hpp>
-	objectDisplay::getX2() -> int #<interface.hpp>
-	objectDisplay::getY2() -> int #<interface.hpp>

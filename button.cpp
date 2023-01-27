@@ -10,14 +10,26 @@ void ButtonCommand :: press()
 }
 
 //-----------------------------------------------ÊËÀÑÑ ÄËß ÊÍÎÏÎÊ ÈÇÌÅÍÅÍÈß ÏÀÐÀÌÅÒÐÎÂ----------------------------------------------//
-void buttonParam :: press()
+void ButtonParam :: press()
 {
-   AreaParams :: example().setParam(w, h);
-   AreaParams :: example().changeParam();
+   int num = Pages :: example().getCurrentPage();
+   int num2 = Pages :: example().getListTypePage();
+   if (num == 0)
+      AreaParams :: example().changeWallParam(p1, p2);
+   else if (num == 1)
+      AreaParams :: example().changeDoorParam(p1, p2);
+   else if (num == 2)
+      AreaParams :: example().changeWindowParam(p1, p2);
+   else if (num == 23 && num2 != 12)
+      AreaParams :: example().changeFurnitureParam(p1, p2);
+   else if (num == 23 && num2 == 12)
+      AreaParams :: example().changeFurnitureOnWallParam(p1, p2);
+   AreaParams :: example().draw();
+   swapbuffers();
 }
 
 //-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÄËß ÂÎÇÂÐÀÒÀ ÍÀ ÏÐÅÄÛÄÓÙÓÞ ÑÒÐÀÍÈÖÓ-----------------------------------------------//
-void buttonBack :: press()
+void ButtonPreviousPage :: press()
 {
    int m = Pages :: example().getListFurniturePage();
    int n = Pages :: example().getListTypePage();
@@ -29,7 +41,7 @@ void buttonBack :: press()
    }
    else if (p >= 5 && p <= 22) Pages :: example().setCurrentPage(m);
    AreaParams :: example().rotationFurniture = 0;
-   AreaParams :: example().heightFurniture = 0;
+   AreaParams :: example().heightLiftFurniture = 0;
    AreaDraw :: example().setTool(NULL);
    Pages :: example().draw();
    AreaDraw :: example().draw();
@@ -38,7 +50,7 @@ void buttonBack :: press()
 }
 
 //-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÄËß ÏÅÐÅÕÎÄÀ ÍÀ ÑÒÐÀÍÈÖÓ-----------------------------------------------//
-void buttonPage :: press()
+void ButtonNextPage :: press()
 {
    int p = Pages :: example().getCurrentPage();
    if (p == 3 || p == 4) Pages :: example().setListFurniturePage(p);
@@ -50,13 +62,13 @@ void buttonPage :: press()
    delay(200);
 }
 //-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÈÍÑÒÐÓÌÅÒÀÐÈß-----------------------------------------------//
-void buttonTools :: press()
+void ButtonTools :: press()
 {
    int p = Pages :: example().getCurrentPage();
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
    AreaDraw :: example().draw();
-   AreaParams :: example().setType(1);
+   AreaParams :: example().type = 1;
    AreaParams :: example().draw();
    if (page == 1)
    {
@@ -76,7 +88,7 @@ void buttonTools :: press()
 }
 
 //-----------------------------------------------ÊËÀÑÑ ÊÍÎÏÎÊ ÌÅÁÅËÈ-----------------------------------------------//
-void buttonFurniture :: press()
+void ButtonFurniture :: press()
 {
    int p = Pages :: example().getCurrentPage();
    string param = "object/"+ to_string(p - 4) + "/param.cfg";
@@ -144,10 +156,10 @@ void toolFurniture()
    IMAGE *a = AreaParams :: example().obj;
    IMAGE *m;
    int numWall;
-   if (AreaParams :: example().getType() == 1) m = positionOnWall(x1, y1, numWall, a);
+   if (AreaParams :: example().type == 1) m = positionOnWall(x1, y1, numWall, a);
    else m = a;
    int height = AreaParams :: example().height;
-   int heightLift = AreaParams :: example().heightFurniture;
+   int heightLift = AreaParams :: example().heightLiftFurniture;
    if (x1 + imagewidth(m) > AreaDraw :: example().getX2()) x1 = AreaDraw :: example().getX2() - imagewidth(m);
    if (y1 + imageheight(m) > AreaDraw :: example().getY2()) y1 = AreaDraw :: example().getY2() - imageheight(m);
    if (!AreaDraw :: example().getNumRoom()) throw NoRoomError();

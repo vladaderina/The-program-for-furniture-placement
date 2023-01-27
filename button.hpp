@@ -28,61 +28,61 @@ public:
 };
 
 //-----------------------------------------------КЛАСС ДЛЯ КНОПОК ИЗМЕНЕНИЯ ПАРАМЕТРОВ-----------------------------------------------//
-class buttonParam: public Button
+class ButtonParam: public Button
 {
-   int w, h;
+   int p1, p2;
 public:
    // конструктор
-   buttonParam(int x, int y, int w, int h) : 
-                        Button(x, y, x + 75, y + 35), w(w), h(h) {}
+   ButtonParam(int x, int y, int p1, int p2) : 
+                        Button(x, y, x + 75, y + 35), p1(p1), p2(p2) {}
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС КНОПОК ДЛЯ ВОЗВРАТА НА ПРЕДЫДУЩУЮ СТРАНИЦУ-----------------------------------------------//
-class buttonBack: public Button
+class ButtonPreviousPage: public Button
 {
 public:
    // конструктор
-   buttonBack(int x1, int y1, int x2, int y2) : Button(x1, y1, x2, y2) {};
+   ButtonPreviousPage(int x1, int y1, int x2, int y2) : Button(x1, y1, x2, y2) {};
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС КНОПОК ДЛЯ ПЕРЕХОДА НА СТРАНИЦУ-----------------------------------------------//
-class buttonPage: public Button
+class ButtonNextPage: public Button
 {
 protected:
    // номер страницы
    int page;
 public:
    // конструктор
-   buttonPage(int x1, int y1, int x2, int y2, int page) : Button(x1, y1, x2, y2), page(page) {}
+   ButtonNextPage(int x1, int y1, int x2, int y2, int page) : Button(x1, y1, x2, y2), page(page) {}
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС КНОПОК ИНСТРУМЕТАРИЯ-----------------------------------------------//
-class buttonTools : public buttonPage
+class ButtonTools : public ButtonNextPage
 {
 protected:
    // инструмент
    ptrFunction tool;
 public:
    // конструктор
-   buttonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) : buttonPage(x1, y1, x2, y2, page), tool(t) {}
+   ButtonTools(int x1, int y1, int x2, int y2, int page, ptrFunction t) : ButtonNextPage(x1, y1, x2, y2, page), tool(t) {}
    // реакция на нажатие
    void press();
 };
 
 //-----------------------------------------------КЛАСС КНОПОК МЕБЕЛИ-----------------------------------------------//
-class buttonFurniture : public buttonTools
+class ButtonFurniture : public ButtonTools
 {
    // номер кнопки
    int num;
 public:
    // конструктор
-   buttonFurniture(int x1, int y1, int x2, int y2, int page, int num, ptrFunction t) : buttonTools(x1, y1, x2, y2, page, t), num(num) {}
+   ButtonFurniture(int x1, int y1, int x2, int y2, int page, int num, ptrFunction t) : ButtonTools(x1, y1, x2, y2, page, t), num(num) {}
    // реакция на нажатие
    void press();
 };

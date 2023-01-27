@@ -4,7 +4,7 @@ IMAGE *background[NUMBACKGROUND];
 IMAGE *object[NUMOBJECT];
 bool flag = 0;
 
-bool objectDisplay :: in(int x, int y)
+bool ObjectDisplay :: in(int x, int y)
 {
    if (x1 > x2)
       swap(x1,x2);
@@ -88,19 +88,19 @@ int Pages :: getListTypePage()
 
 //-----------------------------------------------ÎÁÚÅÊÒÛ ÍÀ ÝÊÐÀÍÅ-----------------------------------------------//
 // ãåòòåðû äëÿ êîîðäèíàò óãëîâ
-int objectDisplay :: getX1()
+int ObjectDisplay :: getX1()
 { 
    return x1; 
 }
-int objectDisplay :: getY1()
+int ObjectDisplay :: getY1()
 { 
    return y1; 
 }
-int objectDisplay :: getX2()
+int ObjectDisplay :: getX2()
 {
    return x2; 
 }
-int objectDisplay :: getY2()
+int ObjectDisplay :: getY2()
 {
    return y2; 
 }
@@ -237,7 +237,7 @@ void AreaParams :: draw()
    {
       settextjustify(LEFT_TEXT, CENTER_TEXT);
       sprintf(str_h, "%d", rotationFurniture);
-      sprintf(str_w, "%d", heightFurniture);
+      sprintf(str_w, "%d", heightLiftFurniture);
       setcolor(WHITE);
       bar(120, 123, 400, 180);
       setcolor(BLACK);
@@ -249,100 +249,79 @@ void AreaParams :: draw()
    outtextxy(230, 324, str_w);
 }
 
-void AreaParams :: changeParam()
+void AreaParams :: changeWallParam(int w, int h)
 {
-   int num = Pages :: example().getCurrentPage();
-   int num2 = Pages :: example().getListTypePage();
-   if (num == 0)
+   if ((weightWall > 35 && weightWall < 65) ||
+      (heightWall > 250 && heightWall < 500) ||
+      (w > 0 && weightWall == 35) ||
+      (h > 0 && heightWall == 250) ||
+      (w < 0 && weightWall == 65) ||
+      (h < 0 && heightWall == 500))
    {
-      if ((weightWall > 35 && weightWall < 65) ||
-            (heightWall > 250 && heightWall < 500) ||
-            (a > 0 && weightWall == 35) ||
-            (b > 0 && heightWall == 250) ||
-            (a < 0 && weightWall == 65) ||
-            (b < 0 && heightWall == 500))
-      {
-         weightWall += a * 5;
-         heightWall += b * 10;
-         heightLift = 0;
-      }
+      weightWall += w * 5;
+      heightWall += h * 10;
+      heightLift = 0;
    }
-   else if (num == 1)
-   {
-      if ((weightDoor > 70 && weightDoor < 90) ||
-            (heightDoor > 200 && heightDoor < 240) ||
-            (a > 0 && weightDoor == 70) ||
-            (b > 0 && heightDoor == 200) ||
-            (a < 0 && weightDoor == 90) ||
-            (b < 0 && heightDoor == 240))
-      {
-         weightDoor += a * 10;
-         heightDoor += b * 5;
-         heightLift = 0;
-         obj = object[((90 - weightDoor) / 10) % 3];
-      }
-   }
-   else if (num == 2)
-   {
-      if ((weightWindow > 100 && weightWindow < 250) ||
-            (heightWindow > 110 && heightWindow < 210) ||
-            (a > 0 && weightWindow == 100) ||
-            (b > 0 && heightWindow == 110) ||
-            (a < 0 && weightWindow == 250) ||
-            (b < 0 && heightWindow == 210))
-      {
-         weightWindow += a * 75;
-         heightWindow += b * 5;
-         heightLift = 170;
-         obj = object[(250 - weightWindow) / 75 + 3];
-      }
-   }
-   else if (num == 23 && num2 != 12)
-   {
-      if ((rotationFurniture > 0 && rotationFurniture < 360) ||
-            (heightFurniture > 0 && heightFurniture < heightWall) ||
-            (a > 0 && rotationFurniture == 0) ||
-            (b > 0 && heightFurniture == 0) ||
-            (a < 0 && rotationFurniture == 360) ||
-            (b < 0 && heightFurniture == heightWall))
-      {
-         rotationFurniture += a * 90;
-         heightFurniture += b * 10;
-         heightLift = heightFurniture;
-         if (a) obj = imageturn(obj, 90, NO_COLOR);
-      }
-   }
-   else if (num == 23 && num2 == 12)
-   {
-      if ((rotationFurniture > 0 && rotationFurniture < 360) ||
-            (heightFurniture > 0 && heightFurniture < heightWall) ||
-            (a > 0 && rotationFurniture == 0) ||
-            (b > 0 && heightFurniture == 0) ||
-            (a < 0 && rotationFurniture == 360) ||
-            (b < 0 && heightFurniture == heightWall))
-      {
-         rotationFurniture += a * 180;
-         heightFurniture += b * 10;
-         heightLift = heightFurniture;
-         if (a) obj = imageturn(obj, 180, NO_COLOR);
-      }
-   }
-   draw();
-   swapbuffers();
 }
-
-void AreaParams :: setParam(int a, int b)
+void AreaParams :: changeDoorParam(int w, int h)
 {
-   this -> a = a;
-   this -> b = b;
+   if ((weightDoor > 70 && weightDoor < 90) ||
+      (heightDoor > 200 && heightDoor < 240) ||
+      (w > 0 && weightDoor == 70) ||
+      (h > 0 && heightDoor == 200) ||
+      (w < 0 && weightDoor == 90) ||
+      (h < 0 && heightDoor == 240))
+   {
+      weightDoor += w * 10;
+      heightDoor += h * 5;
+      heightLift = 0;
+      obj = object[((90 - weightDoor) / 10) % 3];
+   }
 }
-int AreaParams :: getType()
+void AreaParams :: changeWindowParam(int w, int h)
 {
-   return type;
+   if ((weightWindow > 100 && weightWindow < 250) ||
+      (heightWindow > 110 && heightWindow < 210) ||
+      (w > 0 && weightWindow == 100) ||
+      (h > 0 && heightWindow == 110) ||
+      (w < 0 && weightWindow == 250) ||
+      (h < 0 && heightWindow == 210))
+   {
+      weightWindow += w * 75;
+      heightWindow += h * 5;
+      heightLift = 170;
+      obj = object[(250 - weightWindow) / 75 + 3];
+   }
 }
-void AreaParams :: setType(int type)
+void AreaParams :: changeFurnitureParam(int r, int hl)
 {
-   this -> type = type;
+   if ((rotationFurniture > 0 && rotationFurniture < 360) ||
+      (heightLiftFurniture > 0 && heightLiftFurniture < heightWall) ||
+      (r > 0 && rotationFurniture == 0) ||
+      (hl > 0 && heightLiftFurniture == 0) ||
+      (r < 0 && rotationFurniture == 360) ||
+      (hl < 0 && heightLiftFurniture == heightWall))
+   {
+      rotationFurniture += r * 90;
+      heightLiftFurniture += hl * 10;
+      heightLift = heightLiftFurniture;
+      if (r) obj = imageturn(obj, 90, NO_COLOR);
+   }
+}
+void AreaParams :: changeFurnitureOnWallParam(int r, int hl)
+{
+   if ((rotationFurniture > 0 && rotationFurniture < 360) ||
+      (heightLiftFurniture > 0 && heightLiftFurniture < heightWall) ||
+      (r > 0 && rotationFurniture == 0) ||
+      (hl > 0 && heightLiftFurniture == 0) ||
+      (r < 0 && rotationFurniture == 360) ||
+      (hl < 0 && heightLiftFurniture == heightWall))
+   {
+      rotationFurniture += r * 180;
+      heightLiftFurniture += hl * 10;
+      heightLift = heightLiftFurniture;
+      if (r) obj = imageturn(obj, 180, NO_COLOR);
+   }
 }
 //-----------------------------------------------ÐÀÁÎ×Àß ÑÐÅÄÀ-----------------------------------------------//
 //ÐÀÁÎ×Àß ÑÐÅÄÀ
@@ -355,10 +334,7 @@ AreaDraw &AreaDraw :: example()
 void AreaDraw :: draw()
 {
    for (int i = 0; i < figures.size(); i++)
-   {
-      cout << i << " " << figures.size() << "\n";
       figures[i] -> draw();
-   }
 }
 // ÇÀÄÍÈÉ ÔÎÍ
 void AreaDraw :: drawBack()
@@ -387,7 +363,7 @@ void AreaDraw :: projection(int x, int y)
    {
       IMAGE *a;
       a = AreaParams :: example().obj;
-      int  type = AreaParams :: example().getType();
+      int type = AreaParams :: example().type;
       if (a != NULL)
       {
          int numWall;
@@ -455,27 +431,27 @@ void AreaDraw :: press()
    }
 }
 //ÏÐÎÂÅÐÊÀ ÍÀËÎÆÅÍÈß ÎÁÚÅÊÒÀ ÍÀ ÄÐÓÃÈÅ
-bool AreaDraw :: overlay(int a, int b, int c, int d, int e, int f)
+bool AreaDraw :: overlay(int x1, int y1, int x2, int y2, int h, int hl)
 {
    for (int i = figures.size() - 1; i >= 0; i--)
    {
-      int x1 = figures[i] -> getX1();
-      int y1 = figures[i] -> getY1();
-      int x2 = figures[i] -> getX2();
-      int y2 = figures[i] -> getY2();
+      int setX1 = figures[i] -> getX1();
+      int setY1 = figures[i] -> getY1();
+      int setX2 = figures[i] -> getX2();
+      int setY2 = figures[i] -> getY2();
       int height = figures[i] -> getHeight();
       int heightLift = figures[i] -> getHeightLift();
-      bool h = f >= heightLift ? (heightLift + height) > f : (f + e) > heightLift;
-      if (e == 0)
+      bool m = hl >= heightLift ? (heightLift + height) > hl : (h + hl) > heightLift;
+      if (h == 0)
       {
-         h = 0;
+         m = 0;
          return false;
       }
-      if (i && ((x1 <= a && x2 >= a) || (x1 <= c && x2 >= c) ||
-         (x1 >= a && x2 <= c)) && ((y1 <= b && y2 >= b) ||
-         (y1 <= d && y2 >= d) || (y1 >= b && y2 <= d)) && h)
+      if (i && ((setX1 <= x1 && setX2 >= x1) || (setX1 <= x2 && setX2 >= x2) ||
+         (setX1 >= x1 && setX2 <= x2)) && ((setY1 <= y1 && setY2 >= y1) ||
+         (setY1 <= y2 && setY2 >= y2) || (setY1 >= y1 && setY2 <= y2)) && m)
          return true;
-      else if (!i && (a < x1 || c > x2 || b < y1 || d > y2))
+      else if (!i && (x1 < setX1 || x2 > setX2 || y1 < setY1 || y2 > setY2))
          return true;
    }
    return false;

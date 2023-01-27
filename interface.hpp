@@ -71,12 +71,12 @@ public:
 };
 
 //-----------------------------------------------ОБЪЕКТЫ НА ЭКРАНЕ-----------------------------------------------//
-class objectDisplay
+class ObjectDisplay
 {
 public:
    int x1, y1, x2, y2;
    // конструктор
-   objectDisplay(int x1, int y1, int x2, int y2) : x1(x1), y1(y1), x2(x2), y2(y2) {}
+   ObjectDisplay(int x1, int y1, int x2, int y2) : x1(x1), y1(y1), x2(x2), y2(y2) {}
    // внутренние координаты
    bool in(int x, int y); 
    // виртуальная функция для отрисовки объекта
@@ -87,21 +87,21 @@ public:
    int getX2();
    int getY2();
    //деструктор
-   virtual ~objectDisplay(){}
+   virtual ~ObjectDisplay(){}
 };
 
 //-----------------------------------------------ОБЪЕКТЫ С РЕАКЦИЕЙ НА НАЖАТИЕ-----------------------------------------------//
-class ObjectClickable: public objectDisplay
+class ObjectClickable: public ObjectDisplay
 {
 public:
    // конструктор
-   ObjectClickable(int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2) {}
+   ObjectClickable(int x1, int y1, int x2, int y2) : ObjectDisplay(x1, y1, x2, y2) {}
    // функция реакции на нажатие
    virtual void press() = 0;
 };
 
 //-----------------------------------------------ФИГУРЫ-----------------------------------------------//
-class Figure: public objectDisplay
+class Figure: public ObjectDisplay
 {
 protected:
    //тип объекта:
@@ -111,14 +111,14 @@ protected:
    int type;
    int height;
    int heightLift;
-public:
    // изображение объекта
    IMAGE *m;
+public:
    // устанавливаем координаты углов, высоту и высоту подъема
-   Figure(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE *m) : objectDisplay(x1, y1, x2, y2), 
+   Figure(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE *m) : ObjectDisplay(x1, y1, x2, y2), 
             height(height), heightLift(heightLift), m(m) {}
    // отрисовка объекта
-   virtual void draw() = 0;
+   virtual void draw();
    // геттер для высоты фигуры
    virtual int getHeight();
    // геттер для высоты подъема фигуры
@@ -191,20 +191,24 @@ public:
 };
 
 //-----------------------------------------------ПАРАМЕТРЫ-----------------------------------------------//
-class AreaParams : public objectDisplay
+class AreaParams : public ObjectDisplay
 {
-   // тип объекта
-   int type;
-   int a, b;
    // устанавливаем начальные параметры рисования
-   AreaParams (int x1, int y1, int x2, int y2) : objectDisplay(x1, y1, x2, y2),
+   AreaParams (int x1, int y1, int x2, int y2) : ObjectDisplay(x1, y1, x2, y2),
    weightDoor(70), heightDoor(200), 
    weightWindow(100), heightWindow(110), 
    weightWall (35), heightWall(250),
-   rotationFurniture(0), heightFurniture (0),
+   rotationFurniture(0), heightLiftFurniture (0),
    height(0), heightLift(0)
    { obj = NULL; } 
+   // запрещение создания копий и присваивания
+   AreaParams (const AreaParams &) = delete;
+   AreaParams & operator = (const AreaParams &) = delete;
+   // запрещение уничтожения объекта
+   ~AreaParams() {}
 public:
+      // тип объекта
+   int type;
    // название объекта
    string name;
    // высота объекта
@@ -219,19 +223,17 @@ public:
         weightWall,
         heightWall,
         rotationFurniture,
-        heightFurniture;
+        heightLiftFurniture;
    // экземпляр класса
    static AreaParams &example();
    // отрисовка параметров
    void draw();
-   // геттер типа фигуры
-   int getType();
-   // сеттер типа фигуры
-   void setType(int type);
-   // сеттер параметров
-   void setParam(int a, int b);
-   // изменение параметров
-   void changeParam();
+   // сеттеры для параметров
+   void changeWallParam(int w, int h);
+   void changeDoorParam(int w, int h);
+   void changeWindowParam(int w, int h);
+   void changeFurnitureParam(int r, int hl);
+   void changeFurnitureOnWallParam(int r, int hl);
 };
 
 //-----------------------------------------------РАБОЧАЯ СРЕДА-----------------------------------------------//
@@ -240,7 +242,7 @@ class AreaDraw : public ObjectClickable
    IMAGE *back = loadBMP("icon/back/areaDraw.jpg");
    // получаем координаты углов
    AreaDraw(int x1, int y1, int x2, int y2) : ObjectClickable(x1, y1, x2, y2), tool(nullptr), numRoom(0) {}
-protected:
+   ptrFunction tool; // текущий инструмент
    // координаты центра комнаты
    struct center
    {
@@ -251,8 +253,6 @@ protected:
    {
       int x1, y1, x2, y2;
    } coord;
-   // выбранный инструмент
-   ptrFunction tool; // текущий инструмент
 public:
    // число комнат расположенных на экране
    int numRoom;
@@ -260,10 +260,8 @@ public:
    vector <Figure*> figures;
    // рабочая среда
    static AreaDraw &example();
-   // записываем объекты
-   void outputObjects();
    // проверка наложения объекта на другие
-   bool overlay(int a, int b, int c, int d, int e, int f);
+   bool overlay(int x1, int y1, int x2, int y2, int h, int hl);
    // проверка на границы комнаты
    bool inRoom(int x, int y);
    // удаление фигуры
