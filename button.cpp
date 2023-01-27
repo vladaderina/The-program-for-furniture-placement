@@ -105,7 +105,7 @@ void buttonFurniture :: press()
    file.close();
    
    string obj = "object/"+ to_string(p - 4) + "/" + to_string(num) + ".bmp";
-   areaParams :: example().obj = loadBMP(obj.c_str())
+   areaParams :: example().obj = loadBMP(obj.c_str());
    Pages :: example().setListTypePage(p);
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
