@@ -7,7 +7,6 @@
 AreaDraw _type_ #<interface.hpp>
 AreaDraw(int x1, int y1, int x2, int y2) #<interface.hpp>
 AreaParams _type_ #<interface.hpp>
-AreaParams(const AreaParams&) #<interface.hpp>
 AreaParams(int x1, int y1, int x2, int y2) #<interface.hpp>
 Button _type_ #<button.hpp>
 Button(int x1, int y1, int x2, int y2) #<button.hpp>
@@ -56,6 +55,7 @@ main() -> int #<main.cpp>
 modeFigure(int x1, int y1, int x2, int y2) -> void #<button.cpp>
 modeStretch(int& x1, int& y1, int& x2, int& y2, void(* shape)(int x1, int y1, int x2, int y2)) -> bool #<button.cpp>
 object : IMAGE*[] #<interface.hpp>
+positionFigureOnWall(int& x1, int& y1, IMAGE* a) -> IMAGE* #<interface.hpp>
 positionOnWall(int& x1, int& y1, int& numWall, IMAGE* a) -> IMAGE* #<interface.hpp>
 ptrFunction _type_ #<interface.hpp>
 resize(IMAGE* p, int w, int h) -> IMAGE* #<interface.hpp>
@@ -106,7 +106,6 @@ toolWall() -> void #<button.hpp>
 	AreaDraw:coord::y1 : int #<interface.hpp>
 	AreaDraw:coord::x2 : int #<interface.hpp>
 	AreaDraw:coord::y2 : int #<interface.hpp>
-	AreaParams:%operator=(const AreaParams&) -> AreaParams& #<interface.hpp>
 	AreaParams::type : int #<interface.hpp>
 	AreaParams::name : string #<interface.hpp>
 	AreaParams::height : int #<interface.hpp>

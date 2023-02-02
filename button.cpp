@@ -68,7 +68,7 @@ void ButtonTools :: press()
    Pages :: example().setCurrentPage(page);
    Pages :: example().draw();
    AreaDraw :: example().draw();
-   AreaParams :: example().type = 1;
+   AreaParams :: example().type = 3;
    AreaParams :: example().draw();
    if (page == 1)
    {
@@ -155,7 +155,7 @@ void toolFurniture()
    IMAGE *a = AreaParams :: example().obj;
    IMAGE *m;
    int numWall;
-   if (AreaParams :: example().type == 1) m = positionOnWall(x1, y1, numWall, a);
+   if (AreaParams :: example().type == 3) m = positionOnWall(x1, y1, numWall, a);
    else m = a;
    int height = AreaParams :: example().height;
    int heightLift = AreaParams :: example().heightLiftFurniture;
@@ -303,6 +303,49 @@ IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a)
       x1 = xt1;
       if (y1 > yt2 - imageheight(b)) y1 = yt2 - imageheight(b);
       numWall = 4;
+      return b;
+   }
+}
+IMAGE *positionFigureOnWall(int &x1, int &y1, IMAGE *a)
+{
+   int centerY = AreaDraw :: example().getCenterY();
+   int centerX = AreaDraw :: example().getCenterX();
+   int xt1 = AreaDraw :: example().getX1();
+   int yt1 = AreaDraw :: example().getY1();
+   int xt2 = AreaDraw :: example().getX2();
+   int yt2 = AreaDraw :: example().getY2();
+
+   if (double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
+         y1 >= yt1 && y1 <= centerY &&
+         double(y1 - centerY) <= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {
+      y1 = yt1;
+      if (x1 > xt2 - imagewidth(a)) x1 = xt2 - imagewidth(a);
+      return a;
+   }
+   else if (double(y1 - centerY) <= double(x1 - centerX) * (yt2 - centerY) / (xt2 - centerX) &&
+            x1 <= xt2 && x1 >= centerX &&
+            double(y1 - centerY) >= double(x1 - centerX) * (yt2 - centerY) / (xt1 - centerX))
+   {
+      IMAGE *d = imageturn(a, 270, WHITE);
+      x1 = xt2 - imagewidth(d);
+      if (y1 > yt2 - imageheight(d)) y1 = yt2 - imageheight(d);
+      return d;
+   }
+   else if (double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt1 - centerX) &&
+            y1 <= yt2 && y1 >= centerY &&
+            double(y1 - centerY) >= double(x1 - centerX) * (yt1 - centerY) / (xt2 - centerX))
+   {   
+      IMAGE *c = imageturn(a, 180, WHITE);
+      y1 = yt2 - imageheight(c);
+      if (x1 > xt2 - imagewidth(c)) x1 = xt2 - imagewidth(c);
+      return c;
+   }
+   else
+   {
+      IMAGE *b = imageturn(a, 90, WHITE);
+      x1 = xt1;
+      if (y1 > yt2 - imageheight(b)) y1 = yt2 - imageheight(b);
       return b;
    }
 }

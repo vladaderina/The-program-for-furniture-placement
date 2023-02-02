@@ -152,7 +152,7 @@ int main()
                {
                   if (buttons[i] -> in(x, y))
                   {
-                     if (i == 18) AreaParams :: example().type = 1;
+                     if (i == 18) AreaParams :: example().type = 3;
                      else AreaParams :: example().type = 2;
                      buttons[i] -> press();
                   }

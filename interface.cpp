@@ -365,9 +365,8 @@ void AreaDraw :: projection(int x, int y)
       int type = AreaParams :: example().type;
       if (obj != NULL)
       {
-         int numWall;
          int x1, y1;
-         if (type == 1) obj = positionOnWall(x, y, numWall, obj);
+         if (type == 3) obj = positionFigureOnWall(x, y, obj);
          x1 = x;
          y1 = y;
          imageputpixel(obj, 0, 0, WHITE);
@@ -387,8 +386,7 @@ void AreaDraw :: projection(int x, int y)
          putimage(x1, y1, obj, TRANSPARENT_PUT);
          for (i; i < figures.size(); i++)
             figures[i] -> draw();
-         //if (Pages :: example().getCurrentPage() != 3)
-            AreaParams :: example().draw();
+         AreaParams :: example().draw();
          setlinestyle(SOLID_LINE, 2, 2);
          if (overlay(x1, y1, x1 + imagewidth(obj), y1 + imageheight(obj), height, heightLift)) setcolor(RED);
          else setcolor(GREEN);

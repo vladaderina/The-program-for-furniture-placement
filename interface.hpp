@@ -132,7 +132,7 @@ class ObjectFurniture : public Figure
 {
 public:
    // конструктор
-   ObjectFurniture(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m) :
+   ObjectFurniture(int x1, int y1, int x2, int y2, int height, int heightLift, IMAGE* m):
                            Figure(x1, y1, x2, y2, height, heightLift, m) {}
    // отрисовка объекта
    void draw() override;
@@ -294,8 +294,10 @@ public:
    void save();
 };
 
-//расположение на стене
+// расположение на стене окна или стены
 IMAGE *positionOnWall(int &x1, int &y1, int &numWall, IMAGE *a);
-//изменение размера объекта
+// расположение на стене декора
+IMAGE *positionFigureOnWall(int &x1, int &y1, IMAGE *a);
+// изменение размера объекта
 IMAGE * resize(IMAGE *p, int w, int h);
 #endif
