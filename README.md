@@ -1,3 +1,4 @@
 # kursach3
 
-<img src = "/icon/back/1.jpg">
+<img src = "/icon/1.png">
+<img src = "/icon/2.png">
